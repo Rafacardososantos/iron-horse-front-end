@@ -1,0 +1,124 @@
+/* src/RentPopup.css */
+
+/* Estilos do Modal */
+.react-modal-overlay {
+    background-color: rgba(0, 0, 0, 0.822);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+  }
+  
+  .react-modal-content {
+    background-color: #1e1e1ed1;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 90%; /* Torna responsivo */
+    margin: auto;
+    position: relative;
+    overflow-y: auto;
+  }
+  
+  /* Estilos Gerais */
+  h2 {
+    color: #fff;
+    text-align: center;
+    font-family: urbanist;
+  }
+  
+  button {
+    display: flex;
+    margin: 10px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 65px;
+    align-items: center;
+    cursor: pointer; /* Adiciona o cursor de pointer para botões */
+  }
+  
+  form div {
+    margin-bottom: 15px;
+  }
+  
+  /* Estilos dos Labels */
+  label {
+    display: block;
+    margin-bottom: 5px;
+    color: #fff;
+    text-align: left; /* Alinha o texto à esquerda */
+  }
+  
+  /* Estilos dos Inputs */
+  input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  /* Estilos do Cartão de Crédito */
+  .credit-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  }
+  
+  /* Estilos para as Checkboxes */
+  .checkbox-group {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+  }
+  
+  .checkbox-group label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    color: #fff; /* Cor do texto das checkboxes */
+  }
+  
+  .checkbox-group input[type="checkbox"] {
+    margin-right: 10px;
+  }
+  
+  /* Estilo do Botão de Registro */
+  #register-button {
+    display: flex;
+    width: 100%; /* Torna responsivo */
+    height: 50px; /* Ajuste a altura conforme necessário */
+    background: #b350f1;
+    color: #fff;
+    border-radius: 65px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer; /* Adiciona o cursor de pointer */
+  }
+  
+  /* Estilos Responsivos */
+  @media (max-width: 600px) {
+    .react-modal-content {
+      width: 95%; /* Aumenta a largura em telas pequenas */
+    }
+  
+    button {
+      width: 100%; /* Botões ocupam a largura total */
+    }
+  
+    #register-button {
+      height: 50px; /* Ajusta a altura do botão */
+    }
+  
+    input {
+      font-size: 14px; /* Ajusta o tamanho da fonte dos inputs */
+    }
+  }
+  
