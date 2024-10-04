@@ -1,4 +1,6 @@
-/* src/RentPopup.css */
+/* Importando as fontes */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Urbanist:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap");
 
 /* Estilos do Modal */
 .react-modal-overlay {
@@ -29,6 +31,7 @@
 h2 {
   color: #fff;
   text-align: center;
+  font-family: "Urbanist", sans-serif;
 }
 
 button {
@@ -51,6 +54,7 @@ label {
   margin-bottom: 5px;
   color: #fff;
   text-align: left; /* Alinha o texto à esquerda */
+  font-family: "Urbanist", sans-serif;
 }
 
 /* Estilos dos Inputs */
@@ -60,6 +64,7 @@ input {
   box-sizing: border-box;
   border: 1px solid #ccc;
   border-radius: 5px;
+  font-family: "Inter", sans-serif;
 }
 
 /* Estilos do Cartão de Crédito */
@@ -82,6 +87,7 @@ input {
   align-items: center;
   margin-bottom: 5px;
   color: #fff; /* Cor do texto das checkboxes */
+  font-family: "Inter", sans-serif;
 }
 
 .checkbox-group input[type="checkbox"] {
@@ -100,6 +106,7 @@ input {
   justify-content: center;
   align-items: center;
   cursor: pointer; /* Adiciona o cursor de pointer */
+  font-family: "Inter", sans-serif;
 }
 
 /* Estilo dos Botões de Alternância */
@@ -117,6 +124,7 @@ input {
   padding: 10px 20px;
   margin: 0 5px;
   cursor: pointer;
+  font-family: "Urbanist", sans-serif;
 }
 
 .toggle-buttons button.active {
