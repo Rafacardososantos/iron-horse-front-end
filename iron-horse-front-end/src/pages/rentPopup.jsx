@@ -8,6 +8,7 @@ Modal.setAppElement("#root");
 
 const RentPopup = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [isRenting, setIsRenting] = useState(true); // Estado para alternar entre "Alugar" e "Anunciar"
   const [formData, setFormData] = useState({
     dataNascimento: "",
     cnh: "",
@@ -33,8 +34,18 @@ const RentPopup = () => {
   const closeModal = () => setModalIsOpen(false);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    const { name, value, type, checked } = e.target;
+    if (type === "checkbox") {
+      setFormData((prevData) => ({
+        ...prevData,
+        checkboxes: {
+          ...prevData.checkboxes,
+          [name]: checked,
+        },
+      }));
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleSubmit = (e) => {
@@ -54,6 +65,20 @@ const RentPopup = () => {
         overlayClassName="react-modal-overlay"
       >
         <h2>Crie a Sua Conta</h2>
+        <div className="toggle-buttons">
+          <button
+            className={isRenting ? "active" : ""}
+            onClick={() => setIsRenting(true)}
+          >
+            Alugar
+          </button>
+          <button
+            className={!isRenting ? "active" : ""}
+            onClick={() => setIsRenting(false)}
+          >
+            Anunciar
+          </button>
+        </div>
         <form onSubmit={handleSubmit}>
           <div>
             <label>Dados Pessoais</label>
@@ -127,48 +152,50 @@ const RentPopup = () => {
               required
             />
           </div>
-          <div className="credit-card">
-            <div className="credit-card-number">
-              <label>Número do Cartão:</label>
-              <input
-                type="text"
-                name="numeroCartao"
-                value={formData.numeroCartao}
-                onChange={handleChange}
-                required
-              />
+          {isRenting && (
+            <div className="credit-card">
+              <div className="credit-card-number">
+                <label>Número do Cartão:</label>
+                <input
+                  type="text"
+                  name="numeroCartao"
+                  value={formData.numeroCartao}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="credit-card-name">
+                <label>Nome no Cartão:</label>
+                <input
+                  type="text"
+                  name="nomeCartao"
+                  value={formData.nomeCartao}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="credit-card-validity">
+                <label>Validade:</label>
+                <input
+                  type="text"
+                  name="validade"
+                  value={formData.validade}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="credit-card-cvv">
+                <label>CVV:</label>
+                <input
+                  type="text"
+                  name="cvv"
+                  value={formData.cvv}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
             </div>
-            <div className="credit-card-name">
-              <label>Nome no Cartão:</label>
-              <input
-                type="text"
-                name="nomeCartao"
-                value={formData.nomeCartao}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="credit-card-validity">
-              <label>Validade:</label>
-              <input
-                type="text"
-                name="validade"
-                value={formData.validade}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="credit-card-cvv">
-              <label>CVV:</label>
-              <input
-                type="text"
-                name="cvv"
-                value={formData.cvv}
-                onChange={handleChange}
-                required
-              />
-            </div>
-          </div>
+          )}
           <div>
             <label>CPF do Titular:</label>
             <input
@@ -178,7 +205,6 @@ const RentPopup = () => {
               onChange={handleChange}
               required
             />
-
             <div className="checkbox-group">
               <label>
                 <input
@@ -223,11 +249,10 @@ const RentPopup = () => {
                 <input
                   type="checkbox"
                   name="checkbox5"
-                  checked={formData.checkboxes.checkbox4}
+                  checked={formData.checkboxes.checkbox5}
                   onChange={handleChange}
                 />
                 <span>
-                  {" "}
                   Atesto para os devidos fins legais que todas às informações
                   fornecidas são verdadeiras, se valendo e fazendo cumprir as
                   normativas da Lei Geral de Proteção de Dados (LGPD - Lei nº
