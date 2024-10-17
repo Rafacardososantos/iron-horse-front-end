@@ -69,10 +69,54 @@ input {
 
 /* Estilos do Cartão de Crédito */
 .credit-card {
-  background-color: #fff;
+  background-color: #AA14F0;
   padding: 20px;
   border-radius: 10px;
   margin-bottom: 20px;
+}
+
+.credit-card-number,
+.credit-card-name,
+.credit-card-validity,
+.credit-card-cvv {
+  margin-bottom: 10px;
+}
+
+.credit-card-input {
+  display: flex;
+  align-items: center;
+}
+
+.credit-card-input input {
+  flex: 1;
+}
+
+.card-flag {
+  width: 40px;
+  height: 24px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-left: 10px;
+}
+
+.card-flag.visa {
+  background-image: url('path/to/visa.png'); /* Caminho da imagem da bandeira Visa */
+}
+
+.card-flag.mastercard {
+  background-image: url('path/to/mastercard.png'); /* Caminho da imagem da bandeira MasterCard */
+}
+
+.card-flag.amex {
+  background-image: url('path/to/amex.png'); /* Caminho da imagem da bandeira Amex */
+}
+
+.card-flag.discover {
+  background-image: url('path/to/discover.png'); /* Caminho da imagem da bandeira Discover */
+}
+
+.card-flag.default {
+  background-image: url('path/to/default.png'); /* Caminho da imagem padrão */
 }
 
 /* Estilos para as Checkboxes */
@@ -80,6 +124,8 @@ input {
   display: flex;
   flex-direction: column;
   margin-top: 10px;
+  text-align: left;
+
 }
 
 .checkbox-group label {
@@ -92,6 +138,8 @@ input {
 
 .checkbox-group input[type="checkbox"] {
   margin-right: 10px;
+  margin-bottom: 10px;
+  width: 13px;
 }
 
 /* Estilo do Botão de Registro */
