@@ -40,6 +40,9 @@ h2 {
   font-family: "Urbanist", sans-serif;
   font-weight: 400;
 }
+.postImage span{
+  text-align: center;
+}
 
 button {
   display: flex;
@@ -67,6 +70,9 @@ form div {
   min-width: 150px;
 }
 
+.name{
+  width: 100%;
+}
 /* Estilos dos Labels */
 label {
   display: block;

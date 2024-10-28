@@ -1,4 +1,4 @@
-import MoreInformation from './CarRegister-MoreInformation/MoreInformation'
+import MoreInformation from './Create-Account/CreateAccount'
 
 const App = () => {
   return (
