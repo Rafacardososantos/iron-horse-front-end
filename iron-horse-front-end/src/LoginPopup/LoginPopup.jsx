@@ -17,8 +17,14 @@ const LoginPopup = ({ onClose, openForgotPassword, openSignUp }) => {
     setShowPassword(!showPassword);
   };
 
+  const handleOutsideClick = (e) => {
+    if (e.target.className === 'popup') {
+      onClose();
+    }
+  };
+
   return (
-    <div className="popup">
+    <div className="popup" onClick={handleOutsideClick}>
       <div className="popup-content">
         <h2>Login</h2>
         <form onSubmit={handleSubmit}>
