@@ -84,6 +84,7 @@ const MoreInformation = () => {
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
+        shouldCloseOnOverlayClick={true}
         className="react-modal-content"
         overlayClassName="react-modal-overlay"
       >
