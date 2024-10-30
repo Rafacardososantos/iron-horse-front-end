@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Modal from "react-modal";
 import "./CarRegister.css";
 
@@ -20,8 +19,6 @@ const CarRegister = () => {
 
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
-
-  //const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -54,7 +51,6 @@ const CarRegister = () => {
     e.preventDefault();
     console.log(formData);
     closeModal();
-    //navigate("/pagina-destino");
   };
 
   return (
