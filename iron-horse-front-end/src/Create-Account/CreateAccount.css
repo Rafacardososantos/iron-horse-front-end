@@ -70,9 +70,15 @@ form div {
   min-width: 150px;
 }
 
-.name{
+/* Estilos para o contêiner de largura total */
+.full-width {
   width: 100%;
 }
+
+.full-width input {
+  width: 100%;
+}
+
 /* Estilos dos Labels */
 label {
   display: block;

@@ -19,6 +19,7 @@ const CreateAccount = () => {
     email: "",
     password: "",
     confirmPassword: "",
+    image: null,
     checkboxes: {
       checkbox1: false,
       checkbox2: false,
@@ -31,13 +32,12 @@ const CreateAccount = () => {
   const openModal = () => setModalIsOpen(true);
   const closeModal = () => setModalIsOpen(false);
 
-  // Função para formatar o CEP automaticamente
   const formatZipCode = (value) => {
     return value.replace(/^(\d{5})(\d{1,3})$/, "$1-$2");
   };
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value, type, checked, files } = e.target;
 
     if (type === "checkbox") {
       setFormData((prevData) => ({
@@ -47,9 +47,15 @@ const CreateAccount = () => {
           [name]: checked,
         },
       }));
+    } else if (type === "file") {
+      setFormData({
+        ...formData,
+        [name]: files[0],
+      });
     } else {
-      const formattedValue = name === "zipCode" ? formatZipCode(value.replace(/\D/g, "")) : value;
-      
+      const formattedValue =
+        name === "zipCode" ? formatZipCode(value.replace(/\D/g, "")) : value;
+
       setFormData({
         ...formData,
         [name]: formattedValue,
@@ -86,6 +92,10 @@ const CreateAccount = () => {
     closeModal();
   };
 
+  const handleImageClick = () => {
+    document.getElementById("fileInput").click();
+  };
+
   return (
     <div>
       <button onClick={openModal}>Abrir Popup</button>
@@ -97,25 +107,37 @@ const CreateAccount = () => {
       >
         <h2>Crie a sua Conta</h2>
         <div className="postImage">
-          <img
-            src="\src\img\Perfil-Usuario.png"
-            alt="Logo"
-            className="modal-image"
+          <div onClick={handleImageClick} style={{ cursor: "pointer" }}>
+            <img
+              src={
+                formData.image
+                  ? URL.createObjectURL(formData.image)
+                  : "/src/img/Perfil-Usuario.png"
+              }
+              alt="Logo"
+              className="modal-image"
+            />
+            <span>Anexar Imagem</span>
+          </div>
+          <input
+            type="file"
+            id="fileInput"
+            name="image"
+            accept="image/*"
+            style={{ display: "none" }}
+            onChange={handleChange}
           />
-          <span>Anexar Imagem</span>
         </div>
 
-        <div className="form-group">
-          <div className="name">
-            <label>Nome Completo</label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-            />
-          </div>
+        <div className="form-group full-width">
+          <label>Nome Completo</label>
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+          />
         </div>
         <form onSubmit={handleSubmit} className="two-column-form">
           <div className="form-group">
@@ -219,7 +241,7 @@ const CreateAccount = () => {
           <div className="form-group">
             <label>Senha</label>
             <input
-              type="password" 
+              type="password"
               name="password"
               placeholder=""
               value={formData.password}
