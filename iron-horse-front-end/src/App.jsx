@@ -1,14 +1,16 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import RentPopup from './pages/rentPopup';
+import CarRegister from './CarRegister/CarRegister';
+
+import MoreInformation from './CarRegister-MoreInformation/MoreInformation'
 
 const App = () => {
   return (
     <div>
     
-      <RentPopup />
+      <MoreInformation />
     </div>
-  );
-};
+  )
+}
 
-export default App;
+export default App
