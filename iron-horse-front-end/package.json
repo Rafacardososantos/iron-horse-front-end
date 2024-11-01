@@ -10,8 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "iron-horse-front-end": "file:",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-modal": "^3.16.1",
+    "react-router-dom": "^6.27.0",
 <<<<<<< HEAD
     "react-modal": "^3.16.1"
 =======
