@@ -1,0 +1,200 @@
+/* Importando as fontes */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Urbanist:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap");
+
+/* Estilos do Modal */
+.react-modal-overlay {
+  background-color: rgba(0, 0, 0, 0.822);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+}
+
+.react-modal-content {
+  background-color: #1e1e1ed1;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 500px;
+  width: 90%; /* Torna responsivo */
+  margin: auto;
+  position: relative;
+  overflow-y: auto;
+}
+
+/* Estilos Gerais */
+h2 {
+  color: #fff;
+  text-align: center;
+  font-family: "Urbanist", sans-serif;
+}
+
+button {
+  display: flex;
+  margin: 10px;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 65px;
+  align-items: center;
+  cursor: pointer; /* Adiciona o cursor de pointer para botões */
+}
+
+form div {
+  margin-bottom: 15px;
+}
+
+/* Estilos dos Labels */
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: #fff;
+  text-align: left; /* Alinha o texto à esquerda */
+  font-family: "Urbanist", sans-serif;
+}
+
+/* Estilos dos Inputs */
+input {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: "Inter", sans-serif;
+}
+
+/* Estilos do Cartão de Crédito */
+.credit-card {
+  background-color: #AA14F0;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.credit-card-number,
+.credit-card-name,
+.credit-card-validity,
+.credit-card-cvv {
+  margin-bottom: 10px;
+}
+
+.credit-card-input {
+  display: flex;
+  align-items: center;
+}
+
+.credit-card-input input {
+  flex: 1;
+}
+
+.card-flag {
+  width: 40px;
+  height: 24px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-left: 10px;
+}
+
+.card-flag.visa {
+  background-image: url('path/to/visa.png'); /* Caminho da imagem da bandeira Visa */
+}
+
+.card-flag.mastercard {
+  background-image: url('path/to/mastercard.png'); /* Caminho da imagem da bandeira MasterCard */
+}
+
+.card-flag.amex {
+  background-image: url('path/to/amex.png'); /* Caminho da imagem da bandeira Amex */
+}
+
+.card-flag.discover {
+  background-image: url('path/to/discover.png'); /* Caminho da imagem da bandeira Discover */
+}
+
+.card-flag.default {
+  background-image: url('path/to/default.png'); /* Caminho da imagem padrão */
+}
+
+/* Estilos para as Checkboxes */
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  text-align: left;
+
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  color: #fff; /* Cor do texto das checkboxes */
+  font-family: "Inter", sans-serif;
+}
+
+.checkbox-group input[type="checkbox"] {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  width: 13px;
+}
+
+/* Estilo do Botão de Registro */
+#register-button {
+  display: flex;
+  width: 100%; /* Torna responsivo */
+  height: 50px; /* Ajuste a altura conforme necessário */
+  background: #b350f1;
+  color: #fff;
+  border-radius: 65px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer; /* Adiciona o cursor de pointer */
+  font-family: "Inter", sans-serif;
+}
+
+/* Estilo dos Botões de Alternância */
+.toggle-buttons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.toggle-buttons button {
+  background-color: #fff;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin: 0 5px;
+  cursor: pointer;
+  font-family: "Urbanist", sans-serif;
+}
+
+.toggle-buttons button.active {
+  background-color: #b350f1;
+  color: #fff;
+}
+
+/* Estilos Responsivos */
+@media (max-width: 600px) {
+  .react-modal-content {
+    width: 95%; /* Aumenta a largura em telas pequenas */
+  }
+
+  button {
+    width: 100%; /* Botões ocupam a largura total */
+  }
+
+  #register-button {
+    height: 50px; /* Ajusta a altura do botão */
+  }
+
+  input {
+    font-size: 14px; /* Ajusta o tamanho da fonte dos inputs */
+  }
+}
