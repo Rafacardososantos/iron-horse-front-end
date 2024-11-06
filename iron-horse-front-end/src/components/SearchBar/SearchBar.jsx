@@ -10,7 +10,7 @@ export default () => {
 
     return (
         <div className="main-search-container">
-  <Row className="gy-3 align-items-center justify-content-center">
+  <Row className="gy-3 justify-content-center">
     <Col xs={12} md={4} lg={4}>
       <div className="input-wrapper">
         <label>Local</label>

@@ -1,12 +1,11 @@
 import React, {useState} from "react";
-import Container from 'react-bootstrap/Container';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './NavigationBar.css'
 
 export default () =>{
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const toggleMenu = () => {
-        console.log("Toggle menu");
         setIsMenuOpen(!isMenuOpen);
       };
 

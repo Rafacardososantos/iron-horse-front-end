@@ -28,13 +28,12 @@ header {
 .dropdown-menu {
     display: block !important;
     flex-direction: column;
-    position: relative;
+    position: absolute;
     top: 8vh;
     right: 2%; 
     background-color: #252525;
     padding: 10px;
     border-radius: 5px;
-    /*box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);*/
     z-index: 1000;
 }
 
@@ -46,10 +45,12 @@ header {
 
 .dropdown-menu li {
     padding: 10px 20px;
-   
+    background-color: #252525;
+    color: white;
     font-size: 14px;
-    border-bottom: 1px solid #555;
+    border-bottom: 1px solid #B350F1;
     cursor: pointer;
+    font-family: "Urbanist", serif;;
 }
 
 .dropdown-menu li:last-child {

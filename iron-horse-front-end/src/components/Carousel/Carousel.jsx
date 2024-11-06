@@ -1,12 +1,8 @@
-import Carousel from 'react-bootstrap/Carousel';
 import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import  Container  from 'react-bootstrap/Container';
-import "./Carousel.css"
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-
+import "./Carousel.css"
 
 export default () => {
   const settings = {
@@ -17,6 +13,7 @@ export default () => {
     slidesToShow: 1,   
     autoplay: true,
     autoplaySpeed: 3000,
+    draggable: false,
   };
 
   const images = [
@@ -26,11 +23,11 @@ export default () => {
     '/img/Hatch background4.jpg'
   ]
     return (        
-      <div>
+      <div className="main-carousel-container">
         <Slider {...settings}>
         {images.map((image, index) => (
-          <div className='carousel-container' key={index}>
-            <img className='carousel-image' src={image} alt={`Slide ${index + 1}`}  />
+          <div key={index}>
+            <img className='carousel-image' src={image} alt={`Slide ${index + 1}`} style={{height: '10%'}} />
           </div>
         ))}
         </Slider>
