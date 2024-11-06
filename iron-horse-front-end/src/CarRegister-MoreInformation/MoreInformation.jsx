@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Modal from "react-modal";
-import "./MoreInformation.css";
+// import "./MoreInformation.css";
 
 Modal.setAppElement("#root");
 

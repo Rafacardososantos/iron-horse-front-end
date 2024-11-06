@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './LoginPopup.css';
 import showPasswordIcon from '../img/Visualização_Permitida.png';
-import hidePasswordIcon from '../img/Visualizar.png';
+import hidePasswordIcon from '/img/Visualizar.png';
 import googleLogo from '../img/Logotipo_Google.png';
 
 const LoginPopup = ({ onClose, openForgotPassword, openSignUp }) => {

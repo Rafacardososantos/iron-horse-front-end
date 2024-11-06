@@ -55,7 +55,7 @@ const CarRegister = () => {
 
   return (
     <div>
-      <button onClick={openModal}>Abrir Popup</button>
+      {/* <button onClick={openModal}>Abrir Popup</button> */}
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
