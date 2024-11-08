@@ -1,8 +1,15 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 import "./CreateAccount.css";
+import showPasswordIcon from "../img/Visualização_Permitida.png";
+import hidePasswordIcon from "/img/Visualizar.png";
+import closeIcon from "/img/close-Icon.png"; 
 
-const CreateAccount = ({ onClose }) => {
+
+const CreateAccount = ({ onClose }) => { 
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     birthday: "",
@@ -24,7 +31,11 @@ const CreateAccount = ({ onClose }) => {
       checkbox4: false,
       checkbox5: false,
     },
-  });
+  }); 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
 
   const formatZipCode = (value) => {
     return value.replace(/^(\d{5})(\d{1,3})$/, "$1-$2");
@@ -100,6 +111,9 @@ const CreateAccount = ({ onClose }) => {
     <div className="teste">
       <div className="create-account-content" onClick={handleOutsideClick}>
         <div className="react-modal-content">
+        <button className="close-button" onClick={onClose}>
+            <img src={closeIcon} alt="Fechar" />
+          </button>
           <h2>Crie a sua Conta</h2>
           <div className="postImage">
             <div onClick={handleImageClick} style={{ cursor: "pointer" }}>
@@ -107,7 +121,7 @@ const CreateAccount = ({ onClose }) => {
                 src={
                   formData.image
                     ? URL.createObjectURL(formData.image)
-                    : "/src/img/Perfil-Usuario.png"
+                    : "/img/Perfil-Usuario.png"
                 }
                 alt="Logo"
                 className="modal-image"
@@ -234,25 +248,34 @@ const CreateAccount = ({ onClose }) => {
           </form>
           <form onSubmit={handleSubmit} className="two-column-form">
             <div className="form-group">
-              <label>Senha</label>
-              <input
-                type="password"
-                name="password"
-                placeholder=""
-                value={formData.password}
-                onChange={handleChange}
-                required
+            <label>Senha</label>
+            <input
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="password-register"
+            />
+            <img
+              src={showPassword ? hidePasswordIcon : showPasswordIcon}
+              alt="Ícone de visualização"
+              className="password-icon"
+              onClick={togglePasswordVisibility}
               />
             </div>
             <div className="form-group">
               <label>Confirmar Senha</label>
               <input
-                type="password"
-                name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                required
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="password-register"
               />
+              <img
+                src={showPassword ? hidePasswordIcon : showPasswordIcon}
+                alt="Ícone de visualização"
+                className="password-icon"
+                onClick={togglePasswordVisibility}
+                />
             </div>
           </form>
           <span>
