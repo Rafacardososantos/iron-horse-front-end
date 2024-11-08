@@ -8,6 +8,9 @@ const MoreInformation = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [isInsuranceActive, setInsuranceActive] = useState(false);
   const [formData, setFormData] = useState({
+    carChange: "",
+    trunkCapacity: "",
+    headlightBulb: "",
     carColor: "",
     modelYear: "",
     transmission: "",
@@ -22,6 +25,20 @@ const MoreInformation = () => {
     renavam: "",
     insurance: false,
     insuranceCompany: "",
+    "checkbox-grid": {
+      checkboxA: false,
+      checkboxB: false,
+      checkboxC: false,
+      checkboxD: false,
+      checkboxE: false,
+      checkboxF: false,
+      checkboxG: false,
+      checkboxH: false,
+      checkboxI: false,
+      checkboxJ: false,
+      checkboxK: false,
+      checkboxL: false,
+    },
     checkboxes: {
       checkbox1: false,
       checkbox2: false,
@@ -252,51 +269,98 @@ const MoreInformation = () => {
             parceira, conforme às disposições legais segundo sua utilização
             mediante a plataforma e o serviço prestado.
           </span>
-          <span>
-            As informações acima requisitadas são tratadas com sigilo e
-            segurança, utilizadas apenas com a finalidade de segurança ao próprio
-            proprietário do veículo e aos órgãos competentes associados ao setor
-            público, bem como os órgãos públicos de mobilidade urbana e do
-            trânsito.
-          </span>
-          <div className="checkbox-group">
-            <label>
-              <input
-                type="checkbox"
-                name="checkbox1"
-                checked={formData.checkboxes.checkbox1}
-                onChange={handleChange}
-              />
-              A documentação do carro está em dia, entendo por como documentos o
-              Licenciamento do Veículo que inclui o IPVA, o DPVAT e a GRT
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                name="checkbox2"
-                checked={formData.checkboxes.checkbox2}
-                onChange={handleChange}
-              />
-              O proprietário deste veículo está devidamente regularizado e sem
-              nenhuma pendência nos órgãos de trânsito (DETRAN, DENATRAN, DER e
-              DNIT).
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                name="checkbox5"
-                checked={formData.checkboxes.checkbox5}
-                onChange={handleChange}
-              />
-              Atesto para os devidos fins legais que todas às informações
-              fornecidas são verdadeiras, se valendo e fazendo cumprir as
-              normativas da Lei Geral de Proteção de Dados (LGPD - Lei nº
-              13.709/2018), o Código Civil Brasileiro (Lei nº 10.406/2002) e o
-              Código de Defesa do Consumidor (Lei nº 8.078/1990).
-            </label>
+          </form>
+
+          <form onSubmit={handleSubmit} className="three-column-form">
+          <div className="form-group3">
+            <label>Câmbio</label>
+            <select name="carChange" value={formData.carChange} required onChange={handleChange}>
+              <option value=""></option>
+              <option value="manual">Manual</option>
+              <option value="automatico">Automático</option>
+            </select>
           </div>
-          <button id="register-button" type="submit">Cadastrar Veículo</button>
+          <div className="form-group3">
+            <label>Porta-malas</label>
+            <input 
+              type="text" 
+              name="trunkCapacity" 
+              value={formData.trunkCapacity}
+              onChange={handleChange}
+              placeholder="capacidade em litros" 
+              required 
+            />
+          </div>
+          <div className="form-group3">
+            <label>Lâmpada do Farol</label>
+            <select name="headlightBulb" value={formData.headlightBulb} required onChange={handleChange}>
+              <option value=""></option>
+              <option value="halogena">Halógena</option>
+              <option value="led">LED</option>
+              <option value="xenon">Xenon</option>
+              <option value="super-branca">Super Branca</option>
+            </select>
+          </div>
         </form>
+
+        <label>Itens de Conforto e Adicionais</label>
+        <div className="checkbox-grid">
+          <label>
+            <input type="checkbox" name="checkboxA" checked={formData.checkboxA} onChange={handleChange} />
+            Isulfim
+          </label>
+          <label>
+            <input type="checkbox" name="checkboxB" checked={formData.checkboxB} onChange={handleChange} />
+            Tag - Pedágio
+          </label>
+          <label>
+            <input type="checkbox" name="checkboxC" checked={formData.checkboxC} onChange={handleChange} />
+            Segredo Anti Furto
+          </label>
+          <label>
+            <input type="checkbox" name="checkboxD" checked={formData.checkboxD} onChange={handleChange} />
+            Multimídia
+          </label>
+          <label>
+            <input type="checkbox" name="checkboxE" checked={formData.checkboxE} onChange={handleChange} />
+            Ar condicionado
+          </label>
+          <label>
+            <input type="checkbox" name="checkboxF" checked={formData.checkboxF} onChange={handleChange} />
+            Vidros e Travas Elétricas
+          </label>
+        </div>
+
+        <label>Itens de Segurança</label>
+        <div className="checkbox-grid">
+          <label>
+            <input type="checkbox" name="checkboxG" checked={formData.checkboxG} onChange={handleChange} />
+            Triângulo
+          </label>
+          <label>
+            <input type="checkbox" name="checkboxH" checked={formData.checkboxH} onChange={handleChange} />
+            Macaco
+          </label>
+          <label>
+            <input type="checkbox" name="checkboxI" checked={formData.checkboxI} onChange={handleChange} />
+            Chave de Roda
+          </label>
+          <label>
+            <input type="checkbox" name="checkboxJ" checked={formData.checkboxJ} onChange={handleChange} />
+            Estepe
+          </label>
+          <label>
+            <input type="checkbox" name="checkboxK" checked={formData.checkboxK} onChange={handleChange} />
+            Extintor de Incêndio
+          </label>
+          <label>
+            <input type="checkbox" name="checkboxL" checked={formData.checkboxL} onChange={handleChange} />
+            Alarme
+          </label>
+        </div>
+
+          <button id="cancel-button" type="submit">Cancelar</button>
+          <button id="register-button" type="submit">Prosseguir</button>
       </Modal>
     </div>
   );
