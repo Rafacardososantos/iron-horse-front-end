@@ -193,8 +193,8 @@ span {
 /* Estilo do Botão de Prosseguir */
 #register-button {
   display: flex;
-  width: 40%;
-  height: 40px;
+  width: 30%;
+  height: 35px;
   background: #b350f1;
   color: #fff;
   border-radius: 65px;
@@ -208,6 +208,27 @@ span {
 }
 
 #register-button:hover {
+  background: #4e007e;
+}
+
+/* Estilo do Botão de Cancelar */
+#cancel-button {
+  display: flex;
+  width: 30%;
+  height: 35px;
+  background: #ffffff;
+  color: #b350f1;
+  border-radius: 65px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin: 0 auto;
+  font-family: "Inter", sans-serif;
+  border: none;
+}
+
+#cancel-button:hover {
   background: #4e007e;
 }
 
