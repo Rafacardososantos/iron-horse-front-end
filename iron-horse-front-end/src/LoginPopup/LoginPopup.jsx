@@ -1,12 +1,13 @@
-import { useState } from 'react';
-import './LoginPopup.css';
-import showPasswordIcon from '../img/Visualização_Permitida.png';
-import hidePasswordIcon from '/img/Visualizar.png';
-import googleLogo from '../img/Logotipo_Google.png';
+/* eslint-disable react/prop-types */
+import { useState } from "react";
+import "./LoginPopup.css";
+import showPasswordIcon from "../img/Visualização_Permitida.png";
+import hidePasswordIcon from "/img/Visualizar.png";
+import googleLogo from "../img/Logotipo_Google.png";
 
 const LoginPopup = ({ onClose, openForgotPassword, openSignUp }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = (e) => {
@@ -18,7 +19,7 @@ const LoginPopup = ({ onClose, openForgotPassword, openSignUp }) => {
   };
 
   const handleOutsideClick = (e) => {
-    if (e.target.className === 'popup') {
+    if (e.target.className === "popup") {
       onClose();
     }
   };
@@ -36,7 +37,7 @@ const LoginPopup = ({ onClose, openForgotPassword, openSignUp }) => {
           />
           <div className="input-container">
             <input
-              type={showPassword ? 'text' : 'password'}
+              type={showPassword ? "text" : "password"}
               placeholder="Senha"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -49,10 +50,14 @@ const LoginPopup = ({ onClose, openForgotPassword, openSignUp }) => {
               onClick={togglePasswordVisibility}
             />
           </div>
-          <button type="submit" className="login-btn">Entrar</button>
+          <button type="submit" className="login-btn">
+            Entrar
+          </button>
         </form>
         <p>
-          <a href="#" onClick={openForgotPassword}>Esqueceu a senha?</a>
+          <a href="#" onClick={openForgotPassword}>
+            Esqueceu a senha?
+          </a>
         </p>
         <button className="google-login">
           <div className="google-logo-container">
@@ -61,7 +66,15 @@ const LoginPopup = ({ onClose, openForgotPassword, openSignUp }) => {
           Login com o Google
         </button>
         <p>
-          Não possui conta? <b onClick={(e) => { e.preventDefault(); openSignUp(); }}>Cadastre-se</b>
+          Não possui conta?{" "}
+          <b
+            onClick={(e) => {
+              e.preventDefault();
+              openSignUp();
+            }}
+          >
+            Cadastre-se
+          </b>
         </p>
       </div>
     </div>

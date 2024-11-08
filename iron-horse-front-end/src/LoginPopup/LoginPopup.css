@@ -1,10 +1,10 @@
 @font-face {
-  font-family: 'Urbanist';
-  src: url('../fonts/Urbanist-ExtraLight.ttf') format('truetype');
+  font-family: "Urbanist";
+  src: url("../fonts/Urbanist-ExtraLight.ttf") format("truetype");
 }
 
 .popup {
-  font-family: 'Urbanist';
+  font-family: "Urbanist";
   position: fixed;
   top: 0;
   left: 0;
@@ -26,7 +26,7 @@
   max-width: 400px;
   height: auto;
   text-align: center;
-  position: relative;  
+  position: relative;
 }
 
 .popup-content a,
@@ -35,7 +35,7 @@ p {
   display: block;
   margin: 10px 0;
   text-align: left;
-  color: #AA14F0;
+  color: #aa14f0;
 }
 
 .popup-content b {
@@ -82,13 +82,16 @@ p {
 .popup-content .login-btn {
   background-color: #b350f1;
   color: white;
-  width: 30%;
+  width: 100%;
+  width: 100%;
   padding: 10px;
   border: none;
   border-radius: 25px;
-  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 16px;
-  margin: 10px 0;
+  cursor: pointer;
 }
 
 .popup-content .login-btn:hover {
@@ -96,7 +99,7 @@ p {
 }
 
 .popup-content a {
-  color: #AA14F0;
+  color: #aa14f0;
   text-decoration: none;
   display: block;
   margin: 10px 0;
