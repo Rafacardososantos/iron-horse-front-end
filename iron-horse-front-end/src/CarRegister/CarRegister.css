@@ -3,7 +3,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Urbanist:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 /* Estilos do Modal */
-.react-modal-overlay {
+/* .popup-car-register {
+  font-family: 'Urbanist';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 50;
+
+} */
+.create-account-content {
   background-color: rgba(0, 0, 0, 0.822);
   position: fixed;
   top: 0;
@@ -14,7 +27,7 @@
   align-items: center;
   justify-content: center;
   overflow-y: auto;
-  z-index: 50;
+ 
 }
 
 .modal-image {

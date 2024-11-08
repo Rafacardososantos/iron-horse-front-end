@@ -1,18 +1,19 @@
 /* Importando as fontes */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Urbanist:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
+
 /* Estilos do Modal */
-.react-modal-overlay {
+.create-account-content {
+  color: white;
+  padding: 20px;
+  border-radius: 20px;
   background-color: rgba(0, 0, 0, 0.822);
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow-y: auto;
+  width: 100%;
+  max-width: 650px;
+  height: auto;
+  text-align: center;
+  position: relative;
+ 
 }
 
 .modal-image {
@@ -31,6 +32,7 @@
   margin: auto;
   position: relative;
   overflow-y: auto;
+ 
 }
 
 /* Estilos Gerais */

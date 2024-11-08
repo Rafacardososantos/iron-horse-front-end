@@ -1,13 +1,9 @@
-import { useState } from "react";
-import Modal from "react-modal";
+import { useState} from "react";
 import "./CarRegister.css";
 
-Modal.setAppElement("#root");
-
-const CarRegister = () => {
+const CarRegister = ({onClose}) => {
   const [otherBrand, setOtherBrand] = useState("");
   const [isOtherBrand, setIsOtherBrand] = useState(false);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [formData, setFormData] = useState({
     marca: "",
     modelo: "",
@@ -16,9 +12,6 @@ const CarRegister = () => {
       checkbox1: false,
     },
   });
-
-  const openModal = () => setModalIsOpen(true);
-  const closeModal = () => setModalIsOpen(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -50,18 +43,18 @@ const CarRegister = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
-    closeModal();
+    onClose();
+  };
+
+  const handleOutsideClick = (e) => {
+    if (e.target.className === 'popup') {
+      onClose();
+    }
   };
 
   return (
-    <div>
-      {/* <button onClick={openModal}>Abrir Popup</button> */}
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        className="react-modal-content"
-        overlayClassName="react-modal-overlay"
-      >
+    <div className="create-account-content" onClick={handleOutsideClick}>
+     <div className="react-modal-content">  
         <h2>Cadastre seu veículo</h2>
         <img
           src="../img/carro-ilustracao-de-transporte.png"
@@ -157,7 +150,7 @@ const CarRegister = () => {
             Prosseguir
           </button>
         </form>
-      </Modal>
+     </div>
     </div>
   );
 }

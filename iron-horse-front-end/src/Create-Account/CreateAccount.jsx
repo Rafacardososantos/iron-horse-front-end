@@ -1,11 +1,8 @@
 import { useState } from "react";
-import Modal from "react-modal";
 import "./CreateAccount.css";
 
-Modal.setAppElement("#root");
 
-const CreateAccount = () => {
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+const CreateAccount = ({onClose}) => {
   const [formData, setFormData] = useState({
     name: "",
     birthday: "",
@@ -29,8 +26,6 @@ const CreateAccount = () => {
     },
   });
 
-  const openModal = () => setModalIsOpen(true);
-  const closeModal = () => setModalIsOpen(false);
 
   const formatZipCode = (value) => {
     return value.replace(/^(\d{5})(\d{1,3})$/, "$1-$2");
@@ -89,22 +84,23 @@ const CreateAccount = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
-    closeModal();
+    onClose();
   };
 
   const handleImageClick = () => {
     document.getElementById("fileInput").click();
   };
 
+  const handleOutsideClick = (e) => {
+    if (e.target.className === 'popup-create-account') {
+      onClose();
+    }
+  };
+
   return (
-    <div>
-      <button onClick={openModal}>Abrir Popup</button>
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        className="react-modal-content"
-        overlayClassName="react-modal-overlay"
-      >
+    <div className="teste">
+    <div className="create-account-content" onClick={handleOutsideClick}>
+      <div className="react-modal-content">      
         <h2>Crie a sua Conta</h2>
         <div className="postImage">
           <div onClick={handleImageClick} style={{ cursor: "pointer" }}>
@@ -321,7 +317,8 @@ const CreateAccount = () => {
         <button id="register-button" type="submit">
           Registrar
         </button>
-      </Modal>
+        </div>
+    </div>
     </div>
   );
 };

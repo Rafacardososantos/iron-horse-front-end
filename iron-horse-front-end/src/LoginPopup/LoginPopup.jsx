@@ -61,7 +61,7 @@ const LoginPopup = ({ onClose, openForgotPassword, openSignUp }) => {
           Login com o Google
         </button>
         <p>
-          Não possui conta? <b href="#" onClick={openSignUp}>Cadastre-se</b>
+          Não possui conta? <b onClick={(e) => { e.preventDefault(); openSignUp(); }}>Cadastre-se</b>
         </p>
       </div>
     </div>

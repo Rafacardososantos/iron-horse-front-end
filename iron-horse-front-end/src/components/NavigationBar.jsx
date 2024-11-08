@@ -2,25 +2,32 @@ import React, {useState} from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import LoginPopup from '../LoginPopup/LoginPopup';
 import CarRegister from "../CarRegister/CarRegister";
+import CreateAccount from "../Create-Account/CreateAccount";
 import './NavigationBar.css'
 
 export default () =>{
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isPopupOpen, setIsPopupOpen] = useState(false);
+    const [activePopup, setActivePopup] = useState(null);
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
-      };
+    };
 
-    const openPopup = () => {
-        setIsPopupOpen(true);
+    const openPopup = (popupType) => {
+        setActivePopup(popupType);
+        setIsMenuOpen(false);
     };
     
     const closePopup = () => {
-        setIsPopupOpen(false);
+        setActivePopup(null);
     };
 
-    return(      
+    const openSignUp = () => {
+        setActivePopup("signUp");
+      };
+
+    return(  
+        <>   
         <header>
             <div className="logo-img">
                 <img className="user-profile-img" src="/img/Logo_UVIO_contrario.png" alt="Logo UVIO" />
@@ -32,9 +39,9 @@ export default () =>{
             {isMenuOpen && (
                 <div className="dropdown-menu">
                     <ul>
-                        <li><a href="#" onClick={(e) => { e.preventDefault(); openPopup(); toggleMenu(); }}>Conta</a></li>
+                        <li><a href="#" onClick={(e) => { e.preventDefault(); openPopup('login'); toggleMenu();}}>Conta</a></li>
                         <li>Alugar</li>
-                        <li><a href="#" onClick={(e) => { e.preventDefault(); openPopup(); }}></a>Anunciar</li>
+                        <li><a href="#" onClick={(e) => { e.preventDefault(); openPopup('carRegister'); toggleMenu();}}>Anunciar</a></li>
                         <li>Termos de Uso</li>
                         <li>Política de Privacidade</li>
                         <li>Avisos Legais</li>
@@ -43,13 +50,22 @@ export default () =>{
                     </ul>
                 </div>
             )}
-            {isPopupOpen && (
-                <LoginPopup onClose={closePopup}/>
-                
-            )}
-            {isPopupOpen && (
+                           
+        </header> 
+     
+        {activePopup === "login" && (
+            <LoginPopup onClose={closePopup} openSignUp={() => openPopup("signUp")}/>
+        )}
+
+        {activePopup === "signUp" && (
+            <CreateAccount onClose={closePopup} />
+        )}
+        
+        {activePopup === "carRegister" && (
+            <>              
                 <CarRegister onClose={closePopup}/>
-            )}                  
-        </header>    
+            </>
+        )}
+        </>   
     );
 }

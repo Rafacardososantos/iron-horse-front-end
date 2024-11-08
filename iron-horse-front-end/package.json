@@ -10,17 +10,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "iron-horse-front-end": "file:",
     "bootstrap": "^5.3.3",
+    "iron-horse-front-end": "file:",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.5",
     "react-datepicker": "^7.5.0",
     "react-dom": "^18.3.1",
+    "react-modal": "^3.16.1",
+    "react-router-dom": "^6.27.0",
     "react-slick": "^0.30.2",
     "slick-carousel": "^1.8.1",
-    "styled-components": "^6.1.13",
-    "react-modal": "^3.16.1",
-    "react-router-dom": "^6.27.0"
+    "styled-components": "^6.1.13"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
