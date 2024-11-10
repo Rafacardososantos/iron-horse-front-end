@@ -1,0 +1,269 @@
+/* Importando as fontes */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Urbanist:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+/* Estilos do Modal */
+.react-modal-overlay {
+  background-color: rgba(0, 0, 0, 0.822);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+}
+
+.modal-image {
+  display: block;
+  margin: 10px auto;
+  max-width: 80px;
+  height: auto;
+}
+
+.react-modal-content {
+  background-color: #1e1e1ed1;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 500px;
+  width: 90%;
+  margin: auto;
+  position: relative;
+  overflow-y: auto;
+}
+
+/* Estilos Gerais */
+h2 {
+  color: #fff;
+  text-align: center;
+  font-family: "Urbanist", sans-serif;
+  font-weight: 400;
+}
+
+button {
+  display: flex;
+  margin: 10px;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 65px;
+  align-items: center;
+  cursor: pointer;
+}
+
+span {
+  color: #aa14f0;
+}
+
+form div {
+  margin-bottom: 15px;
+}
+
+.form-group-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 30px;
+  min-width: 150px;
+}
+
+/* Estilos dos Labels */
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: #fff;
+  text-align: left;
+  font-family: "Urbanist", sans-serif;
+}
+
+/* Estilos dos Inputs */
+input,
+select {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 65px;
+  font-family: "Inter", sans-serif;
+}
+
+input:disabled {
+  background-color: lightgray;
+  cursor: not-allowed;
+}
+
+/* Estilos Toggle Button */
+.toggle-button {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.toggle-button input {
+  display: none;
+}
+
+.slider {
+  width: 80px;
+  height: 34px;
+  background-color: lightgray;
+  border-radius: 24px;
+  position: relative;
+  transition: background-color 0.3s;
+}
+
+.slider:before {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  left: 7px;
+  bottom: 7px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s, background-color 0.3s;
+}
+
+.toggle-button input:checked + .slider {
+  background-color: #b350f1;
+}
+
+.toggle-button input:checked + .slider:before {
+  transform: translateX(46px);
+  background-color: #4e007e;
+}
+
+/* Estilos para os textos span */
+
+label,
+span {
+  display: block;
+  margin-bottom: 5px;
+  font-family: "Urbanist", sans-serif;
+  text-align: justify;
+}
+
+/* Estilos para as Checkboxes */
+
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  text-align: left;
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  color: #fff;
+  font-family: "Inter", sans-serif;
+}
+
+.checkbox-group input[type="checkbox"] {
+  margin-right: 10px;
+  width: 20px;
+  height: 20px;
+  accent-color: #b350f1;
+}
+
+.checkbox-group input[type="checkbox"]:hover {
+  cursor: pointer;
+}
+
+/* Estilo do Botão de Prosseguir */
+#register-button {
+  display: flex;
+  width: 30%;
+  height: 35px;
+  background: #b350f1;
+  color: #fff;
+  border-radius: 65px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin: 0 auto;
+  font-family: "Inter", sans-serif;
+  border: none;
+  margin-top: 30px;
+  
+}
+
+#register-button:hover {
+  background: #4e007e;
+}
+
+/* Estilo do Botão de Cancelar */
+#cancel-button {
+  display: flex;
+  width: 30%;
+  height: 35px;
+  background: #ffffff;
+  color: #b350f1;
+  border-radius: 65px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin: 0 auto;
+  font-family: "Inter", sans-serif;
+  border: none;
+}
+
+#cancel-button:hover {
+  background: #4e007e;
+}
+
+/* Estilo Colunas */
+
+
+
+.two-column-form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.form-group {
+  width: 48%;
+  margin-bottom: 15px;
+}
+
+.three-column-form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.form-group3 {
+  width: 30%;
+  margin-bottom: 15px;
+}
+
+@media (max-width: 600px) {
+  .react-modal-content {
+    width: 95%;
+  }
+
+  .modal-image {
+    max-width: 120px;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  #register-button {
+    height: 50px;
+  }
+
+  input {
+    font-size: 14px;
+  }
+
+  .form-group {
+    width: 100%;
+  }
+}
