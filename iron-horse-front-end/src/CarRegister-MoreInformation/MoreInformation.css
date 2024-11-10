@@ -1,5 +1,5 @@
 /* Importando as fontes */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Urbanist:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Urbanist:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
 /* Estilos do Modal */
 .react-modal-overlay {
@@ -52,7 +52,7 @@ button {
 }
 
 span {
-  color: #AA14F0;
+  color: #aa14f0;
 }
 
 form div {
@@ -77,7 +77,8 @@ label {
 }
 
 /* Estilos dos Inputs */
-input, select {
+input,
+select {
   width: 100%;
   padding: 8px;
   box-sizing: border-box;
@@ -88,7 +89,7 @@ input, select {
 
 input:disabled {
   background-color: lightgray;
-  cursor: not-allowed; 
+  cursor: not-allowed;
 }
 
 /* Estilos Toggle Button */
@@ -104,9 +105,9 @@ input:disabled {
 
 .slider {
   width: 80px;
-  height: 34px; 
+  height: 34px;
   background-color: lightgray;
-  border-radius: 24px; 
+  border-radius: 24px;
   position: relative;
   transition: background-color 0.3s;
 }
@@ -115,7 +116,7 @@ input:disabled {
   content: "";
   position: absolute;
   width: 20px;
-  height: 20px; 
+  height: 20px;
   left: 7px;
   bottom: 7px;
   background-color: white;
@@ -124,7 +125,7 @@ input:disabled {
 }
 
 .toggle-button input:checked + .slider {
-  background-color: #b350f1; 
+  background-color: #b350f1;
 }
 
 .toggle-button input:checked + .slider:before {
@@ -134,7 +135,8 @@ input:disabled {
 
 /* Estilos para os textos span */
 
-label, span {
+label,
+span {
   display: block;
   margin-bottom: 5px;
   font-family: "Urbanist", sans-serif;
@@ -142,6 +144,8 @@ label, span {
 }
 
 /* Estilos para as Checkboxes */
+
+
 .checkbox-group {
   display: flex;
   flex-direction: column;
@@ -183,6 +187,8 @@ label, span {
   margin: 0 auto;
   font-family: "Inter", sans-serif;
   border: none;
+  margin-top: 30px;
+  
 }
 
 #register-button:hover {
@@ -211,6 +217,9 @@ label, span {
 }
 
 /* Estilo Colunas */
+
+
+
 .two-column-form {
   display: flex;
   flex-wrap: wrap;
