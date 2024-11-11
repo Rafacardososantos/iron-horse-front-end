@@ -4,9 +4,9 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import LoginPopup from "../LoginPopup/LoginPopup";
-import CarRegister from "../CarRegister/CarRegister";
 import CreateAccount from "../Create-Account/CreateAccount";
 import "./NavigationBar.css";
+import MoreInformation from "../CarRegister-MoreInformation/MoreInformation";
 
 export default () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -68,7 +68,7 @@ export default () => {
                   href="#"
                   onClick={(e) => {
                     e.preventDefault();
-                    openPopup("carRegister");
+                    openPopup("MoreInformation");
                     toggleMenu();
                   }}
                 >
@@ -94,9 +94,9 @@ export default () => {
 
       {activePopup === "signUp" && <CreateAccount onClose={closePopup} />}
 
-      {activePopup === "carRegister" && (
+      {activePopup === "MoreInformation" && (
         <>
-          <CarRegister onClose={closePopup} />
+          <MoreInformation onClose={closePopup} />
         </>
       )}
     </>
