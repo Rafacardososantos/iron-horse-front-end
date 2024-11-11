@@ -55,8 +55,15 @@ const LoginPopup = ({ onClose, openForgotPassword, openSignUp }) => {
           </button>
         </form>
         <p>
-          <a href="#" onClick={openForgotPassword}>
-            Esqueceu a senha?
+          <a href="#" onClick={(e) =>{
+              e.preventDefault();
+              openForgotPassword();
+            }}>
+            Esqueceu a senha?     
+           
+           
+
+           
           </a>
         </p>
         <button className="google-login">

@@ -94,8 +94,9 @@ p {
   cursor: pointer;
 }
 
-.popup-content .login-btn:hover {
-  background: linear-gradient(45deg, #836fff, #b350f1);
+.popup-content .login-btn:hover {  
+  background: linear-gradient(90deg, rgba(140,0,255,1) 0%, rgba(255,0,244,1) 100%);
+  transition: all ease 1s;
 }
 
 .popup-content a {

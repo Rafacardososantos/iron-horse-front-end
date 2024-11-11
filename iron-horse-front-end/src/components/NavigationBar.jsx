@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import LoginPopup from "../LoginPopup/LoginPopup";
 import CreateAccount from "../Create-Account/CreateAccount";
+import ForgotPassword from "../ForgotPassword/ForgotPassword";
 import "./NavigationBar.css";
 import MoreInformation from "../CarRegister-MoreInformation/MoreInformation";
 
@@ -25,9 +26,7 @@ export default () => {
     setActivePopup(null);
   };
 
-  const openSignUp = () => {
-    setActivePopup("signUp");
-  };
+
 
   return (
     <>
@@ -89,10 +88,15 @@ export default () => {
         <LoginPopup
           onClose={closePopup}
           openSignUp={() => openPopup("signUp")}
+          openForgotPassword={() => openPopup("forgotPassword")}
         />
       )}
 
       {activePopup === "signUp" && <CreateAccount onClose={closePopup} />}
+
+      {activePopup === "forgotPassword" && <ForgotPassword onClose={closePopup} />}
+
+      {activePopup === "forgotPassword" && <ForgotPassword onClose={closePopup} />}
 
       {activePopup === "MoreInformation" && (
         <>

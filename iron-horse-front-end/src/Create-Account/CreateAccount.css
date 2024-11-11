@@ -234,7 +234,8 @@ span {
 }
 
 #register-button:hover {
-  background: #4e007e;
+  transition: all ease 1s;
+  background: linear-gradient(90deg, rgba(140,0,255,1) 0%, rgba(255,0,244,1) 100%);
 }
 
 /* Estilo do Botão de Cancelar */

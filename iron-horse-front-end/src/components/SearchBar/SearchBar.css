@@ -52,12 +52,12 @@ input {
     font-size: 16px;
     font-family: 'Inter', sans-serif;
     width: 100%;
-    max-width: 8rem;
-    transition: all ease 0.5s;
+    max-width: 8rem;    
     margin-top: 14%;
 }
 
 .search-button:hover {
+    transition: all ease 1s;
     background: linear-gradient(90deg, rgba(140,0,255,1) 0%, rgba(255,0,244,1) 100%);
 }
 
