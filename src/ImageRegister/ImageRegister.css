@@ -168,7 +168,14 @@ span {
   display: flex;
   flex-direction: column;
   margin-top: 10px;
+  margin-bottom: 8px;
   text-align: left;
+}
+
+.checkbox-group p {
+  margin-bottom: 5px;
+  color: #fff;
+  font-family: "Inter", sans-serif;
 }
 
 .checkbox-group label {
@@ -180,14 +187,37 @@ span {
 }
 
 .checkbox-group input[type="checkbox"] {
-  margin-right: 10px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
   width: 20px;
   height: 20px;
-  accent-color: #b350f1;
+  margin-right: 10px;
+  border: 1.5px solid #fff;
+  border-radius: 25%;
+  background-color: transparent;
+  cursor: pointer;
+  position: relative;
 }
 
-.checkbox-group input[type="checkbox"]:hover {
-  cursor: pointer;
+.checkbox-group input[type="checkbox"]:checked {
+  background-color: #b350f1;
+  border: 1.5px solid #fff;
+}
+
+.checkbox-group input[type="checkbox"]:checked::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 10px;
+  height: 10px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
 }
 
 /* Estilo do Botão de Prosseguir */

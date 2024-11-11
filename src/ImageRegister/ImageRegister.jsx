@@ -13,6 +13,8 @@ const VehicleRegistrationModal = () => {
       checkbox2: false,
       checkbox3: false,
       checkbox4: false,
+      checkbox5: false,
+      checkbox6: false,
     },
   });
 
@@ -112,24 +114,36 @@ const VehicleRegistrationModal = () => {
         <div className="checkbox-group">
           <label>
             <input type="checkbox" name="checkbox1" checked={vehicleData.consentCheckboxes.checkbox1} onChange={handleInputChange} />
-            Os condutores NÃO podem ser fumantes e/ou NÃO devem fumar dentro de seu veículo.
+            <p className="checkbox-text">A documentação do carro está em dia, entendo por como documentos o Licenciamento do Veículo que inclui o IPVA, o DPVAT e a GRT.</p>
           </label>
           <label>
             <input type="checkbox" name="checkbox2" checked={vehicleData.consentCheckboxes.checkbox2} onChange={handleInputChange} />
-            Os valores de pedágio caso seu veículo possua Tag DEVEM ser repassados ao condutor. Se não sinalizada está opção, está de acordo com a DESATIVAÇÃO de sua Tag ao disponibilizar seu veículo durante o período de locação!
+            <p className="checkbox-text">Os condutores NÃO podem ser fumantes e/ou NÃO devem fumar dentro de seu veículo.</p>
           </label>
           <label>
             <input type="checkbox" name="checkbox3" checked={vehicleData.consentCheckboxes.checkbox3} onChange={handleInputChange} />
-            As multas contraídas pelos condutores de seu veículo durante a utilização ou vigência do serviço serão transferidas ao infrator respectivo. Processo que é comumente conhecido como transferência de pontuação.  
+            <p className="checkbox-text">Os valores de pedágio caso seu veículo possua Tag DEVEM ser repassados ao condutor. Se não sinalizada esta opção, está de acordo com a DESATIVAÇÃO de sua Tag ao disponibilizar seu veículo durante o período de locação!</p>
           </label>
           <label>
             <input type="checkbox" name="checkbox4" checked={vehicleData.consentCheckboxes.checkbox4} onChange={handleInputChange} />
-            Atesto para os devidos fins legais que todas às informações e/ou conteúdo de imagem fornecidas são verdadeiras, se valendo e fazendo cumprir as normativas da Lei Geral de Proteção de Dados (LGPD - Lei nº 13.709/2018), o Código Civil Brasileiro (Lei nº 10.406/2002) e o previsto pelo Artigo 299 do Código Penal Brasileiro, que tipifica como crime a falsidade ideológica.
+            <p className="checkbox-text">As multas contraídas pelos condutores de seu veículo durante a utilização ou vigência do serviço serão transferidas ao infrator respectivo. Processo que é comumente conhecido como <u>transferência de pontuação</u>.</p>
+          </label>
+          <label>
+            <input type="checkbox" name="checkbox5" checked={vehicleData.consentCheckboxes.checkbox5} onChange={handleInputChange} />
+            <p className="checkbox-text">O veículo caso possua <u>modificações</u>, as mesmas se encontram dentro das especificadas pelo fabricante. Não cabendo exceções, voltadas às modificações oriundas de customizações que extrapolam estes limites!</p>
+          </label>
+          <label>
+            <input type="checkbox" name="checkbox6" checked={vehicleData.consentCheckboxes.checkbox6} onChange={handleInputChange} />
+            <p className="checkbox-text">Atesto para os devidos fins legais que todas às informações e/ou conteúdo de imagem fornecidas são verdadeiras, se valendo e fazendo cumprir as normativas da <strong>Lei Geral de Proteção de Dados (LGPD - Lei nº 13.709/2018)</strong>, o <strong>Código Civil Brasileiro (Lei nº 10.406/2002)</strong> e o previsto pelo <strong>Artigo 299 do Código Penal Brasileiro</strong>, que tipifica como crime a falsidade ideológica.</p>
           </label>
         </div>
 
-        <button id="cancel-button" type="submit">Cancelar</button>
-        <button id="register-button" type="submit">Prosseguir</button>
+
+        <div class="button-container">
+          <button id="cancel-button" type="submit">Cancelar</button>
+          <button id="register-button" type="submit">Prosseguir</button>
+        </div>
+
       </Modal>
     </div>
   );
