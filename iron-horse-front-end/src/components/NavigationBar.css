@@ -1,29 +1,24 @@
-header {
+* {
     margin: 0;
     padding: 0;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 8vh;
+}
+
+.header-container {
     display: flex;
     justify-content: space-between;
-    width: 100%;
+    align-items: center;
+    padding: 1rem 2rem;
     background: linear-gradient(to right, #000, #5A2879, #B350F1, #B76EF1);
 }
 
-.user-profile-img {
-    height: 6vh;
-    width: auto;
-    z-index: 49;
-}
-
-.user-img {
-    margin: 0.5% 2% 0.5% 0%;
-    cursor: pointer;
-}
-
 .logo-img {
-    margin: 0.5% 0% 0.5% 2%;   
+    height: 60px;
+}
+
+.user-profile-img {
+    height: 55px;   
+    border-radius: 50%;
+    cursor: pointer;
 }
 
 .dropdown-menu {
