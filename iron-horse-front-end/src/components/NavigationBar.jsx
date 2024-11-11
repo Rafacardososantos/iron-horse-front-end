@@ -1,6 +1,3 @@
-/* eslint-disable react-refresh/only-export-components */
-/* eslint-disable react/display-name */
-/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import LoginPopup from "../LoginPopup/LoginPopup";
@@ -8,6 +5,7 @@ import CreateAccount from "../Create-Account/CreateAccount";
 import ForgotPassword from "../ForgotPassword/ForgotPassword";
 import "./NavigationBar.css";
 import MoreInformation from "../CarRegister-MoreInformation/MoreInformation";
+//import CarRegister from "../CarRegister/CarRegister";
 
 export default () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -26,20 +24,17 @@ export default () => {
     setActivePopup(null);
   };
 
-
-
   return (
     <>
-      <header>
-        <div className="logo-img">
-          <img
-            className="user-profile-img"
-            src="/img/Logo_UVIO_contrario.png"
-            alt="Logo UVIO"
-          />
-        </div>
+     <header className="header-container">       
+        <img
+          className="logo-img"
+          src="/img/Logo_UVIO_contrario.png"
+          alt="Logo UVIO"
+        />
+       
 
-        <div className="user-img" onClick={toggleMenu}>
+        <div onClick={toggleMenu}>
           <img
             className="user-profile-img"
             src="/img/Perfil-Usuario.png"
@@ -82,7 +77,7 @@ export default () => {
             </ul>
           </div>
         )}
-      </header>
+     </header>
 
       {activePopup === "login" && (
         <LoginPopup
@@ -94,7 +89,6 @@ export default () => {
 
       {activePopup === "signUp" && <CreateAccount onClose={closePopup} />}
 
-      {activePopup === "forgotPassword" && <ForgotPassword onClose={closePopup} />}
 
       {activePopup === "forgotPassword" && <ForgotPassword onClose={closePopup} />}
 
