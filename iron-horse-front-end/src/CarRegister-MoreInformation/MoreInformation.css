@@ -246,10 +246,11 @@ label, span {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  margin-bottom: 15px;
+  margin-top: 15px;
 }
 
 .form-group3 {
-  width: 30%;
   margin-bottom: 15px;
 }
 

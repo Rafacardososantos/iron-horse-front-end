@@ -5,9 +5,14 @@ import "./MoreInformation.css";
 Modal.setAppElement("#root");
 
 const MoreInformation = () => {
+  const [otherBrand, setOtherBrand] = useState("");
+  const [isOtherBrand, setIsOtherBrand] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [isInsuranceActive, setInsuranceActive] = useState(false);
   const [formData, setFormData] = useState({
+    brand: "",
+    model: "",
+    licensePlate: "",
     carChange: "",
     trunkCapacity: "",
     headlightBulb: "",
@@ -51,7 +56,6 @@ const MoreInformation = () => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-
     const validationRules = {
       chassi: /^[0-9]{0,17}$/,
       engineNumber: /^[0-9]{0,10}$/,
@@ -59,25 +63,23 @@ const MoreInformation = () => {
       mileage: /^[0-9]{0,7}$/,
     };
 
-    if (validationRules[name]) {
-      if (!validationRules[name].test(value)) {
-        return;
-      }
-    }
+    if (validationRules[name] && !validationRules[name].test(value)) return;
 
     if (type === "checkbox") {
       setFormData((prevData) => ({
         ...prevData,
-        checkboxes: {
-          ...prevData.checkboxes,
-          [name]: checked,
-        },
+        [name]: checked,
       }));
+    } else if (name === "brand") {
+      if (value === "outra") {
+        setIsOtherBrand(true);
+        setFormData((prevData) => ({ ...prevData, brand: "" }));
+      } else {
+        setIsOtherBrand(false);
+        setFormData((prevData) => ({ ...prevData, brand: value }));
+      }
     } else {
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
+      setFormData((prevData) => ({ ...prevData, [name]: value }));
     }
   };
 
@@ -108,16 +110,75 @@ const MoreInformation = () => {
         <h2>Cadastre seu Veículo</h2>
         <img src="../img/carro-ilustracao-de-transporte.png" alt="Logo" className="modal-image" />
         <form onSubmit={handleSubmit} className="two-column-form">
-          <div className="form-group">
-            <label>Cor</label>
+
+        <div className="form-group">
+            <label>Placa</label>
             <input
               type="text"
-              name="carColor"
-              value={formData.carColor}
+              name="licensePlate"
+              value={formData.licensePlate}
               onChange={handleChange}
               required
             />
           </div>
+
+          <div className="form-group">
+            <label>Marca</label>
+            <select
+              name="brand"
+              value={isOtherBrand ? "outra" : formData.brand}
+              onChange={handleChange}
+              required
+            >
+              <option value="" disabled>Selecione uma marca</option>
+              <option value="audi">Audi</option>
+              <option value="bmw">BMW</option>
+              <option value="chevrolet">Chevrolet</option>
+              <option value="chrysler">Chrysler</option>
+              <option value="citroen">Citroën</option>
+              <option value="dodge">Dodge</option>
+              <option value="fiat">Fiat</option>
+              <option value="ford">Ford</option>
+              <option value="honda">Honda</option>
+              <option value="hyundai">Hyundai</option>
+              <option value="jaguar">Jaguar</option>
+              <option value="jeep">Jeep</option>
+              <option value="kia">Kia</option>
+              <option value="lexus">Lexus</option>
+              <option value="mazda">Mazda</option>
+              <option value="mercedes">Mercedes-Benz</option>
+              <option value="nissan">Nissan</option>
+              <option value="peugeot">Peugeot</option>
+              <option value="renault">Renault</option>
+              <option value="subaru">Subaru</option>
+              <option value="toyota">Toyota</option>
+              <option value="volkswagen">Volkswagen</option>
+              <option value="volvo">Volvo</option>
+              <option value="outra">Outra (digite)</option>
+            </select>
+            {isOtherBrand && (
+              <input
+                type="text"
+                name="otherBrand"
+                value={otherBrand}
+                onChange={(e) => setOtherBrand(e.target.value)}
+                required
+                className="other-brand-input"
+              />
+            )}
+            </div>
+
+        <div className="form-group">
+          <label htmlFor="modelo">Modelo</label>
+            <input
+              type="text"
+              name="modelo" 
+              value={formData.modelo}
+              onChange={handleChange}
+              required
+            />
+            </div>
+
           <div className="form-group">
             <label>Ano Modelo</label>
             <input
@@ -128,6 +189,18 @@ const MoreInformation = () => {
               required
             />
           </div>
+
+          <div className="form-group">
+            <label>Cor</label>
+            <input
+              type="text"
+              name="carColor"
+              value={formData.carColor}
+              onChange={handleChange}
+              required
+            />
+            </div>
+
           <div className="form-group">
             <label>Transmissão</label>
             <select
@@ -232,7 +305,7 @@ const MoreInformation = () => {
               <option value="diesel">Diesel</option>
             </select>
           </div>
-          <div className="form-group">
+          <div className="form-group3">
             <label>RENAVAM</label>
             <input
               type="text"
@@ -242,15 +315,15 @@ const MoreInformation = () => {
               required
             />
           </div>
-            <div className="form-group-center">
+            <div className="form-group3">
               <label>Seguro</label>
               <div className="toggle-button" onClick={handleToggle}>
                 <input type="checkbox" checked={formData.insurance} readOnly />
                 <span className={`slider ${formData.insurance ? 'active' : ''}`}></span>
               </div>
             </div>
-            <div className="form-group">
-              <label>Informe a Seguradora</label>
+            <div className="form-group3">
+              <label>Seguradora</label>
               <input
                 type="text"
                 name="insuranceCompany"
@@ -365,7 +438,7 @@ const MoreInformation = () => {
         </div>
       </Modal>
     </div>
-  );
-};
+    );
+  };
 
 export default MoreInformation;
