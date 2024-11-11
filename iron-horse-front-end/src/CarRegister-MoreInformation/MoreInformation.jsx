@@ -351,7 +351,7 @@ const MoreInformation = () => {
           </label>
           <label>
             <input type="checkbox" name="checkboxK" checked={formData.checkboxK} onChange={handleChange} />
-            Extintor de Incêndio
+            Extintor Incêndio
           </label>
           <label>
             <input type="checkbox" name="checkboxL" checked={formData.checkboxL} onChange={handleChange} />
@@ -359,8 +359,10 @@ const MoreInformation = () => {
           </label>
         </div>
 
+        <div className="button-container">
           <button id="cancel-button" type="submit">Cancelar</button>
           <button id="register-button" type="submit">Prosseguir</button>
+        </div>
       </Modal>
     </div>
   );
