@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { useState } from "react";
 import "./LoginPopup.css";
 import showPasswordIcon from "../img/Visualização_Permitida.png";

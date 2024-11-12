@@ -8,9 +8,17 @@ html, body {
     padding: 0;
   }
   
+  main {
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+  }
 
 .home-main-container {
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
   justify-content: space-between;  
   background-color: #000000;
