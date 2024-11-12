@@ -130,10 +130,14 @@ input:disabled {
   height: 20px;
 }
 
-.password-register {
+.password-input-container {
   position: relative;
   width: 100%;
-  padding-right: 40px; /* Espaço para o ícone de visualização */
+}
+
+.password-register {
+  width: 100%;
+  padding-right: 30px;
 }
 
 .password-icon {
@@ -141,10 +145,9 @@ input:disabled {
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
-  cursor: pointer;
-  width: 20px; /* Ajuste o tamanho conforme necessário */
-  height: 20px; /* Ajuste o tamanho conforme necessário */
+  cursor: pointer
 }
+
 .slider {
   width: 80px;
   height: 34px;
