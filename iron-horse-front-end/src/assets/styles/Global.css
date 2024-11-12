@@ -1,0 +1,25 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+  
+body {
+    font-family: 'Urbanist', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+  
+h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+}
+  
+a {
+    text-decoration: none;
+    color: inherit;
+}
+  
+button {
+    cursor: pointer;
+}
