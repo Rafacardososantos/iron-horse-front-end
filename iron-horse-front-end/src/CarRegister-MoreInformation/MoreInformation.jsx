@@ -1,11 +1,18 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
 import "./MoreInformation.css";
+import Modal from '../components/Modal/Modal';
 
 const MoreInformation = ({ onClose }) => {
   const [isInsuranceActive, setInsuranceActive] = useState(false);
   const [otherBrand, setOtherBrand] = useState("");
   const [isOtherBrand, setIsOtherBrand] = useState(false);
+
+  const [isModalOpen, setModalOpen] = useState(true);
+
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
+
   const [formData, setFormData] = useState({
     marca: "",
     modelo: "",
@@ -100,12 +107,8 @@ const MoreInformation = ({ onClose }) => {
   };
 
   return (
-    <div
-      onClick={handleOutsideClick}
-      shouldCloseOnOverlayClick={true}
-      className="react-modal-content"
-      overlayClassName="react-modal-overlay"
-    >
+    <div>
+      <Modal isOpen={isModalOpen} onClose={onClose}>
       <h2>Cadastre seu Veículo</h2>
       <img
         src="../img/carro-ilustracao-de-transporte.png"
@@ -545,6 +548,7 @@ const MoreInformation = ({ onClose }) => {
       <button id="register-button" type="submit">
         Registrar
       </button>
+      </Modal>
     </div>
   );
 };
