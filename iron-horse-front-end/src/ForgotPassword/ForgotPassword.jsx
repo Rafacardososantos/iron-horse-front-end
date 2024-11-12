@@ -1,11 +1,14 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
 import { useState } from 'react';
 import './ForgotPassword.css';
+import Modal from '../components/Modal/Modal';
 
-const ForgotPassword = ({ onClose, openForgotPassword, openSignUp }) => {
+const ForgotPassword = ({ onClose }) => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
+  const [isModalOpen, setModalOpen] = useState(true);
+
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
 
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -21,15 +24,9 @@ const ForgotPassword = ({ onClose, openForgotPassword, openSignUp }) => {
     }
   };
 
-  const handleOutsideClick = (e) => {
-    if (e.target.className === 'popup') {
-      onClose();
-    }
-  };
-
   return (
-    <div className="popup" onClick={handleOutsideClick}>
-      <div className="popup-content">
+    <div>
+      <Modal isOpen={isModalOpen} onClose={onClose}>
         <h2>Esqueceu a senha?</h2>
         <span>Informe o e-mail do qual deseja redefinir sua senha.</span>
         <form onSubmit={handleSubmit}>
@@ -42,7 +39,7 @@ const ForgotPassword = ({ onClose, openForgotPassword, openSignUp }) => {
           {error && <p className="error-message">{error}</p>}
           <button type="submit" className="forgot-btn">Enviar</button>
         </form>
-      </div>
+      </Modal>
     </div>
   );
 };
