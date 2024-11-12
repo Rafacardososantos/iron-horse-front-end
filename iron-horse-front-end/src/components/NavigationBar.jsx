@@ -1,7 +1,4 @@
-/* eslint-disable react-refresh/only-export-components */
-/* eslint-disable react/display-name */
-/* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import LoginPopup from "../LoginPopup/LoginPopup";
 import CreateAccount from "../Create-Account/CreateAccount";
@@ -25,8 +22,6 @@ export default () => {
   const closePopup = () => {
     setActivePopup(null);
   };
-
-
 
   return (
     <>
@@ -96,13 +91,7 @@ export default () => {
 
       {activePopup === "forgotPassword" && <ForgotPassword onClose={closePopup} />}
 
-      {activePopup === "forgotPassword" && <ForgotPassword onClose={closePopup} />}
-
-      {activePopup === "MoreInformation" && (
-        <>
-          <MoreInformation onClose={closePopup} />
-        </>
-      )}
+      {activePopup === "MoreInformation" && <MoreInformation onClose={closePopup} />}
     </>
   );
 };
