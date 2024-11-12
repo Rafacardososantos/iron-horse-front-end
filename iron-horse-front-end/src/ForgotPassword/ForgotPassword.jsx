@@ -25,12 +25,13 @@ const ForgotPassword = ({ onClose }) => {
   };
 
   return (
-    <div>
-      <Modal isOpen={isModalOpen} onClose={onClose}>
+    <div >
+      <Modal isOpen={isModalOpen} onClose={onClose} className="body-forget-password">
+        <div className="forget-password">
         <h2>Esqueceu a senha?</h2>
         <span>Informe o e-mail do qual deseja redefinir sua senha.</span>
         <form onSubmit={handleSubmit}>
-          <input
+          <input className='input-forgot-password'
             type="email"
             placeholder="Email"
             value={email}
@@ -39,6 +40,7 @@ const ForgotPassword = ({ onClose }) => {
           {error && <p className="error-message">{error}</p>}
           <button type="submit" className="forgot-btn">Enviar</button>
         </form>
+        </div>
       </Modal>
     </div>
   );

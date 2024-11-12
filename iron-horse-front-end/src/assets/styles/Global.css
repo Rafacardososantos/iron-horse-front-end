@@ -1,3 +1,7 @@
+@font-face {
+    font-family: "Urbanist";
+    src: url("../fonts/Urbanist-ExtraLight.ttf") format("truetype");
+  }
 *{
     margin: 0;
     padding: 0;
