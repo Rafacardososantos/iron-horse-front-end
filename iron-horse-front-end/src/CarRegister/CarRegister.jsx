@@ -1,73 +1,132 @@
-import { useState} from "react";
+import { useState } from "react";
+import Modal from "react-modal";
 import "./CarRegister.css";
 
-const CarRegister = ({onClose}) => {
+Modal.setAppElement("#root");
+
+const CarRegister = () => {
   const [otherBrand, setOtherBrand] = useState("");
   const [isOtherBrand, setIsOtherBrand] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [isInsuranceActive, setInsuranceActive] = useState(false);
   const [formData, setFormData] = useState({
-    marca: "",
-    modelo: "",
-    anoFabricacao: "",
+    brand: "",
+    model: "",
+    licensePlate: "",
+    carChange: "",
+    trunkCapacity: "",
+    headlightBulb: "",
+    carColor: "",
+    modelYear: "",
+    transmission: "",
+    numDoors: "",
+    numSeats: "",
+    steeringType: "",
+    chassi: "",
+    engineNumber: "",
+    displacement: "",
+    mileage: "",
+    fuelType: "",
+    renavam: "",
+    insurance: false,
+    insuranceCompany: "",
+    "checkbox-grid": {
+      checkboxA: false,
+      checkboxB: false,
+      checkboxC: false,
+      checkboxD: false,
+      checkboxE: false,
+      checkboxF: false,
+      checkboxG: false,
+      checkboxH: false,
+      checkboxI: false,
+      checkboxJ: false,
+      checkboxK: false,
+      checkboxL: false,
+    },
     checkboxes: {
       checkbox1: false,
+      checkbox2: false,
+      checkbox5: false,
     },
   });
 
+  const openModal = () => setModalIsOpen(true);
+  const closeModal = () => setModalIsOpen(false);
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+    const validationRules = {
+      chassi: /^[0-9]{0,17}$/,
+      engineNumber: /^[0-9]{0,10}$/,
+      displacement: /^[0-9.]{0,4}$/,
+      mileage: /^[0-9]{0,7}$/,
+    };
+
+    if (validationRules[name] && !validationRules[name].test(value)) return;
 
     if (type === "checkbox") {
       setFormData((prevData) => ({
         ...prevData,
-        checkboxes: {
-          ...prevData.checkboxes,
-          [name]: checked,
-        },
+        [name]: checked,
       }));
-    } else if (name === "marca") {
+    } else if (name === "brand") {
       if (value === "outra") {
         setIsOtherBrand(true);
-        setFormData({ ...formData, [name]: "" });
+        setFormData((prevData) => ({ ...prevData, brand: "" }));
       } else {
         setIsOtherBrand(false);
-        setFormData({ ...formData, [name]: value });
+        setFormData((prevData) => ({ ...prevData, brand: value }));
       }
     } else {
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
+      setFormData((prevData) => ({ ...prevData, [name]: value }));
     }
+  };
+
+  const handleToggle = () => {
+    setFormData((prevData) => ({
+      ...prevData,
+      insurance: !prevData.insurance,
+    }));
+    setInsuranceActive((prev) => !prev);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
-    onClose();
-  };
-
-  const handleOutsideClick = (e) => {
-    if (e.target.className === 'popup') {
-      onClose();
-    }
+    closeModal();
   };
 
   return (
-    <div className="create-account-content" onClick={handleOutsideClick}>
-     <div className="react-modal-content">  
-        <h2>Cadastre seu veículo</h2>
-        <img
-          src="../img/carro-ilustracao-de-transporte.png"
-          alt="Logo"
-          className="modal-image"
-        />
-        
-        <form onSubmit={handleSubmit}>
-          <div>
+    <div>
+      <button onClick={openModal}>Abrir Popup</button>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        shouldCloseOnOverlayClick={true}
+        className="react-modal-content"
+        overlayClassName="react-modal-overlay"
+      >
+        <h2>Cadastre seu Veículo</h2>
+        <img src="../img/carro-ilustracao-de-transporte.png" alt="Logo" className="modal-image" />
+        <form onSubmit={handleSubmit} className="two-column-form">
+
+        <div className="form-group">
+            <label>Placa</label>
+            <input
+              type="text"
+              name="licensePlate"
+              value={formData.licensePlate}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="form-group">
             <label>Marca</label>
             <select
-              name="marca"
-              value={isOtherBrand ? "outra" : formData.marca}
+              name="brand"
+              value={isOtherBrand ? "outra" : formData.brand}
               onChange={handleChange}
               required
             >
@@ -107,9 +166,10 @@ const CarRegister = ({onClose}) => {
                 className="other-brand-input"
               />
             )}
-          </div>
-          <div>
-            <label htmlFor="modelo">Modelo</label>
+            </div>
+
+        <div className="form-group">
+          <label htmlFor="modelo">Modelo</label>
             <input
               type="text"
               name="modelo" 
@@ -117,42 +177,268 @@ const CarRegister = ({onClose}) => {
               onChange={handleChange}
               required
             />
-          </div>
-          <div>
-          <label htmlFor="modelo">Ano de Fabricação</label>
+            </div>
+
+          <div className="form-group">
+            <label>Ano Modelo</label>
             <input
               type="text"
-              name="anoFabricacao" 
-              value={formData.anoFabricacao}
+              name="modelYear"
+              value={formData.modelYear}
               onChange={handleChange}
               required
             />
           </div>
-          <div className="checkbox-group">
-            <label>
-              <input
-                type="checkbox"
-                name="checkbox1"
-                checked={formData.checkboxes.checkbox1}
-                onChange={handleChange}
-              />
-              <span>
-                Atesto para os devidos fins legais que todas às informações
-                fornecidas são verdadeiras, se valendo e fazendo cumprir as
-                normativas da Lei Geral de Proteção de Dados (LGPD - Lei nº
-                13.709/2018), o Código Civil Brasileiro (Lei nº 10.406/2002) e o
-                previsto pelo Artigo 299 do Código Penal Brasileiro, que tipifica
-                como crime a falsidade ideológica.
-              </span>
-            </label>
+
+          <div className="form-group">
+            <label>Cor</label>
+            <input
+              type="text"
+              name="carColor"
+              value={formData.carColor}
+              onChange={handleChange}
+              required
+            />
+            </div>
+
+          <div className="form-group">
+            <label>Transmissão</label>
+            <select
+              name="transmission"
+              value={formData.transmission}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Selecione</option>
+              <option value="manual">Manual</option>
+              <option value="automatico">Automático</option>
+            </select>
           </div>
-          <button id="register-button" type="submit">
-            Prosseguir
-          </button>
+          <div className="form-group">
+            <label>Número de Portas</label>
+            <input
+              type="text"
+              name="numDoors"
+              value={formData.numDoors}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Número de Assentos</label>
+            <input
+              type="text"
+              name="numSeats"
+              value={formData.numSeats}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Tipo de Direção</label>
+            <select
+              name="steeringType"
+              value={formData.steeringType}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Selecione</option>
+              <option value="hidraulica">Hidráulica</option>
+              <option value="eletrica">Elétrica</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label>Chassi</label>
+            <input
+              type="text"
+              name="chassi"
+              placeholder="* _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ *"
+              value={formData.chassi}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Número do Motor</label>
+            <input
+              type="text"
+              name="engineNumber"
+              placeholder="_ _ _ _ _ _ _ _ _ _"
+              value={formData.engineNumber}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Cilindrada</label>
+            <input
+              type="text"
+              name="displacement"
+              placeholder="_ . _"
+              value={formData.displacement}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Quilometragem</label>
+            <input
+              type="text"
+              name="mileage"
+              placeholder="Km"
+              value={formData.mileage}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>Combustível</label>
+            <select
+              name="fuelType"
+              value={formData.fuelType}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Selecione</option>
+              <option value="gasolina">Gasolina</option>
+              <option value="etanol">Etanol</option>
+              <option value="diesel">Diesel</option>
+            </select>
+          </div>
+          <div className="form-group3">
+            <label>RENAVAM</label>
+            <input
+              type="text"
+              name="renavam"
+              value={formData.renavam}
+              onChange={handleChange}
+              required
+            />
+          </div>
+            <div className="form-group3">
+              <label>Seguro</label>
+              <div className="toggle-button" onClick={handleToggle}>
+                <input type="checkbox" checked={formData.insurance} readOnly />
+                <span className={`slider ${formData.insurance ? 'active' : ''}`}></span>
+              </div>
+            </div>
+            <div className="form-group3">
+              <label>Seguradora</label>
+              <input
+                type="text"
+                name="insuranceCompany"
+                className="insurance-input"
+                value={formData.insuranceCompany}
+                onChange={handleChange}
+                required={isInsuranceActive}
+                disabled={!isInsuranceActive}
+              />
+            </div>
+          <span>
+            A exigência de informar seu seguro serve apenas para que não seja
+            necessário efetuar uma vistória física de seu veículo. Deixando
+            claro que seu seguro particular nunca será acionado em hipótese
+            alguma! Todos os veículos são segurados pela nossa seguradora
+            parceira, conforme às disposições legais segundo sua utilização
+            mediante a plataforma e o serviço prestado.
+          </span>
+          </form>
+
+          <form onSubmit={handleSubmit} className="three-column-form">
+          <div className="form-group3">
+            <label>Câmbio</label>
+            <select name="carChange" value={formData.carChange} required onChange={handleChange}>
+              <option value=""></option>
+              <option value="manual">Manual</option>
+              <option value="automatico">Automático</option>
+            </select>
+          </div>
+          <div className="form-group3">
+            <label>Porta-malas</label>
+            <input 
+              type="text" 
+              name="trunkCapacity" 
+              value={formData.trunkCapacity}
+              onChange={handleChange}
+              placeholder="capacidade em litros" 
+              required 
+            />
+          </div>
+          <div className="form-group3">
+            <label>Lâmpada do Farol</label>
+            <select name="headlightBulb" value={formData.headlightBulb} required onChange={handleChange}>
+              <option value=""></option>
+              <option value="halogena">Halógena</option>
+              <option value="led">LED</option>
+              <option value="xenon">Xenon</option>
+              <option value="super-branca">Super Branca</option>
+            </select>
+          </div>
         </form>
-     </div>
+
+        <label>Itens de Conforto e Adicionais</label>
+        <div className="checkbox-grid">
+          <label>
+            <input type="checkbox" name="checkboxA" checked={formData.checkboxA} onChange={handleChange} />
+            Isulfim
+          </label>
+          <label>
+            <input type="checkbox" name="checkboxB" checked={formData.checkboxB} onChange={handleChange} />
+            Tag - Pedágio
+          </label>
+          <label>
+            <input type="checkbox" name="checkboxC" checked={formData.checkboxC} onChange={handleChange} />
+            Segredo Anti Furto
+          </label>
+          <label>
+            <input type="checkbox" name="checkboxD" checked={formData.checkboxD} onChange={handleChange} />
+            Multimídia
+          </label>
+          <label>
+            <input type="checkbox" name="checkboxE" checked={formData.checkboxE} onChange={handleChange} />
+            Ar condicionado
+          </label>
+          <label>
+            <input type="checkbox" name="checkboxF" checked={formData.checkboxF} onChange={handleChange} />
+            Vidros e Travas Elétricas
+          </label>
+        </div>
+
+        <label>Itens de Segurança</label>
+        <div className="checkbox-grid">
+          <label>
+            <input type="checkbox" name="checkboxG" checked={formData.checkboxG} onChange={handleChange} />
+            Triângulo
+          </label>
+          <label>
+            <input type="checkbox" name="checkboxH" checked={formData.checkboxH} onChange={handleChange} />
+            Macaco
+          </label>
+          <label>
+            <input type="checkbox" name="checkboxI" checked={formData.checkboxI} onChange={handleChange} />
+            Chave de Roda
+          </label>
+          <label>
+            <input type="checkbox" name="checkboxJ" checked={formData.checkboxJ} onChange={handleChange} />
+            Estepe
+          </label>
+          <label>
+            <input type="checkbox" name="checkboxK" checked={formData.checkboxK} onChange={handleChange} />
+            Extintor Incêndio
+          </label>
+          <label>
+            <input type="checkbox" name="checkboxL" checked={formData.checkboxL} onChange={handleChange} />
+            Alarme
+          </label>
+        </div>
+
+        <div className="button-container">
+          <button id="cancel-button" type="submit">Cancelar</button>
+          <button id="register-button" type="submit">Prosseguir</button>
+        </div>
+      </Modal>
     </div>
-  );
-}
+    );
+  };
 
 export default CarRegister;
