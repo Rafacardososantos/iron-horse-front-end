@@ -108,10 +108,13 @@ const CarRegister = () => {
         overlayClassName="react-modal-overlay"
       >
         <h2>Cadastre seu Veículo</h2>
-        <img src="../img/carro-ilustracao-de-transporte.png" alt="Logo" className="modal-image" />
+        <img
+          src="../img/carro-ilustracao-de-transporte.png"
+          alt="Logo"
+          className="modal-image"
+        />
         <form onSubmit={handleSubmit} className="two-column-form">
-
-        <div className="form-group">
+          <div className="form-group">
             <label>Placa</label>
             <input
               type="text"
@@ -130,28 +133,48 @@ const CarRegister = () => {
               onChange={handleChange}
               required
             >
-              <option value="" disabled>Selecione uma marca</option>
+              <option value="alfa-romeo">Alfa Romeo</option>
+              <option value="aston-martin">Aston Martin</option>
               <option value="audi">Audi</option>
+              <option value="bentley">Bentley</option>
               <option value="bmw">BMW</option>
+              <option value="chery">Chery</option>
               <option value="chevrolet">Chevrolet</option>
               <option value="chrysler">Chrysler</option>
               <option value="citroen">Citroën</option>
               <option value="dodge">Dodge</option>
+              <option value="ferrari">Ferrari</option>
               <option value="fiat">Fiat</option>
               <option value="ford">Ford</option>
+              <option value="geely">Geely</option>
               <option value="honda">Honda</option>
               <option value="hyundai">Hyundai</option>
+              <option value="jac">JAC</option>
               <option value="jaguar">Jaguar</option>
               <option value="jeep">Jeep</option>
               <option value="kia">Kia</option>
+              <option value="lamborghini">Lamborghini</option>
+              <option value="land-rover">Land Rover</option>
               <option value="lexus">Lexus</option>
+              <option value="lifan">Lifan</option>
+              <option value="maserati">Maserati</option>
               <option value="mazda">Mazda</option>
+              <option value="mclaren">McLaren</option>
               <option value="mercedes">Mercedes-Benz</option>
+              <option value="mini">Mini</option>
+              <option value="mitsubishi">Mitsubishi</option>
               <option value="nissan">Nissan</option>
               <option value="peugeot">Peugeot</option>
+              <option value="porsche">Porsche</option>
+              <option value="ram">Ram</option>
               <option value="renault">Renault</option>
+              <option value="rolls-royce">Rolls-Royce</option>
+              <option value="smart">Smart</option>
               <option value="subaru">Subaru</option>
+              <option value="suzuki">Suzuki</option>
+              <option value="tesla">Tesla</option>
               <option value="toyota">Toyota</option>
+              <option value="troller">Troller</option>
               <option value="volkswagen">Volkswagen</option>
               <option value="volvo">Volvo</option>
               <option value="outra">Outra (digite)</option>
@@ -166,18 +189,18 @@ const CarRegister = () => {
                 className="other-brand-input"
               />
             )}
-            </div>
+          </div>
 
-        <div className="form-group">
-          <label htmlFor="modelo">Modelo</label>
+          <div className="form-group">
+            <label htmlFor="modelo">Modelo</label>
             <input
               type="text"
-              name="modelo" 
+              name="modelo"
               value={formData.modelo}
               onChange={handleChange}
               required
             />
-            </div>
+          </div>
 
           <div className="form-group">
             <label>Ano Modelo</label>
@@ -199,7 +222,7 @@ const CarRegister = () => {
               onChange={handleChange}
               required
             />
-            </div>
+          </div>
 
           <div className="form-group">
             <label>Transmissão</label>
@@ -315,25 +338,27 @@ const CarRegister = () => {
               required
             />
           </div>
-            <div className="form-group3">
-              <label>Seguro</label>
-              <div className="toggle-button" onClick={handleToggle}>
-                <input type="checkbox" checked={formData.insurance} readOnly />
-                <span className={`slider ${formData.insurance ? 'active' : ''}`}></span>
-              </div>
+          <div className="form-group3">
+            <label>Seguro</label>
+            <div className="toggle-button" onClick={handleToggle}>
+              <input type="checkbox" checked={formData.insurance} readOnly />
+              <span
+                className={`slider ${formData.insurance ? "active" : ""}`}
+              ></span>
             </div>
-            <div className="form-group3">
-              <label>Seguradora</label>
-              <input
-                type="text"
-                name="insuranceCompany"
-                className="insurance-input"
-                value={formData.insuranceCompany}
-                onChange={handleChange}
-                required={isInsuranceActive}
-                disabled={!isInsuranceActive}
-              />
-            </div>
+          </div>
+          <div className="form-group3">
+            <label>Seguradora</label>
+            <input
+              type="text"
+              name="insuranceCompany"
+              className="insurance-input"
+              value={formData.insuranceCompany}
+              onChange={handleChange}
+              required={isInsuranceActive}
+              disabled={!isInsuranceActive}
+            />
+          </div>
           <span>
             A exigência de informar seu seguro serve apenas para que não seja
             necessário efetuar uma vistória física de seu veículo. Deixando
@@ -342,12 +367,17 @@ const CarRegister = () => {
             parceira, conforme às disposições legais segundo sua utilização
             mediante a plataforma e o serviço prestado.
           </span>
-          </form>
+        </form>
 
-          <form onSubmit={handleSubmit} className="three-column-form">
+        <form onSubmit={handleSubmit} className="three-column-form">
           <div className="form-group3">
             <label>Câmbio</label>
-            <select name="carChange" value={formData.carChange} required onChange={handleChange}>
+            <select
+              name="carChange"
+              value={formData.carChange}
+              required
+              onChange={handleChange}
+            >
               <option value=""></option>
               <option value="manual">Manual</option>
               <option value="automatico">Automático</option>
@@ -355,18 +385,23 @@ const CarRegister = () => {
           </div>
           <div className="form-group3">
             <label>Porta-malas</label>
-            <input 
-              type="text" 
-              name="trunkCapacity" 
+            <input
+              type="text"
+              name="trunkCapacity"
               value={formData.trunkCapacity}
               onChange={handleChange}
-              placeholder="capacidade em litros" 
-              required 
+              placeholder="capacidade em litros"
+              required
             />
           </div>
           <div className="form-group3">
             <label>Lâmpada do Farol</label>
-            <select name="headlightBulb" value={formData.headlightBulb} required onChange={handleChange}>
+            <select
+              name="headlightBulb"
+              value={formData.headlightBulb}
+              required
+              onChange={handleChange}
+            >
               <option value=""></option>
               <option value="halogena">Halógena</option>
               <option value="led">LED</option>
@@ -379,27 +414,57 @@ const CarRegister = () => {
         <label>Itens de Conforto e Adicionais</label>
         <div className="checkbox-grid">
           <label>
-            <input type="checkbox" name="checkboxA" checked={formData.checkboxA} onChange={handleChange} />
+            <input
+              type="checkbox"
+              name="checkboxA"
+              checked={formData.checkboxA}
+              onChange={handleChange}
+            />
             Isulfim
           </label>
           <label>
-            <input type="checkbox" name="checkboxB" checked={formData.checkboxB} onChange={handleChange} />
+            <input
+              type="checkbox"
+              name="checkboxB"
+              checked={formData.checkboxB}
+              onChange={handleChange}
+            />
             Tag - Pedágio
           </label>
           <label>
-            <input type="checkbox" name="checkboxC" checked={formData.checkboxC} onChange={handleChange} />
+            <input
+              type="checkbox"
+              name="checkboxC"
+              checked={formData.checkboxC}
+              onChange={handleChange}
+            />
             Segredo Anti Furto
           </label>
           <label>
-            <input type="checkbox" name="checkboxD" checked={formData.checkboxD} onChange={handleChange} />
+            <input
+              type="checkbox"
+              name="checkboxD"
+              checked={formData.checkboxD}
+              onChange={handleChange}
+            />
             Multimídia
           </label>
           <label>
-            <input type="checkbox" name="checkboxE" checked={formData.checkboxE} onChange={handleChange} />
+            <input
+              type="checkbox"
+              name="checkboxE"
+              checked={formData.checkboxE}
+              onChange={handleChange}
+            />
             Ar condicionado
           </label>
           <label>
-            <input type="checkbox" name="checkboxF" checked={formData.checkboxF} onChange={handleChange} />
+            <input
+              type="checkbox"
+              name="checkboxF"
+              checked={formData.checkboxF}
+              onChange={handleChange}
+            />
             Vidros e Travas Elétricas
           </label>
         </div>
@@ -407,38 +472,72 @@ const CarRegister = () => {
         <label>Itens de Segurança</label>
         <div className="checkbox-grid">
           <label>
-            <input type="checkbox" name="checkboxG" checked={formData.checkboxG} onChange={handleChange} />
+            <input
+              type="checkbox"
+              name="checkboxG"
+              checked={formData.checkboxG}
+              onChange={handleChange}
+            />
             Triângulo
           </label>
           <label>
-            <input type="checkbox" name="checkboxH" checked={formData.checkboxH} onChange={handleChange} />
+            <input
+              type="checkbox"
+              name="checkboxH"
+              checked={formData.checkboxH}
+              onChange={handleChange}
+            />
             Macaco
           </label>
           <label>
-            <input type="checkbox" name="checkboxI" checked={formData.checkboxI} onChange={handleChange} />
+            <input
+              type="checkbox"
+              name="checkboxI"
+              checked={formData.checkboxI}
+              onChange={handleChange}
+            />
             Chave de Roda
           </label>
           <label>
-            <input type="checkbox" name="checkboxJ" checked={formData.checkboxJ} onChange={handleChange} />
+            <input
+              type="checkbox"
+              name="checkboxJ"
+              checked={formData.checkboxJ}
+              onChange={handleChange}
+            />
             Estepe
           </label>
           <label>
-            <input type="checkbox" name="checkboxK" checked={formData.checkboxK} onChange={handleChange} />
+            <input
+              type="checkbox"
+              name="checkboxK"
+              checked={formData.checkboxK}
+              onChange={handleChange}
+            />
             Extintor Incêndio
           </label>
           <label>
-            <input type="checkbox" name="checkboxL" checked={formData.checkboxL} onChange={handleChange} />
+            <input
+              type="checkbox"
+              name="checkboxL"
+              checked={formData.checkboxL}
+              onChange={handleChange}
+            />
             Alarme
           </label>
         </div>
 
         <div className="button-container">
-          <button id="cancel-button" type="submit">Cancelar</button>
-          <button id="register-button" type="submit">Prosseguir</button>
+          <button id="cancel-button" type="submit">
+            Cancelar
+          </button>
+          <button id="register-button" type="submit">
+            Prosseguir
+          </button>
         </div>
       </Modal>
     </div>
-    );
-  };
+  );
+};
 
 export default CarRegister;
