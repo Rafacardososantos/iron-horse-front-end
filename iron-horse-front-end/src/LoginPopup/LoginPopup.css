@@ -29,27 +29,6 @@
   position: relative;
 }
 
-.popup-content a,
-p {
-  text-decoration: none;
-  display: block;
-  margin: 10px 0;
-  text-align: left;
-  color: #aa14f0;
-}
-
-.popup-content b {
-  text-decoration: none;
-  margin: 10px 0;
-  text-align: left;
-  color: #fff;
-  cursor: pointer;
-}
-
-.popup-content b:hover {
-  text-decoration: underline;
-}
-
 .popup-content input[type="email"],
 .popup-content input[type="password"],
 .popup-content input[type="text"] {
@@ -62,16 +41,15 @@ p {
   color: black;
   font-size: 16px;
   padding-left: 15px;
-  position: relative;
 }
 
 .input-container {
   position: relative;
+  width: 100%;
 }
 
 .password-icon {
-  position: absolute;
-  right: 25px;
+  right: 10px;
   top: 50%;
   transform: translateY(-50%);
   width: 25px;
@@ -83,7 +61,6 @@ p {
   background-color: #b350f1;
   color: white;
   width: 100%;
-  width: 100%;
   padding: 10px;
   border: none;
   border-radius: 25px;
@@ -94,19 +71,25 @@ p {
   cursor: pointer;
 }
 
-.popup-content .login-btn:hover {  
-  background: linear-gradient(90deg, rgba(140,0,255,1) 0%, rgba(255,0,244,1) 100%);
+.popup-content .login-btn:hover {
+  background: linear-gradient(90deg, rgba(140, 0, 255, 1) 0%, rgba(255, 0, 244, 1) 100%);
   transition: all ease 1s;
 }
 
-.popup-content a {
+.popup-content a,
+p {
   color: #aa14f0;
   text-decoration: none;
   display: block;
   margin: 10px 0;
 }
 
-.popup-content a:hover {
+.popup-content b {
+  color: #fff;
+  cursor: pointer;
+}
+
+.popup-content b:hover {
   text-decoration: underline;
 }
 
@@ -147,7 +130,6 @@ p {
 .google-logo-container img {
   width: 24px;
   height: 24px;
-  margin: auto;
 }
 
 @media (max-width: 768px) {
@@ -162,12 +144,7 @@ p {
     padding-left: 15px;
   }
 
-  .popup-content .login-btn {
-    font-size: 14px;
-    padding: 10px;
-    width: 30%;
-  }
-
+  .popup-content .login-btn,
   .popup-content .google-login {
     font-size: 14px;
     padding: 10px;
@@ -195,6 +172,5 @@ p {
   .popup-content .google-login {
     font-size: 12px;
     padding: 8px;
-    width: 30%;
   }
 }
