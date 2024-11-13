@@ -5,6 +5,7 @@ import CreateAccount from "../Create-Account/CreateAccount";
 import ForgotPassword from "../ForgotPassword/ForgotPassword";
 import "./NavigationBar.css";
 import MoreInformation from "../CarRegister-MoreInformation/MoreInformation";
+import CreateUser from "../CreateUser/CreateUser";
 
 export default () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

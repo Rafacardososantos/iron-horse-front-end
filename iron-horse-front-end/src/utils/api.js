@@ -1,11 +1,32 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'https://iron-horse-api-production.up.railway.app/v1/',
+    baseURL: 'http://localhost:8080/v1',
     headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json', // Default para JSON
     }
 });
+
+// Interceptador para adicionar o cabeçalho de Authorization antes de cada requisição
+api.interceptors.request.use(
+  (config) => {
+    const bearer = localStorage.getItem('accessToken'); // Pega o token do localStorage
+    if (bearer) {
+      config.headers['Authorization'] = `Bearer ${bearer}`; // Adiciona o token no cabeçalho
+    }
+    
+    // Verifica se o corpo da requisição é um FormData
+    if (config.data instanceof FormData) {
+      // Remove o 'Content-Type' fixo para permitir que o FormData defina o tipo correto
+      delete config.headers['Content-Type']; 
+    }
+
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 export const get = async(url) => {
     try{
@@ -37,7 +58,7 @@ export const put = async(url, data) => {
     }
 }
 
-export const del = async(url) =>{
+export const del = async(url) => {
     try{
         const response = await api.delete(url);
         return response.data;
@@ -47,7 +68,7 @@ export const del = async(url) =>{
     }
 }
 
-export default{
+export default {
     get,
     post,
     put,

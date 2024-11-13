@@ -16,7 +16,7 @@ const CreateAccount = ({ onClose }) => {
     number_driver_license: "",
     district: "",
     city: "",
-    state: "",
+    uf: "",
     phone: "",
     email: "",
     password: "",
@@ -33,21 +33,41 @@ const CreateAccount = ({ onClose }) => {
 
   const [isModalOpen, setModalOpen] = useState(true);
   const [error, setError] = useState(null);
-  const accessToken = localStorage.getItem('accessToken');
-
-  const openModal = () => setModalOpen(true);
-  const closeModal = () => setModalOpen(false);
+  const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
+  //IMAGENS
+  const handleImageClick = () => {
+    document.getElementById("fileInput").click();
+  };
+  // Manipulador para capturar a imagem selecionada
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setFormData({ ...formData, image: file });
+    }
+  };
+
+
   const formatZipCode = (value) => {
     return value.replace(/^(\d{5})(\d{1,3})$/, "$1-$2");
   };
 
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     const { name, value, type, checked, files } = e.target;
+
+    if (name === "zipCode") {
+      const formattedValue = formatZipCode(value.replace(/\D/g, ""));
+      setFormData({
+        ...formData,
+        zipCode: formattedValue,
+      });
+      await fetchAddressByZipCode(formattedValue);
+      return;
+    }
 
     if (type === "checkbox") {
       setFormData((prevData) => ({
@@ -63,40 +83,10 @@ const CreateAccount = ({ onClose }) => {
         [name]: files[0],
       });
     } else {
-      const formattedValue =
-        name === "zipCode" ? formatZipCode(value.replace(/\D/g, "")) : value;
-
       setFormData({
         ...formData,
-        [name]: formattedValue,
+        [name]: value,
       });
-
-      if (name === "zipCode" && formattedValue.length === 9) {
-        fetchAddressByZipCode(formattedValue.replace("-", ""));
-      }
-    }
-
-    if (name === "number") {
-      const formattedValue = formatPhoneNumber(value);
-      setFormData({
-        ...formData,
-        [name]: formattedValue,
-      });
-    }
-
-  };
-
-  const formatPhoneNumber = (value) => {
-    // Remover tudo que não for número
-    const numericValue = value.replace(/\D/g, "");
-
-    // Adicionar a máscara
-    if (numericValue.length <= 10) {
-      // Máscara de telefone (xx) xxxx-xxxx
-      return numericValue.replace(/(\d{2})(\d{4})(\d{4})/, "($1) $2-$3");
-    } else {
-      // Máscara de telefone com ramal (xx) xxxx-xxxx r xxxx
-      return numericValue.replace(/(\d{2})(\d{4})(\d{4})(\d{0,4})/, "($1) $2-$3 r $4");
     }
   };
 
@@ -107,13 +97,12 @@ const CreateAccount = ({ onClose }) => {
       const data = await response.json();
       if (data.erro) throw new Error("CEP não encontrado");
 
-      // Atualiza o estado com as informações do endereço
       setFormData((prevData) => ({
         ...prevData,
         street_name: data.logradouro,
         district: data.bairro,
         city: data.localidade,
-        uf: data.uf, // Alterado de 'state' para 'uf' para refletir o nome correto
+        uf: data.uf,
       }));
     } catch (error) {
       console.error("Erro ao buscar o CEP:", error.message);
@@ -124,99 +113,118 @@ const CreateAccount = ({ onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validação de senha
     if (formData.password !== formData.confirmPassword) {
       setError("As senhas não coincidem.");
       return;
     }
 
-    setError(null);  // Clear error if passwords match
+    setError(null);
 
     try {
-      // Enviando as informações pessoais
       const personalInfoResponse = await api.post("/users", {
         name: formData.name,
         email: formData.email,
         password: formData.password,
         phone: formData.phone,
       });
-      console.log('Personal info response:', personalInfoResponse.data);
-      
-      const response = await api.post("auth/login", {email, password});
 
-      if (response.accessToken) {
-        localStorage.setItem("accessToken", response.accessToken);
-        localStorage.setItem("refreshToken", response.refreshToken);
-        onClose(); 
-        window.location.reload();
-      } else {
-        console.error("Erro ao fazer login");
-      }
+      if (personalInfoResponse !== null) { // Verifique se a criação do usuário foi bem-sucedida
+        // Realizar login apenas depois da criação do usuário
+        const loginResponse = await api.post("/auth/login", {
+          email: formData.email,
+          password: formData.password,
+        }, {
+          headers: {
+            'Authorization': '', // Limpa qualquer header de autorização
+          }
+        });
+        //testando 123
+        const accessToken = loginResponse?.accessToken;
+        if (accessToken) {
+          localStorage.setItem("accessToken", accessToken);
+        } else {
+          console.error("Erro ao fazer login");
+        }
 
-      // Enviando a imagem, se houver
-      const formDataWithImage = new FormData();
-      if (formData.image) {
-        formDataWithImage.append("image", formData.image);
+        const bearer = localStorage.getItem('accessToken');
+        //EU NAO AGUENTO MAIS SENHOR
+        if (bearer !== null && formData.image !== null) {
+          const imagem = new FormData();
+          imagem.append('image', formData.image);
+          console.log(imagem)
+          try {
+            const response = await fetch('http://localhost:8080/v1/users/upload', {
+              method: 'POST',
+              headers: {
+                'Authorization': `Bearer ${bearer}`,
+              },
+              body: imagem,
+            });
 
-        // Recuperando o token do localStorage
-        
+            if (response.ok) {
+              // Aqui você pode lidar com a resposta
+              const data = await response.json();
+              console.log(data);
+            } else {
+              throw new Error('Erro ao enviar a imagem');
+            }
+          } catch (error) {
+            console.error("Erro ao chamar o POST:", error);
+          }
 
-        // Verificando se o token existe antes de enviar
-        try {
-          const imageResponse = await api.post("/users/upload", formDataWithImage, {
-            headers: { "Authorization": `Bearer ${accessToken}` },
-          });
-          console.log('Image upload response:', imageResponse.data);
-        } catch (error) {
-          if (error.response && error.response.status === 401) {
-            console.error('Token inválido ou expirado.');
-            alert('Sua sessão expirou. Por favor, faça login novamente.');
-            // Redirecionar para login ou iniciar processo de refresh token
-          } else {
-            console.error('Erro ao enviar imagem:', error);
+        }
+
+        //ESSE AQUI FUNCIONA NAO MECHE PELOAMOR
+        if (bearer !== null) {
+          const bodyData = {
+            cpf: formData.cpf,
+            streetAddress: formData.street_name,
+            streetName: formData.street_name,
+            streetNumber: formData.number,
+            district: formData.district,
+            zipcode: formData.zipCode,
+            city: formData.city,
+            state: formData.uf,
+            acceptComunication: formData.checkboxes.acceptComunication,
+            isTermsUser: formData.checkboxes.isTermsUser,
+            isRealInformation: formData.checkboxes.isRealInformation,
+            isRegularized: formData.checkboxes.isRegularized,
+            driverLicense: formData.number_driver_license,
+          };
+
+          try {
+            const response = await fetch("http://localhost:8080/v1/userInfo", {
+              method: "POST",
+              headers: {
+                "Authorization": `Bearer ${bearer}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(bodyData),
+            });
+
+            if (!response.ok) {
+              throw new Error(`Erro na requisição: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            console.log("Resposta da requisição:", data);
+
+          } catch (error) {
+            console.error("Erro ao chamar o POST:", error);
           }
         }
+
+
+      } else {
+        console.error("Erro na criação do usuário");
       }
-
-      // Enviando outros dados (endereço, CPF, e checkboxes)
-      const otherDataResponse = await api.post("/userInfo", {
-        cpf: formData.cpf,
-        streetAddress: formData.street_name,
-        streetName: formData.street_name,  // Dependendo do seu backend, isso pode ser igual
-        streetNumber: formData.number,
-        district: formData.district,
-        zipcode: formData.zipCode,
-        city: formData.city,
-        state: formData.uf, // Supondo que seja fixo ou vem de outro campo
-        acceptComunication: formData.checkboxes.acceptComunication,
-        isTermsUser: formData.checkboxes.isTermsUser,
-        isRealInformation: formData.checkboxes.isRealInformation,
-        isRegularized: formData.checkboxes.isRegularized,
-        driverLicense: formData.number_driver_license,
-      }, {
-        headers: {
-          "Authorization": `Bearer ${accessToken}`, // Adicionando o token no cabeçalho
-        }
-      });
-      console.log('Other info response:', otherDataResponse.data);
-
     } catch (error) {
-      console.error("Erro ao enviar formulário:", error);
+      console.error("Error during request:", error.response || error);
     }
+    console.log("AHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 
-
-    onClose();
   };
 
-  const handleImageClick = () => {
-    document.getElementById("fileInput").click();
-  };
-
-  const handleOutsideClick = (e) => {
-    if (e.target.className === "popup-create-account") {
-      onClose();
-    }
-  };
 
   return (
     <Modal isOpen={isModalOpen} onClose={onClose}>
@@ -238,7 +246,7 @@ const CreateAccount = ({ onClose }) => {
             name="image"
             accept="image/*"
             style={{ display: "none" }}
-            onChange={handleChange}
+            onChange={handleImageChange}
           />
         </div>
 
