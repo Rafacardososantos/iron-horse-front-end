@@ -112,14 +112,14 @@ const CreateAccount = ({ onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (formData.password !== formData.confirmPassword) {
       setError("As senhas não coincidem.");
       return;
     }
-
+  
     setError(null);
-
+  
     try {
       const personalInfoResponse = await api.post("/users", {
         name: formData.name,
@@ -127,54 +127,22 @@ const CreateAccount = ({ onClose }) => {
         password: formData.password,
         phone: formData.phone,
       });
-
-      if (personalInfoResponse !== null) { // Verifique se a criação do usuário foi bem-sucedida
-        // Realizar login apenas depois da criação do usuário
+  
+      if (personalInfoResponse !== null) {
         const loginResponse = await api.post("/auth/login", {
           email: formData.email,
           password: formData.password,
-        }, {
-          headers: {
-            'Authorization': '', // Limpa qualquer header de autorização
-          }
         });
-        //testando 123
-        const accessToken = loginResponse?.accessToken;
+  
+        const accessToken = loginResponse.accessToken;
         if (accessToken) {
           localStorage.setItem("accessToken", accessToken);
         } else {
           console.error("Erro ao fazer login");
         }
-
+  
         const bearer = localStorage.getItem('accessToken');
-        //EU NAO AGUENTO MAIS SENHOR
-        if (bearer !== null && formData.image !== null) {
-          const imagem = new FormData();
-          imagem.append('image', formData.image);
-          console.log(imagem)
-          try {
-            const response = await fetch('http://localhost:8080/v1/users/upload', {
-              method: 'POST',
-              headers: {
-                'Authorization': `Bearer ${bearer}`,
-              },
-              body: imagem,
-            });
-
-            if (response.ok) {
-              // Aqui você pode lidar com a resposta
-              const data = await response.json();
-              console.log(data);
-            } else {
-              throw new Error('Erro ao enviar a imagem');
-            }
-          } catch (error) {
-            console.error("Erro ao chamar o POST:", error);
-          }
-
-        }
-
-        //ESSE AQUI FUNCIONA NAO MECHE PELOAMOR
+  
         if (bearer !== null) {
           const bodyData = {
             cpf: formData.cpf,
@@ -191,38 +159,54 @@ const CreateAccount = ({ onClose }) => {
             isRegularized: formData.checkboxes.isRegularized,
             driverLicense: formData.number_driver_license,
           };
-
+  
           try {
-            const response = await fetch("http://localhost:8080/v1/userInfo", {
-              method: "POST",
-              headers: {
-                "Authorization": `Bearer ${bearer}`,
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(bodyData),
-            });
-
-            if (!response.ok) {
-              throw new Error(`Erro na requisição: ${response.statusText}`);
-            }
-
-            const data = await response.json();
-            console.log("Resposta da requisição:", data);
-
+            const response = await api.post("/userInfo", 
+              bodyData, 
+              {
+                headers: {
+                  "Authorization": `Bearer ${bearer}`,
+                  "Content-Type": "application/json",
+                }
+              }
+            );
+  
+            console.log("Resposta da requisição:", response.data);
+  
           } catch (error) {
-            console.error("Erro ao chamar o POST:", error);
+            console.error("Erro ao chamar o POST de userInfo:", error.response || error);
           }
         }
-
-
+  
+        // Enviar imagem (se houver)
+        if (bearer !== null && formData.image !== null) {
+          const formDataImage = new FormData();
+          formDataImage.append('file', formData.image);
+          
+          try {
+            const uploadResponse = await api.post("/users/upload", 
+              formDataImage, 
+              {
+                headers: {
+                  'Authorization': `Bearer ${bearer}`,
+                }
+              }
+            );
+  
+            console.log(uploadResponse.data);
+  
+          } catch (error) {
+            console.error("Erro ao enviar a imagem:", error.response || error);
+          }
+        }
+  
       } else {
         console.error("Erro na criação do usuário");
       }
+  
     } catch (error) {
-      console.error("Error during request:", error.response || error);
+      console.error("Erro durante a requisição:", error.response || error);
     }
-    console.log("AHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-
   };
 
 
