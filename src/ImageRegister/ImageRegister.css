@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Urbanist:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 /* Estilos do Modal */
-.react-modal-overlay {
+.modal-overlay {
   background-color: rgba(0, 0, 0, 0.822);
   position: fixed;
   top: 0;
@@ -15,14 +15,7 @@
   overflow-y: auto;
 }
 
-.modal-image {
-  display: block;
-  margin: 10px auto;
-  max-width: 80px;
-  height: auto;
-}
-
-.react-modal-content {
+.modal-content {
   background-color: #1e1e1ed1;
   padding: 20px;
   border-radius: 10px;
@@ -31,6 +24,13 @@
   margin: auto;
   position: relative;
   overflow-y: auto;
+}
+
+.modal-image {
+  display: block;
+  margin: 10px auto;
+  max-width: 80px;
+  height: auto;
 }
 
 /* Estilos Gerais */
@@ -99,7 +99,6 @@ form div {
   background-color: transparent; 
 }
 
-
 .image-container img {
   margin-bottom: 15px;
 }
@@ -109,7 +108,7 @@ form div {
   margin: 10px auto;
   max-width: 100px;
   height: auto;
-  cursor: pointer
+  cursor: pointer;
 }
 
 .car-image {
@@ -279,7 +278,7 @@ span {
 }
 
 @media (max-width: 600px) {
-  .react-modal-content {
+  .modal-content {
     width: 95%;
   }
 
