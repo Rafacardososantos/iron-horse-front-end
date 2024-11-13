@@ -1,0 +1,21 @@
+{
+  "name": "iron-horse-front-end",
+  "version": "1.0.0",
+  "description": "This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.",
+  "main": "eslint.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "iron-horse-front-end": "file:",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-modal": "^3.16.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.3"
+  }
+}

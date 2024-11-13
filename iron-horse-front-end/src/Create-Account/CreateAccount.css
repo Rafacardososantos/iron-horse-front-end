@@ -40,6 +40,9 @@ h2 {
   font-family: "Urbanist", sans-serif;
   font-weight: 400;
 }
+.postImage span{
+  text-align: center;
+}
 
 button {
   display: flex;
@@ -51,12 +54,8 @@ button {
   cursor: pointer;
 }
 
-span, p {
+span {
   color: #AA14F0;
-}
-
-p {
-  align-items: center;
 }
 
 form div {
@@ -71,57 +70,13 @@ form div {
   min-width: 150px;
 }
 
-.checkbox-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); 
-  gap: 5px;
+/* Estilos para o contêiner de largura total */
+.full-width {
+  width: 100%;
 }
 
-.checkbox-grid label {
-  display: inline-flex;
-  align-items: center;
-  margin-bottom: 12px;
-}
-
-/* Estilos das imagens */
-.image-container {
-  position: relative;
-  display: flex;
-  justify-content: center; 
-  align-items: center; 
-  width: 95%; 
-  height: 100px;
-  border: 2px dashed #AA14F0;
-  border-radius: 25px;
-  margin: 20px 0;
-  padding: 10px; 
-  background-color: transparent; 
-}
-
-.image-container img {
-  margin-bottom: 15px;
-}
-
-.upload-icon {
-  display: block;
-  margin: 10px auto;
-  max-width: 100px;
-  height: auto;
-  cursor: pointer;
-}
-
-.car-image {
-  display: block;
-  margin: 10px auto;
-  max-width: 125px;
-  height: auto;
-}
-
-.lateral-car-image {
-  display: block;
-  margin: 10px auto;
-  max-width: 200px;
-  height: auto;
+.full-width input {
+  width: 100%;
 }
 
 /* Estilos dos Labels */
@@ -148,16 +103,54 @@ input:disabled {
   cursor: not-allowed; 
 }
 
+/* Estilos Toggle Button */
+.toggle-button {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.toggle-button input {
+  display: none;
+}
+
+.slider {
+  width: 80px;
+  height: 34px; 
+  background-color: lightgray;
+  border-radius: 24px; 
+  position: relative;
+  transition: background-color 0.3s;
+}
+
+.slider:before {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px; 
+  left: 7px;
+  bottom: 7px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s, background-color 0.3s;
+}
+
+.toggle-button input:checked + .slider {
+  background-color: #b350f1; 
+}
+
+.toggle-button input:checked + .slider:before {
+  transform: translateX(46px);
+  background-color: #4e007e;
+}
+
 /* Estilos para os textos span */
-label, span, p {
+
+label, span {
   display: block;
   margin-bottom: 5px;
   font-family: "Urbanist", sans-serif;
   text-align: justify;
-}
-
-span {
-  text-align: center; 
 }
 
 /* Estilos para as Checkboxes */
@@ -165,14 +158,7 @@ span {
   display: flex;
   flex-direction: column;
   margin-top: 10px;
-  margin-bottom: 8px;
   text-align: left;
-}
-
-.checkbox-group p {
-  margin-bottom: 5px;
-  color: #fff;
-  font-family: "Inter", sans-serif;
 }
 
 .checkbox-group label {
@@ -184,44 +170,21 @@ span {
 }
 
 .checkbox-group input[type="checkbox"] {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
+  margin-right: 10px;
   width: 20px;
   height: 20px;
-  margin-right: 10px;
-  border: 1.5px solid #fff;
-  border-radius: 25%;
-  background-color: transparent;
+  accent-color: #b350f1;
+}
+
+.checkbox-group input[type="checkbox"]:hover {
   cursor: pointer;
-  position: relative;
-}
-
-.checkbox-group input[type="checkbox"]:checked {
-  background-color: #b350f1;
-  border: 1.5px solid #fff;
-}
-
-.checkbox-group input[type="checkbox"]:checked::before {
-  content: "";
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  width: 10px;
-  height: 10px;
-}
-
-.button-container {
-  display: flex;
-  justify-content: center;
-  gap: 5px;
 }
 
 /* Estilo do Botão de Prosseguir */
 #register-button {
   display: flex;
-  width: 30%;
-  height: 35px;
+  width: 40%;
+  height: 40px;
   background: #b350f1;
   color: #fff;
   border-radius: 65px;
@@ -238,41 +201,16 @@ span {
   background: #4e007e;
 }
 
-/* Estilo do Botão de Cancelar */
-#cancel-button {
-  display: flex;
-  width: 30%;
-  height: 35px;
-  background: #ffffff;
-  color: #b350f1;
-  border-radius: 65px;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  margin: 0 auto;
-  font-family: "Inter", sans-serif;
-  border: none;
-}
-
-#cancel-button:hover {
-  background: #4e007e;
-}
-
 /* Estilo Colunas */
-.three-column-form {
+.two-column-form {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
 }
 
 .form-group {
-  width: 30%;
+  width: 48%;
   margin-bottom: 15px;
-}
-
-.form-group:nth-child(3n) {
-  margin-right: 0;
 }
 
 @media (max-width: 600px) {

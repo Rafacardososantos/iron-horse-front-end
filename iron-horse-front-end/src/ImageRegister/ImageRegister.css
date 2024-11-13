@@ -84,6 +84,7 @@ form div {
 }
 
 /* Estilos das imagens */
+
 .image-container {
   position: relative;
   display: flex;
@@ -98,6 +99,7 @@ form div {
   background-color: transparent; 
 }
 
+
 .image-container img {
   margin-bottom: 15px;
 }
@@ -107,7 +109,7 @@ form div {
   margin: 10px auto;
   max-width: 100px;
   height: auto;
-  cursor: pointer;
+  cursor: pointer
 }
 
 .car-image {
@@ -149,6 +151,7 @@ input:disabled {
 }
 
 /* Estilos para os textos span */
+
 label, span, p {
   display: block;
   margin-bottom: 5px;
