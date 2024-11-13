@@ -16,6 +16,7 @@ const CreateAccount = ({ onClose }) => {
     number_driver_license: "",
     district: "",
     city: "",
+    state: "",
     phone: "",
     email: "",
     password: "",
@@ -24,7 +25,7 @@ const CreateAccount = ({ onClose }) => {
     cpf: "",
     checkboxes: {
       acceptComunication: false,
-      isTermsUser: false,
+      isTermsUser: true,
       isRealInformation: false,
       isRegularized: false,
     },
@@ -32,6 +33,7 @@ const CreateAccount = ({ onClose }) => {
 
   const [isModalOpen, setModalOpen] = useState(true);
   const [error, setError] = useState(null);
+  const accessToken = localStorage.getItem('accessToken');
 
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
@@ -104,7 +106,7 @@ const CreateAccount = ({ onClose }) => {
       if (!response.ok) throw new Error("CEP inválido");
       const data = await response.json();
       if (data.erro) throw new Error("CEP não encontrado");
-  
+
       // Atualiza o estado com as informações do endereço
       setFormData((prevData) => ({
         ...prevData,
@@ -139,17 +141,43 @@ const CreateAccount = ({ onClose }) => {
         phone: formData.phone,
       });
       console.log('Personal info response:', personalInfoResponse.data);
-    
+      
+      const response = await api.post("auth/login", {email, password});
+
+      if (response.accessToken) {
+        localStorage.setItem("accessToken", response.accessToken);
+        localStorage.setItem("refreshToken", response.refreshToken);
+        onClose(); 
+        window.location.reload();
+      } else {
+        console.error("Erro ao fazer login");
+      }
+
       // Enviando a imagem, se houver
       const formDataWithImage = new FormData();
       if (formData.image) {
         formDataWithImage.append("image", formData.image);
-        const imageResponse = await api.post("/users/upload", formDataWithImage, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
-        console.log('Image upload response:', imageResponse.data);
+
+        // Recuperando o token do localStorage
+        
+
+        // Verificando se o token existe antes de enviar
+        try {
+          const imageResponse = await api.post("/users/upload", formDataWithImage, {
+            headers: { "Authorization": `Bearer ${accessToken}` },
+          });
+          console.log('Image upload response:', imageResponse.data);
+        } catch (error) {
+          if (error.response && error.response.status === 401) {
+            console.error('Token inválido ou expirado.');
+            alert('Sua sessão expirou. Por favor, faça login novamente.');
+            // Redirecionar para login ou iniciar processo de refresh token
+          } else {
+            console.error('Erro ao enviar imagem:', error);
+          }
+        }
       }
-    
+
       // Enviando outros dados (endereço, CPF, e checkboxes)
       const otherDataResponse = await api.post("/userInfo", {
         cpf: formData.cpf,
@@ -159,19 +187,23 @@ const CreateAccount = ({ onClose }) => {
         district: formData.district,
         zipcode: formData.zipCode,
         city: formData.city,
-        state: formData.state, // Supondo que seja fixo ou vem de outro campo
+        state: formData.uf, // Supondo que seja fixo ou vem de outro campo
         acceptComunication: formData.checkboxes.acceptComunication,
         isTermsUser: formData.checkboxes.isTermsUser,
         isRealInformation: formData.checkboxes.isRealInformation,
         isRegularized: formData.checkboxes.isRegularized,
         driverLicense: formData.number_driver_license,
+      }, {
+        headers: {
+          "Authorization": `Bearer ${accessToken}`, // Adicionando o token no cabeçalho
+        }
       });
       console.log('Other info response:', otherDataResponse.data);
-    
+
     } catch (error) {
       console.error("Erro ao enviar formulário:", error);
     }
-    
+
 
     onClose();
   };
@@ -210,15 +242,27 @@ const CreateAccount = ({ onClose }) => {
           />
         </div>
 
-        <div className="form-group full-width">
-          <label>Nome Completo</label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
+        <div className="two-column-form">
+          <div className="form-group">
+            <label>Nome Completo</label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>CPF</label>
+            <input
+              type="text"
+              name="cpf"
+              value={formData.cpf}
+              onChange={handleChange}
+              required
+            />
+          </div>
         </div>
 
         <div className="two-column-form">
