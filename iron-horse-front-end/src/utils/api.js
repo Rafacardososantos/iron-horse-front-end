@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: '',
+    baseURL: 'https://iron-horse-api-production.up.railway.app/v1/',
     headers: {
         'Content-Type': 'application/json'
     }

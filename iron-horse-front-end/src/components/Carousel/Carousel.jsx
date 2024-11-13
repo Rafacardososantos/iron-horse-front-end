@@ -2,7 +2,7 @@ import React from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import "./Carousel.css"
+import './Carousel.css';
 
 export default () => {
   const settings = {
@@ -21,17 +21,17 @@ export default () => {
     '/img/Hatch background2.jpg',
     '/img/Hatch background3.jpg',
     '/img/Hatch background4.jpg'
-  ]
-    return (        
-      <div className="main-carousel-container">
-        <Slider {...settings}>
+  ];
+
+  return (
+    <div className="main-carousel-container">
+      <Slider {...settings}>
         {images.map((image, index) => (
-          <div key={index}>
-            <img className='carousel-image' src={image} alt={`Slide ${index + 1}`} style={{height: '10%'}} />
+          <div key={index} className="carousel-slide">
+            <img className="carousel-image" src={image} alt={`Slide ${index + 1}`} />
           </div>
         ))}
-        </Slider>
-      </div>
-    )
-}
-
+      </Slider>
+    </div>
+  );
+};

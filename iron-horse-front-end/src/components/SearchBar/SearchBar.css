@@ -1,28 +1,29 @@
 .main-search-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;    
-    padding: 2% 1%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 .input-wrapper {
     display: flex;
     flex-direction: column;
+    gap: 5px;
 }
 
 label {
-    color: white;
+    color: #e7e7e7;
+    font-weight: 900;
     font-size: 16px;
-    margin-bottom: 6px;
-    margin-left: 2%;
     font-family: 'Inter', sans-serif;
+    margin-bottom: 6px;
 }
 
 input {
     padding: 10px;
-    border-radius: 50px;
-    border: none;
-    font-family: 'Inter', sans-serif;
+    border-radius: 25px;
+    border: 1px solid #AA14F0;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 .date-time-wrapper {
@@ -30,14 +31,8 @@ input {
     gap: 0.5rem;
 }
 
-.date-input {
-    width: 65%;
-}
-.time-input {
-    width: 45%;
-    margin-left: -5%;
-}
-
+.date-input,
+.time-input,
 .local-input {
     width: 100%;
 }
@@ -46,29 +41,39 @@ input {
     background: #AA14F0;
     color: white;
     padding: 10px 20px;
-    border-radius: 50px;
+    border-radius: 25px;
     border: none;
     cursor: pointer;
     font-size: 16px;
     font-family: 'Inter', sans-serif;
     width: 100%;
-    max-width: 8rem;    
-    margin-top: 14%;
+    max-width: 100%;
+    transition: all ease 0.3s;
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 900;
 }
+
 
 .search-button:hover {
-    transition: all ease 1s;
-    background: linear-gradient(90deg, rgba(140,0,255,1) 0%, rgba(255,0,244,1) 100%);
+    background: linear-gradient(90deg, rgba(140, 0, 255, 1) 0%, rgba(255, 0, 244, 1) 100%);
 }
 
-@media screen and (max-width: 992px){
-    .search-button{
+@media screen and (max-width: 992px) {
+    .search-button {
         margin-top: 0;
+        align-items: center;
     }
 }
 
-@media screen and (max-width: 768px){
-    .time-input{
+@media screen and (max-width: 768px) {
+    .time-input {
         margin-left: 0;
     }
+    .search-button {
+        margin-left: 2px;
+    }
+    
 }

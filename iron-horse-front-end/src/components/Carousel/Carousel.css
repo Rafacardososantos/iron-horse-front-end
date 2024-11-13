@@ -1,12 +1,40 @@
+
 .main-carousel-container {
-    width: 100%;
-    height: 60%; 
-    text-align: -webkit-center;
+    width: 66%;
+    height: 60%;
+    text-align: center;
     z-index: 50;
-}
+    overflow: hidden;
+  }
+  
+  .carousel-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: none;
+    margin: 0;
+    outline: none;
+  }
+  
+  .carousel-slide {
+    outline: none;
+    box-shadow: none;
+  }
+  
+  .slick-slide:focus,
+  .slick-slide:active {
+    outline: none !important;
+    box-shadow: none !important;
+  }
 
-
-.carousel-image {   
-    width: 60%;
-    max-height: 90%;
-}
+  .slick-slide img {
+    outline: none;
+    box-shadow: none;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .main-carousel-container {
+      height: 50%; 
+    }
+  }
+  
