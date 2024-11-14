@@ -17,9 +17,9 @@
 }
 
 .modal-content {
-    background: #202020;
+    background: rgba(19, 19, 19, 0.9);
     padding: 20px;
-    border-radius: 5px;
+    border-radius: 10px;
     width: 80%;
     max-height: 80%;
     overflow: auto;
