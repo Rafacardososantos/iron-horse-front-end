@@ -464,7 +464,7 @@ const CreateAccount = ({ onClose }) => {
 
         {error && <div className="error-message">{error}</div>}
 
-        <button type="submit">Criar Conta</button>
+        <button className="create-btn" type="submit">Criar Conta</button>
       </form>
     </Modal>
   );
