@@ -1,10 +1,10 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import Home from './components/Home/Home'
+import QrCodePage from './Confirmation/QrCodePage'
 
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Home/>
+    <QrCodePage/>
   </StrictMode>,
 )
