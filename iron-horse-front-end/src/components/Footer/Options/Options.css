@@ -1,0 +1,21 @@
+.terms-of-use-container h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #a855f7;
+}
+
+.terms-of-use-container h3 {
+  font-size: 18px;
+  margin-top: 20px;
+  color: #a855f7;
+}
+
+.terms-of-use-container p, .terms-of-use-container ul {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #d8d7d7ac;
+}
+
+.terms-of-use-container ul {
+  padding-left: 20px;
+} 
