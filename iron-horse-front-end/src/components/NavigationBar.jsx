@@ -5,7 +5,6 @@ import CreateAccount from "../Create-Account/CreateAccount";
 import ForgotPassword from "../ForgotPassword/ForgotPassword";
 import "./NavigationBar.css";
 import MoreInformation from "../CarRegister-MoreInformation/MoreInformation";
-import CreateUser from "../CreateUser/CreateUser";
 
 export default () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -70,11 +69,6 @@ export default () => {
                   Anunciar
                 </a>
               </li>
-              <li>Termos de Uso</li>
-              <li>Política de Privacidade</li>
-              <li>Avisos Legais</li>
-              <li>Acessibilidade</li>
-              <li>Suporte</li>
             </ul>
           </div>
         )}
