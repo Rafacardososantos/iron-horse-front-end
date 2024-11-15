@@ -10,6 +10,7 @@ import PrivacyPolicy from "../Footer/Options/PrivacyPolicy"; // Importando o com
 import LegalNotice from "../Footer/Options/LegalNotice";
 import Support from "../Footer/Options/Support";
 
+
 function Home() {
     const [activePopup, setActivePopup] = useState(null);
 
@@ -24,8 +25,7 @@ function Home() {
     return (
         <>
             <div className="home-main-container">
-                <NavigationBar />
-
+                 <NavigationBar />
                 <main>
                     <SearchBar />
                     <Carousel />
