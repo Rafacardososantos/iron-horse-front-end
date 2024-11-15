@@ -1,17 +1,45 @@
-import { useState } from "react";
+import { createContext, useContext, useState } from "react";
+import { useCarContext } from "../context/CarContext";
+import { useAuth } from "../context/AuthContext";
+import ProtectedRoute from "../components/ProtectedRoute";
+import ImageRegister from "../ImageRegister/ImageRegister"
 import "./CarRegister.css";
 import Modal from "../components/Modal/Modal"
 import api from "../utils/api";
 
+const CarContext = createContext();
 
 
 const CarRegister = ({ onClose }) => {
   const [otherBrand, setOtherBrand] = useState("");
   const [isOtherBrand, setIsOtherBrand] = useState(false);
-  const [isModalOpen, setModalOpen] = useState(true);
   const [isInsuranceActive, setInsuranceActive] = useState(false);
 
+  //GAMBIARRA MALIGNA
+  const [isFirstModalOpen, setFirstModalOpen] = useState(true);
   
+  // Estado para controlar o segundo modal (dentro do primeiro)
+  const [isSecondModalOpen, setSecondModalOpen] = useState(false);
+
+  // Função para abrir o primeiro modal
+  const openFirstModal = () => {
+    setFirstModalOpen(true);
+  };
+
+  // Função para fechar o primeiro modal e abrir o segundo modal
+  const openSecondModal = () => {
+    setFirstModalOpen(false); // Fecha o primeiro modal
+    setSecondModalOpen(true); // Abre o segundo modal
+  };
+
+  // Função para fechar o segundo modal
+  const closeSecondModal = () => {
+    setSecondModalOpen(false); // Fecha o segundo modal
+  };
+
+  //CONTEXT
+  const { setFormSubmitted } = useAuth();
+  const { carData, setCarData } = useCarContext();
 
   const [formData, setFormData] = useState({
     brand: '',
@@ -51,7 +79,7 @@ const CarRegister = ({ onClose }) => {
     },
   });
 
-  
+
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -153,35 +181,39 @@ const CarRegister = ({ onClose }) => {
         }
       }
     };
+    setCarData(requestData);
+    console.log("Formulário enviado!");
+    setFormSubmitted(true);
+    openSecondModal(true);
 
-    try {
-      const response = await fetch("http://localhost:8080/v1/cars", {
-        method: "POST",
-        headers: {
-          'Authorization': `Bearer ${bearerToken}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestData)
-      });
+    // try {
+    //   const response = await fetch("http://localhost:8080/v1/cars", {
+    //     method: "POST",
+    //     headers: {
+    //       'Authorization': `Bearer ${bearerToken}`,
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(requestData)
+    //   });
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Carro cadastrado com sucesso:", data);
-        alert("Carro cadastrado com sucesso!");
-        setFormData({});
-      } else {
-        console.error("Erro ao cadastrar o carro:", response.status, response.statusText);
-        alert("Erro ao cadastrar o carro. Tente novamente.");
-      }
-    } catch (error) {
-      console.error("Erro inesperado:", error);
-      alert("Erro inesperado. Tente novamente.");
-    }
+    //   if (response.ok) {
+    //     const data = await response.json();
+    //     console.log("Carro cadastrado com sucesso:", data);
+    //     alert("Carro cadastrado com sucesso!");
+    //     setFormData({});
+    //   } else {
+    //     console.error("Erro ao cadastrar o carro:", response.status, response.statusText);
+    //     alert("Erro ao cadastrar o carro. Tente novamente.");
+    //   }
+    // } catch (error) {
+    //   console.error("Erro inesperado:", error);
+    //   alert("Erro inesperado. Tente novamente.");
+    // }
   };
 
   return (
     <div>
-      <Modal isOpen={isModalOpen} onClose={onClose}>
+      {isFirstModalOpen && ( <Modal isOpen={isFirstModalOpen} onClose={openSecondModal}>
         <h2>Cadastre seu Veículo</h2>
         <img src="../img/carro-ilustracao-de-transporte.png" alt="Logo" className="modal-image" />
         <form onSubmit={handleSubmit} className="two-column-form">
@@ -505,9 +537,14 @@ const CarRegister = ({ onClose }) => {
             <button id="car-register-button" type="submit">Prosseguir</button>
           </div>
         </form>
-
-
-      </Modal>
+      </Modal>)}
+      {isSecondModalOpen  && (
+              <Modal isOpen={isSecondModalOpen} onClose={closeSecondModal}>
+                <ProtectedRoute>
+                  <ImageRegister />  {/* Página protegida dentro do modal */}
+                </ProtectedRoute>
+              </Modal>
+            )}
     </div>
   );
 };
