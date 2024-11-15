@@ -1,0 +1,146 @@
+
+.car-specs-reviews {
+    background: #333;
+    display: flex;
+    flex-direction: column;
+    font-family: "Inter", serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+}
+
+.vehicle-specifications {
+    background: #333;
+    padding: 20px;
+    font-family: "Inter", serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+    height: 250px;
+    display: block;
+    /* Define o bloco */
+    column-count: 3;
+    /* Número de colunas para distribuir os itens */
+    column-gap: 20px;
+    /* Espaçamento entre as colunas */
+    color: #fff;
+    /* Define a cor do texto */
+    margin-left: 17%;
+    margin-right: 17%;
+}
+
+.vehicle-specifications ul li {
+    margin-bottom: 5px;
+    /* Espaço entre cada item da lista */
+    list-style-type: none;
+    position: relative;
+    padding-left: 20px;
+    display: flex;
+    align-items: center;
+    /* Alinha o texto e o ponto verticalmente */
+}
+
+.vehicle-specifications ul li::before {
+    content: "•";
+    color: #AA14F0;
+    font-size: 23px;
+    margin-right: 8px;
+    display: flex;
+    align-items: center;
+}
+
+/* Avaliações */
+.reviews {
+    display: flex;
+    flex-direction: column;
+    padding: 50px;
+    background: #292929;
+    justify-content: flex-start;
+    /* Alinha os itens no início do container */
+    align-items: baseline;
+    /* Alinha os itens na linha de base do texto */
+    gap: 20px;
+    margin-left: 14%;
+    font-family: "Inter", serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+    max-height: 590px;
+    max-width: 1050px;
+    overflow-y: auto;
+    /* Habilita rolagem vertical, se necessário */
+    margin-bottom: 95px;
+}
+
+.reviews #user {
+    display: flex;
+    flex-wrap: wrap;
+    width: 7rem;
+    height: 7rem;
+    border-radius: 50%;
+    /* Opcional: deixa a imagem circular */
+}
+
+.reviews #user1 {
+    display: flex;
+    flex-wrap: wrap;
+    width: 7rem;
+    height: 7rem;
+    border-radius: 50%;
+    /* Opcional: deixa a imagem circular */
+}
+
+.reviews .review {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.review-content {
+    max-width: 55%;
+    /* Limita a largura do conteúdo para evitar que ultrapasse a área */
+    color: #f5f5f5;
+    /* Cor do texto para contraste */
+}
+
+.review-content .stars {
+    justify-content: space-between;
+    margin: 10px;
+    margin-left: 9%;
+}
+
+.review-content .stars i {
+    padding-right: 11.5px;
+    color: #5A2879;
+    text-shadow:
+        1px 1px 0 #AA14F0,
+        -1px 1px 0 #AA14F0,
+        1px -1px 0 #AA14F0,
+        -1px -1px 0 #AA14F0,
+        0 1px 0 #AA14F0,
+        0 -1px 0 #AA14F0,
+        1px 0 0 #AA14F0,
+        -1px 0 0 #AA14F0;
+    /* Cria o efeito de borda */
+    font-size: 1.3em;
+    /* Tamanho do ícone, ajustável conforme necessário */
+}
+
+#star-empty {
+    padding-right: 11.5px;
+    text-shadow:
+        1px 1px 0 #AA14F0,
+        -1px 1px 0 #AA14F0,
+        1px -1px 0 #AA14F0,
+        -1px -1px 0 #AA14F0,
+        0 1px 0 #AA14F0,
+        0 -1px 0 #AA14F0,
+        1px 0 0 #AA14F0,
+        -1px 0 0 #AA14F0;
+    /* Cria o efeito de borda */
+    font-size: 1.3em;
+    /* Tamanho do ícone, ajustável conforme necessário */
+}
+
+.review-content p {
+    margin-left: 9%;
+}
