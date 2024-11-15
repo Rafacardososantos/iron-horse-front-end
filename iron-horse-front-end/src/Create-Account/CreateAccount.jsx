@@ -39,11 +39,10 @@ const CreateAccount = ({ onClose }) => {
     setShowPassword(!showPassword);
   };
 
-  //IMAGENS
   const handleImageClick = () => {
     document.getElementById("fileInput").click();
   };
-  // Manipulador para capturar a imagem selecionada
+
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -178,7 +177,6 @@ const CreateAccount = ({ onClose }) => {
           }
         }
   
-        // Enviar imagem (se houver)
         if (bearer !== null && formData.image !== null) {
           const formDataImage = new FormData();
           formDataImage.append('file', formData.image);

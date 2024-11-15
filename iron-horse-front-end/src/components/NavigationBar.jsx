@@ -4,7 +4,7 @@ import LoginPopup from "../LoginPopup/LoginPopup";
 import CreateAccount from "../Create-Account/CreateAccount";
 import ForgotPassword from "../ForgotPassword/ForgotPassword";
 import "./NavigationBar.css";
-import MoreInformation from "../CarRegister-MoreInformation/MoreInformation";
+import CarRegister from "../CarRegister/CarRegister"
 
 export default () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -86,7 +86,7 @@ export default () => {
 
       {activePopup === "forgotPassword" && <ForgotPassword onClose={closePopup} />}
 
-      {activePopup === "MoreInformation" && <MoreInformation onClose={closePopup} />}
+      {activePopup === "MoreInformation" && <CarRegister onClose={closePopup} />}
     </>
   );
 };
