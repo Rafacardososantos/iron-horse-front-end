@@ -91,6 +91,20 @@ form div {
   height: auto;
 }
 
+.engine-number{
+  display: block;
+  margin: 10px auto;
+  max-width: 200px;
+  height: auto;
+}
+
+.chassi-image{
+  display: block;
+  margin: 10px auto;
+  max-width: 200px;
+  height: auto;
+}
+
 label {
   display: block;
   margin-bottom: 5px;

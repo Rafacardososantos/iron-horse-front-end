@@ -20,7 +20,7 @@ api.interceptors.request.use(
       // Remove o 'Content-Type' fixo para permitir que o FormData defina o tipo correto
       delete config.headers['Content-Type']; 
     }
-
+   
     return config;
   },
   (error) => {
