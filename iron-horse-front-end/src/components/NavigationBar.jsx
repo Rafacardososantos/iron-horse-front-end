@@ -1,14 +1,19 @@
 import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom"
 import "bootstrap/dist/css/bootstrap.min.css";
 import LoginPopup from "../LoginPopup/LoginPopup";
 import CreateAccount from "../Create-Account/CreateAccount";
 import ForgotPassword from "../ForgotPassword/ForgotPassword";
 import "./NavigationBar.css";
 import MoreInformation from "../CarRegister-MoreInformation/MoreInformation";
+import RentaList from "../RentalList/RentalList";
 
-export default () => {
+function NavigationBar () {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activePopup, setActivePopup] = useState(null);
+  const navigate = useNavigate();
+
+  const isLoggedIn = !!localStorage.getItem("authToken")
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -23,6 +28,12 @@ export default () => {
     setActivePopup(null);
   };
 
+  const handleNavigate = () => {
+    if(isLoggedIn){
+      navigate("/rentals");
+    }
+    
+  }
   return (
     <>
       <header>
@@ -69,6 +80,13 @@ export default () => {
                   Anunciar
                 </a>
               </li>
+              <li>
+                <a href="#"
+                onClick={(e) =>{
+                  e.preventDefault();
+                  handleNavigate();
+                }}>
+                  Aluguéis</a></li>
               <li>Termos de Uso</li>
               <li>Política de Privacidade</li>
               <li>Avisos Legais</li>
@@ -95,3 +113,6 @@ export default () => {
     </>
   );
 };
+
+
+export default NavigationBar;
