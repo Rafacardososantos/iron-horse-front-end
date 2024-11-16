@@ -254,28 +254,24 @@ span {
   cursor: pointer;
 }
 
-/* Estilo do Botão de Prosseguir */
-#register-button {
+.create-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #b350f1;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  cursor: pointer;
   display: flex;
-  width: 30%;
-  height: 35px;
-  background: #b350f1;
-  color: #fff;
-  border-radius: 65px;
-  text-align: center;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
   margin: 0 auto;
-  font-family: "Inter", sans-serif;
-  border: none;
-  margin-top: 30px;
-  
 }
 
-#register-button:hover {
+.create-btn:hover {
+  background: linear-gradient(90deg, rgba(140, 0, 255, 1) 0%, rgba(255, 0, 244, 1) 100%);
   transition: all ease 1s;
-  background: linear-gradient(90deg, rgba(140,0,255,1) 0%, rgba(255,0,244,1) 100%);
 }
 
 /* Estilo do Botão de Cancelar */

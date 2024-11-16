@@ -5,8 +5,7 @@ import LoginPopup from "../LoginPopup/LoginPopup";
 import CreateAccount from "../Create-Account/CreateAccount";
 import ForgotPassword from "../ForgotPassword/ForgotPassword";
 import "./NavigationBar.css";
-import MoreInformation from "../CarRegister-MoreInformation/MoreInformation";
-import RentaList from "../RentalList/RentalList";
+import CarRegister from "../CarRegister/CarRegister"
 
 function NavigationBar () {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -87,11 +86,6 @@ function NavigationBar () {
                   handleNavigate();
                 }}>
                   Aluguéis</a></li>
-              <li>Termos de Uso</li>
-              <li>Política de Privacidade</li>
-              <li>Avisos Legais</li>
-              <li>Acessibilidade</li>
-              <li>Suporte</li>
             </ul>
           </div>
         )}
@@ -109,7 +103,7 @@ function NavigationBar () {
 
       {activePopup === "forgotPassword" && <ForgotPassword onClose={closePopup} />}
 
-      {activePopup === "MoreInformation" && <MoreInformation onClose={closePopup} />}
+      {activePopup === "MoreInformation" && <CarRegister onClose={closePopup} />}
     </>
   );
 };

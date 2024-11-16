@@ -1,66 +1,95 @@
-import { useState } from "react";
-import Modal from "react-modal";
+import { createContext, useContext, useState } from "react";
+import { useCarContext } from "../context/CarContext";
+import { useAuth } from "../context/AuthContext";
+import ProtectedRoute from "../components/ProtectedRoute";
+import ImageRegister from "../ImageRegister/ImageRegister"
 import "./CarRegister.css";
+import Modal from "../components/Modal/Modal"
+import api from "../utils/api";
 
-Modal.setAppElement("#root");
+const CarContext = createContext();
 
-const CarRegister = () => {
+
+const CarRegister = ({ onClose }) => {
   const [otherBrand, setOtherBrand] = useState("");
   const [isOtherBrand, setIsOtherBrand] = useState(false);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [isInsuranceActive, setInsuranceActive] = useState(false);
+
+  //GAMBIARRA MALIGNA
+  const [isFirstModalOpen, setFirstModalOpen] = useState(true);
+  
+  // Estado para controlar o segundo modal (dentro do primeiro)
+  const [isSecondModalOpen, setSecondModalOpen] = useState(false);
+
+  // Função para abrir o primeiro modal
+  const openFirstModal = () => {
+    setFirstModalOpen(true);
+  };
+
+  // Função para fechar o primeiro modal e abrir o segundo modal
+  const openSecondModal = () => {
+    setFirstModalOpen(false); // Fecha o primeiro modal
+    setSecondModalOpen(true); // Abre o segundo modal
+  };
+
+  // Função para fechar o segundo modal
+  const closeSecondModal = () => {
+    setSecondModalOpen(false); // Fecha o segundo modal
+  };
+
+  //CONTEXT
+  const { setFormSubmitted } = useAuth();
+  const { carData, setCarData } = useCarContext();
+
   const [formData, setFormData] = useState({
-    brand: "",
-    model: "",
-    licensePlate: "",
-    carChange: "",
-    trunkCapacity: "",
-    headlightBulb: "",
-    carColor: "",
-    modelYear: "",
-    transmission: "",
-    numDoors: "",
-    numSeats: "",
-    steeringType: "",
-    chassi: "",
-    engineNumber: "",
-    displacement: "",
-    mileage: "",
-    fuelType: "",
-    renavam: "",
-    insurance: false,
-    insuranceCompany: "",
-    "checkbox-grid": {
-      checkboxA: false,
-      checkboxB: false,
-      checkboxC: false,
-      checkboxD: false,
-      checkboxE: false,
-      checkboxF: false,
-      checkboxG: false,
-      checkboxH: false,
-      checkboxI: false,
-      checkboxJ: false,
-      checkboxK: false,
-      checkboxL: false,
-    },
-    checkboxes: {
-      checkbox1: false,
-      checkbox2: false,
-      checkbox5: false,
+    brand: '',
+    model: '',
+    manufactureYear: 2020,
+    carInfoDto: {
+      insurance: true,
+      insuranceName: 'Não possui',
+      renavam: '',
+      licensePlate: '',
+      transmission: '',
+      directionType: '',
+      chassi: '',
+      engineNumber: '',
+      cylinderDisplacement: '',
+      mileage: '',
+      fuelType: '',
+      color: "Azul",
+      numDoors: 4,
+      numSeats: 5,
+      headlightBulb: "LED",
+      trunkCapacity: 500,
+      carFeaturesDto: {
+        insulfilm: true,
+        tagPike: false,
+        antiTheftSecret: true,
+        multimedia: false,
+        airConditioner: true,
+        electricWindowsAndLocks: true,
+        triangle: true,
+        jack: false,
+        wheelWrench: true,
+        spareTire: true,
+        fireExtinguisher: false,
+        alarm: true,
+      },
     },
   });
 
-  const openModal = () => setModalIsOpen(true);
-  const closeModal = () => setModalIsOpen(false);
+
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+
+    // Lógica de validação
     const validationRules = {
-      chassi: /^[0-9]{0,17}$/,
-      engineNumber: /^[0-9]{0,10}$/,
-      displacement: /^[0-9.]{0,4}$/,
-      mileage: /^[0-9]{0,7}$/,
+      chassi: /^[A-Z0-9]{17}$/,  // Validação mais rígida de chassi
+      engineNumber: /^[A-Z0-9]{1,10}$/,  // Até 10 caracteres
+      cylinderDisplacement: /^\d{1,3}(\.\d{1,2})?$/,  // Exemplo de validação de cilindrada
+      mileage: /^[0-9]{1,7}$/,  // Quilometragem pode ter até 7 dígitos
     };
 
     if (validationRules[name] && !validationRules[name].test(value)) return;
@@ -68,7 +97,13 @@ const CarRegister = () => {
     if (type === "checkbox") {
       setFormData((prevData) => ({
         ...prevData,
-        [name]: checked,
+        carInfoDto: {
+          ...prevData.carInfoDto,
+          carFeaturesDto: {
+            ...prevData.carInfoDto.carFeaturesDto,
+            [name]: checked,
+          },
+        },
       }));
     } else if (name === "brand") {
       if (value === "outra") {
@@ -79,10 +114,14 @@ const CarRegister = () => {
         setFormData((prevData) => ({ ...prevData, brand: value }));
       }
     } else {
-      setFormData((prevData) => ({ ...prevData, [name]: value }));
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
     }
-  };
 
+
+  };
   const handleToggle = () => {
     setFormData((prevData) => ({
       ...prevData,
@@ -90,28 +129,96 @@ const CarRegister = () => {
     }));
     setInsuranceActive((prev) => !prev);
   };
+  //SE FOR DAR CONTROL V DA ATÉ AQUI MANOLO
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(formData);
-    closeModal();
+  const handleSubmit = async (e) => {
+    e.preventDefault();  // Previne o comportamento padrão de envio de formulário
+
+    // Verificação do token de autenticação
+    const bearerToken = localStorage.getItem("accessToken");
+    if (!bearerToken) {
+      console.error("Token de autenticação não encontrado.");
+      alert("Você precisa estar autenticado para realizar essa ação.");
+      return;
+    }
+
+
+    // Montando os dados que serão enviados na requisição
+    const requestData = {
+      brand: formData.brand,
+      model: formData.model,
+      manufactureYear: formData.manufactureYear,
+      carInfoDto: {
+        insurance: formData.carInfoDto.insurance,
+        insuranceName: formData.carInfoDto.insuranceName,
+        renavam: formData.carInfoDto.renavam,
+        licensePlate: formData.carInfoDto.licensePlate,
+        transmission: formData.carInfoDto.transmission,
+        directionType: formData.carInfoDto.directionType,
+        chassi: formData.carInfoDto.chassi,
+        engineNumber: formData.carInfoDto.engineNumber,
+        cylinderDisplacement: formData.carInfoDto.cylinderDisplacement,
+        mileage: formData.carInfoDto.mileage,
+        fuelType: formData.carInfoDto.fuelType,
+        color: formData.carInfoDto.color,
+        numDoors: formData.carInfoDto.numDoors,
+        numSeats: formData.carInfoDto.numSeats,
+        headlightBulb: formData.carInfoDto.headlightBulb,
+        trunkCapacity: formData.carInfoDto.trunkCapacity,
+        carFeaturesDto: {
+          insulfilm: formData.carInfoDto.carFeaturesDto.insulfilm,
+          tagPike: formData.carInfoDto.carFeaturesDto.tagPike,
+          antiTheftSecret: formData.carInfoDto.carFeaturesDto.antiTheftSecret,
+          multimedia: formData.carInfoDto.carFeaturesDto.multimedia,
+          airConditioner: formData.carInfoDto.carFeaturesDto.airConditioner,
+          electricWindowsAndLocks: formData.carInfoDto.carFeaturesDto.electricWindowsAndLocks,
+          triangle: formData.carInfoDto.carFeaturesDto.triangle,
+          jack: formData.carInfoDto.carFeaturesDto.jack,
+          wheelWrench: formData.carInfoDto.carFeaturesDto.wheelWrench,
+          spareTire: formData.carInfoDto.carFeaturesDto.spareTire,
+          fireExtinguisher: formData.carInfoDto.carFeaturesDto.fireExtinguisher,
+          alarm: formData.carInfoDto.carFeaturesDto.alarm
+        }
+      }
+    };
+    setCarData(requestData);
+    console.log("Formulário enviado!");
+    setFormSubmitted(true);
+    openSecondModal(true);
+
+    // try {
+    //   const response = await fetch("http://localhost:8080/v1/cars", {
+    //     method: "POST",
+    //     headers: {
+    //       'Authorization': `Bearer ${bearerToken}`,
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(requestData)
+    //   });
+
+    //   if (response.ok) {
+    //     const data = await response.json();
+    //     console.log("Carro cadastrado com sucesso:", data);
+    //     alert("Carro cadastrado com sucesso!");
+    //     setFormData({});
+    //   } else {
+    //     console.error("Erro ao cadastrar o carro:", response.status, response.statusText);
+    //     alert("Erro ao cadastrar o carro. Tente novamente.");
+    //   }
+    // } catch (error) {
+    //   console.error("Erro inesperado:", error);
+    //   alert("Erro inesperado. Tente novamente.");
+    // }
   };
 
   return (
     <div>
-      <button onClick={openModal}>Abrir Popup</button>
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={closeModal}
-        shouldCloseOnOverlayClick={true}
-        className="react-modal-content"
-        overlayClassName="react-modal-overlay"
-      >
+      {isFirstModalOpen && ( <Modal isOpen={isFirstModalOpen} onClose={openSecondModal}>
         <h2>Cadastre seu Veículo</h2>
         <img src="../img/carro-ilustracao-de-transporte.png" alt="Logo" className="modal-image" />
         <form onSubmit={handleSubmit} className="two-column-form">
 
-        <div className="form-group">
+          <div className="form-group">
             <label>Placa</label>
             <input
               type="text"
@@ -166,25 +273,25 @@ const CarRegister = () => {
                 className="other-brand-input"
               />
             )}
-            </div>
+          </div>
 
-        <div className="form-group">
-          <label htmlFor="modelo">Modelo</label>
+          <div className="form-group">
+            <label htmlFor="modelo">Modelo</label>
             <input
               type="text"
-              name="modelo" 
-              value={formData.modelo}
+              name="model"
+              value={formData.model}
               onChange={handleChange}
               required
             />
-            </div>
+          </div>
 
           <div className="form-group">
             <label>Ano Modelo</label>
             <input
               type="text"
-              name="modelYear"
-              value={formData.modelYear}
+              name="manufactureYear"
+              value={formData.manufactureYear}
               onChange={handleChange}
               required
             />
@@ -194,12 +301,12 @@ const CarRegister = () => {
             <label>Cor</label>
             <input
               type="text"
-              name="carColor"
-              value={formData.carColor}
+              name="color"
+              value={formData.color}
               onChange={handleChange}
               required
             />
-            </div>
+          </div>
 
           <div className="form-group">
             <label>Transmissão</label>
@@ -237,8 +344,8 @@ const CarRegister = () => {
           <div className="form-group">
             <label>Tipo de Direção</label>
             <select
-              name="steeringType"
-              value={formData.steeringType}
+              name="directionType"
+              value={formData.directionType}
               onChange={handleChange}
               required
             >
@@ -273,9 +380,9 @@ const CarRegister = () => {
             <label>Cilindrada</label>
             <input
               type="text"
-              name="displacement"
+              name="cylinderDisplacement"
               placeholder="_ . _"
-              value={formData.displacement}
+              value={formData.cylinderDisplacement}
               onChange={handleChange}
               required
             />
@@ -305,17 +412,18 @@ const CarRegister = () => {
               <option value="diesel">Diesel</option>
             </select>
           </div>
-          <div className="form-group3">
-            <label>RENAVAM</label>
-            <input
-              type="text"
-              name="renavam"
-              value={formData.renavam}
-              onChange={handleChange}
-              required
-            />
-          </div>
+          <div className="form-group-insurance">
             <div className="form-group3">
+              <label>RENAVAM</label>
+              <input
+                type="text"
+                name="renavam"
+                value={formData.renavam}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="form-group3-insurance">
               <label>Seguro</label>
               <div className="toggle-button" onClick={handleToggle}>
                 <input type="checkbox" checked={formData.insurance} readOnly />
@@ -326,14 +434,15 @@ const CarRegister = () => {
               <label>Seguradora</label>
               <input
                 type="text"
-                name="insuranceCompany"
+                name="insuranceName"
                 className="insurance-input"
-                value={formData.insuranceCompany}
+                value={formData.insuranceName}
                 onChange={handleChange}
                 required={isInsuranceActive}
                 disabled={!isInsuranceActive}
               />
             </div>
+          </div>
           <span>
             A exigência de informar seu seguro serve apenas para que não seja
             necessário efetuar uma vistória física de seu veículo. Deixando
@@ -342,103 +451,102 @@ const CarRegister = () => {
             parceira, conforme às disposições legais segundo sua utilização
             mediante a plataforma e o serviço prestado.
           </span>
-          </form>
 
-          <form onSubmit={handleSubmit} className="three-column-form">
-          <div className="form-group3">
-            <label>Câmbio</label>
-            <select name="carChange" value={formData.carChange} required onChange={handleChange}>
-              <option value=""></option>
-              <option value="manual">Manual</option>
-              <option value="automatico">Automático</option>
-            </select>
+
+          <div className="car-three-column-form">
+            <div className="car-form-group3-o">
+              <label>Porta-malas</label>
+              <input
+                type="text"
+                name="trunkCapacity"
+                value={formData.trunkCapacity}
+                onChange={handleChange}
+                placeholder="capacidade em litros"
+                required
+              />
+            </div>
+            <div className="car-form-group3">
+              <label>Farol tipo</label>
+              <select name="headlightBulb" className="car-select" value={formData.headlightBulb} required onChange={handleChange}>
+                <option value=""></option>
+                <option value="halogena">Halógena</option>
+                <option value="led">LED</option>
+                <option value="xenon">Xenon</option>
+                <option value="super-branca">Super Branca</option>
+              </select>
+            </div>
           </div>
-          <div className="form-group3">
-            <label>Porta-malas</label>
-            <input 
-              type="text" 
-              name="trunkCapacity" 
-              value={formData.trunkCapacity}
-              onChange={handleChange}
-              placeholder="capacidade em litros" 
-              required 
-            />
+
+          <label>Itens de Conforto e Adicionais</label>
+          <div className="car-checkbox-grid">
+            <label>
+              <input type="checkbox" name="insulfilm" checked={formData.carInfoDto.carFeaturesDto.insulfilm} onChange={handleChange} />
+              Isulfim
+            </label>
+            <label>
+              <input type="checkbox" name="tagPike" checked={formData.carInfoDto.carFeaturesDto.tagPike} onChange={handleChange} />
+              Tag - Pedágio
+            </label>
+            <label>
+              <input type="checkbox" name="antiTheftSecret" checked={formData.carInfoDto.carFeaturesDto.antiTheftSecret} onChange={handleChange} />
+              Segredo Anti Furto
+            </label>
+            <label>
+              <input type="checkbox" name="multimedia" checked={formData.carInfoDto.carFeaturesDto.multimedia} onChange={handleChange} />
+              Multimídia
+            </label>
+            <label>
+              <input type="checkbox" name="airConditioner" checked={formData.carInfoDto.carFeaturesDto.airConditioner} onChange={handleChange} />
+              Ar condicionado
+            </label>
+            <label>
+              <input type="checkbox" name="electricWindowsAndLocks:" checked={formData.carInfoDto.carFeaturesDto.electricWindowsAndLocks} onChange={handleChange} />
+              Vidros e Travas Elétricas
+            </label>
           </div>
-          <div className="form-group3">
-            <label>Lâmpada do Farol</label>
-            <select name="headlightBulb" value={formData.headlightBulb} required onChange={handleChange}>
-              <option value=""></option>
-              <option value="halogena">Halógena</option>
-              <option value="led">LED</option>
-              <option value="xenon">Xenon</option>
-              <option value="super-branca">Super Branca</option>
-            </select>
+
+          <label>Itens de Segurança</label>
+          <div className="car-checkbox-grid">
+            <label>
+              <input type="checkbox" name="triangle" checked={formData.carInfoDto.carFeaturesDto.triangle} onChange={handleChange} />
+              Triângulo
+            </label>
+            <label>
+              <input type="checkbox" name="jack" checked={formData.carInfoDto.carFeaturesDto.jack} onChange={handleChange} />
+              Macaco
+            </label>
+            <label>
+              <input type="checkbox" name="wheelWrench:" checked={formData.carInfoDto.carFeaturesDto.wheelWrench} onChange={handleChange} />
+              Chave de Roda
+            </label>
+            <label>
+              <input type="checkbox" name="spareTire" checked={formData.carInfoDto.carFeaturesDto.spareTire} onChange={handleChange} />
+              Estepe
+            </label>
+            <label>
+              <input type="checkbox" name="fireExtinguisher" checked={formData.carInfoDto.carFeaturesDto.fireExtinguisher} onChange={handleChange} />
+              Extintor Incêndio
+            </label>
+            <label>
+              <input type="checkbox" name="alarm" checked={formData.carInfoDto.carFeaturesDto.alarm} onChange={handleChange} />
+              Alarme
+            </label>
+          </div>
+          <div className="car-button-container">
+            <button id="car-cancel-button" type="submit">Cancelar</button>
+            <button id="car-register-button" type="submit">Prosseguir</button>
           </div>
         </form>
-
-        <label>Itens de Conforto e Adicionais</label>
-        <div className="checkbox-grid">
-          <label>
-            <input type="checkbox" name="checkboxA" checked={formData.checkboxA} onChange={handleChange} />
-            Isulfim
-          </label>
-          <label>
-            <input type="checkbox" name="checkboxB" checked={formData.checkboxB} onChange={handleChange} />
-            Tag - Pedágio
-          </label>
-          <label>
-            <input type="checkbox" name="checkboxC" checked={formData.checkboxC} onChange={handleChange} />
-            Segredo Anti Furto
-          </label>
-          <label>
-            <input type="checkbox" name="checkboxD" checked={formData.checkboxD} onChange={handleChange} />
-            Multimídia
-          </label>
-          <label>
-            <input type="checkbox" name="checkboxE" checked={formData.checkboxE} onChange={handleChange} />
-            Ar condicionado
-          </label>
-          <label>
-            <input type="checkbox" name="checkboxF" checked={formData.checkboxF} onChange={handleChange} />
-            Vidros e Travas Elétricas
-          </label>
-        </div>
-
-        <label>Itens de Segurança</label>
-        <div className="checkbox-grid">
-          <label>
-            <input type="checkbox" name="checkboxG" checked={formData.checkboxG} onChange={handleChange} />
-            Triângulo
-          </label>
-          <label>
-            <input type="checkbox" name="checkboxH" checked={formData.checkboxH} onChange={handleChange} />
-            Macaco
-          </label>
-          <label>
-            <input type="checkbox" name="checkboxI" checked={formData.checkboxI} onChange={handleChange} />
-            Chave de Roda
-          </label>
-          <label>
-            <input type="checkbox" name="checkboxJ" checked={formData.checkboxJ} onChange={handleChange} />
-            Estepe
-          </label>
-          <label>
-            <input type="checkbox" name="checkboxK" checked={formData.checkboxK} onChange={handleChange} />
-            Extintor Incêndio
-          </label>
-          <label>
-            <input type="checkbox" name="checkboxL" checked={formData.checkboxL} onChange={handleChange} />
-            Alarme
-          </label>
-        </div>
-
-        <div className="button-container">
-          <button id="cancel-button" type="submit">Cancelar</button>
-          <button id="register-button" type="submit">Prosseguir</button>
-        </div>
-      </Modal>
+      </Modal>)}
+      {isSecondModalOpen  && (
+              <Modal isOpen={isSecondModalOpen} onClose={closeSecondModal}>
+                <ProtectedRoute>
+                  <ImageRegister />  {/* Página protegida dentro do modal */}
+                </ProtectedRoute>
+              </Modal>
+            )}
     </div>
-    );
-  };
+  );
+};
 
 export default CarRegister;

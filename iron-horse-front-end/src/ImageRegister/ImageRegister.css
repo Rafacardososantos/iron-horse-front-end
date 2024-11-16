@@ -1,38 +1,6 @@
 /* Importando as fontes */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Urbanist:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
-/* Estilos do Modal */
-.react-modal-overlay {
-  background-color: rgba(0, 0, 0, 0.822);
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow-y: auto;
-}
-
-.modal-image {
-  display: block;
-  margin: 10px auto;
-  max-width: 80px;
-  height: auto;
-}
-
-.react-modal-content {
-  background-color: #1e1e1ed1;
-  padding: 20px;
-  border-radius: 10px;
-  max-width: 500px;
-  width: 90%;
-  margin: auto;
-  position: relative;
-  overflow-y: auto;
-}
-
 h2 {
   color: #fff;
   text-align: center;

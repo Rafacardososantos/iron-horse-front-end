@@ -1,12 +1,13 @@
 import { useState, useRef } from "react";
-import Modal from "react-modal";
+import Modal from "../components/Modal/Modal";
+import { useCarContext } from "../context/CarContext";
 import "./ImageRegister.css";
 
-Modal.setAppElement("#root");
-
-const VehicleRegistrationModal = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+const VehicleRegistrationModal = ({onClose}) => {
+  const [isModalOpen, setModalOpen] = useState(true);
   const fileInputRef = useRef(null);
+  const { carData, setCarData } = useCarContext();
+
   const [vehicleData, setVehicleData] = useState({
     consentCheckboxes: {
       checkbox1: false,
@@ -17,9 +18,6 @@ const VehicleRegistrationModal = () => {
       checkbox6: false,
     },
   });
-
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -60,14 +58,7 @@ const VehicleRegistrationModal = () => {
 
   return (
     <div>
-      <button onClick={openModal}>Abrir Popup</button>
-      <Modal
-        isOpen={isModalOpen}
-        onRequestClose={closeModal}
-        shouldCloseOnOverlayClick={true}
-        className="react-modal-content"
-        overlayClassName="react-modal-overlay"
-      >
+      <Modal isOpen={isModalOpen} onClose={onClose}>
         <h2>Cadastre seu Veículo</h2>
 
         <input

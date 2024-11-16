@@ -1,0 +1,47 @@
+.footer-container {
+  background-color: #4B0082; /* Roxo escuro estilo cyberpunk */
+  padding: 20px 0;
+  text-align: center;
+}
+
+.footer-items {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap; /* Permite que os itens sejam quebrados em várias linhas */
+}
+
+.footer-item {
+  color: #f0f; /* Roxo brilhante */
+  cursor: pointer;
+  font-size: 1.1rem;
+  text-shadow: 0 0 8px #f0f, 0 0 15px #f0f;
+  transition: color 0.3s;
+}
+
+.footer-item:hover {
+  color: #ff00ff;
+}
+
+/* Responsividade para dispositivos menores */
+@media (max-width: 768px) {
+  .footer-items {
+      gap: 15px; /* Reduz o espaço entre os itens */
+  }
+
+  .footer-item {
+      font-size: 1rem; /* Diminui um pouco o tamanho da fonte */
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-items {
+      flex-direction: column; /* Alinha os itens em coluna */
+      gap: 10px;
+      align-items: center;
+  }
+
+  .footer-item {
+      font-size: 0.9rem; /* Ajusta o tamanho da fonte para telas muito pequenas */
+  }
+}

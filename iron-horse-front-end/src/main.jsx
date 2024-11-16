@@ -1,14 +1,15 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { BrowserRouter as Router } from 'react-router-dom'; 
-import Home from './components/Home/Home'
-import RentaList from './RentalList/RentalList';
-
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { AuthProvider } from './context/AuthContext';
+import { CarProvider } from './context/CarContext';
+import App from './App';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Router>
-      <RentaList/>
-    </Router>
+    <AuthProvider>
+      <CarProvider>
+        <App />
+      </CarProvider>
+    </AuthProvider>
   </StrictMode>,
-)
+);

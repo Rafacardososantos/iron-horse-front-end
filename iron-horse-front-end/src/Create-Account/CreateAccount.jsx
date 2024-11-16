@@ -16,6 +16,7 @@ const CreateAccount = ({ onClose }) => {
     number_driver_license: "",
     district: "",
     city: "",
+    uf: "",
     phone: "",
     email: "",
     password: "",
@@ -24,7 +25,7 @@ const CreateAccount = ({ onClose }) => {
     cpf: "",
     checkboxes: {
       acceptComunication: false,
-      isTermsUser: false,
+      isTermsUser: true,
       isRealInformation: false,
       isRegularized: false,
     },
@@ -32,20 +33,40 @@ const CreateAccount = ({ onClose }) => {
 
   const [isModalOpen, setModalOpen] = useState(true);
   const [error, setError] = useState(null);
-
-  const openModal = () => setModalOpen(true);
-  const closeModal = () => setModalOpen(false);
+  const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
+  const handleImageClick = () => {
+    document.getElementById("fileInput").click();
+  };
+
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setFormData({ ...formData, image: file });
+    }
+  };
+
+
   const formatZipCode = (value) => {
     return value.replace(/^(\d{5})(\d{1,3})$/, "$1-$2");
   };
 
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     const { name, value, type, checked, files } = e.target;
+
+    if (name === "zipCode") {
+      const formattedValue = formatZipCode(value.replace(/\D/g, ""));
+      setFormData({
+        ...formData,
+        zipCode: formattedValue,
+      });
+      await fetchAddressByZipCode(formattedValue);
+      return;
+    }
 
     if (type === "checkbox") {
       setFormData((prevData) => ({
@@ -61,40 +82,10 @@ const CreateAccount = ({ onClose }) => {
         [name]: files[0],
       });
     } else {
-      const formattedValue =
-        name === "zipCode" ? formatZipCode(value.replace(/\D/g, "")) : value;
-
       setFormData({
         ...formData,
-        [name]: formattedValue,
+        [name]: value,
       });
-
-      if (name === "zipCode" && formattedValue.length === 9) {
-        fetchAddressByZipCode(formattedValue.replace("-", ""));
-      }
-    }
-
-    if (name === "number") {
-      const formattedValue = formatPhoneNumber(value);
-      setFormData({
-        ...formData,
-        [name]: formattedValue,
-      });
-    }
-
-  };
-
-  const formatPhoneNumber = (value) => {
-    // Remover tudo que não for número
-    const numericValue = value.replace(/\D/g, "");
-
-    // Adicionar a máscara
-    if (numericValue.length <= 10) {
-      // Máscara de telefone (xx) xxxx-xxxx
-      return numericValue.replace(/(\d{2})(\d{4})(\d{4})/, "($1) $2-$3");
-    } else {
-      // Máscara de telefone com ramal (xx) xxxx-xxxx r xxxx
-      return numericValue.replace(/(\d{2})(\d{4})(\d{4})(\d{0,4})/, "($1) $2-$3 r $4");
     }
   };
 
@@ -104,14 +95,13 @@ const CreateAccount = ({ onClose }) => {
       if (!response.ok) throw new Error("CEP inválido");
       const data = await response.json();
       if (data.erro) throw new Error("CEP não encontrado");
-  
-      // Atualiza o estado com as informações do endereço
+
       setFormData((prevData) => ({
         ...prevData,
         street_name: data.logradouro,
         district: data.bairro,
         city: data.localidade,
-        uf: data.uf, // Alterado de 'state' para 'uf' para refletir o nome correto
+        uf: data.uf,
       }));
     } catch (error) {
       console.error("Erro ao buscar o CEP:", error.message);
@@ -121,70 +111,102 @@ const CreateAccount = ({ onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validação de senha
+  
     if (formData.password !== formData.confirmPassword) {
       setError("As senhas não coincidem.");
       return;
     }
-
-    setError(null);  // Clear error if passwords match
-
+  
+    setError(null);
+  
     try {
-      // Enviando as informações pessoais
       const personalInfoResponse = await api.post("/users", {
         name: formData.name,
         email: formData.email,
         password: formData.password,
         phone: formData.phone,
       });
-      console.log('Personal info response:', personalInfoResponse.data);
-    
-      // Enviando a imagem, se houver
-      const formDataWithImage = new FormData();
-      if (formData.image) {
-        formDataWithImage.append("image", formData.image);
-        const imageResponse = await api.post("/users/upload", formDataWithImage, {
-          headers: { "Content-Type": "multipart/form-data" },
+  
+      if (personalInfoResponse !== null) {
+        const loginResponse = await api.post("/auth/login", {
+          email: formData.email,
+          password: formData.password,
         });
-        console.log('Image upload response:', imageResponse.data);
+  
+        const accessToken = loginResponse.accessToken;
+        if (accessToken) {
+          localStorage.setItem("accessToken", accessToken);
+        } else {
+          console.error("Erro ao fazer login");
+        }
+  
+        const bearer = localStorage.getItem('accessToken');
+  
+        if (bearer !== null) {
+          const bodyData = {
+            cpf: formData.cpf,
+            streetAddress: formData.street_name,
+            streetName: formData.street_name,
+            streetNumber: formData.number,
+            district: formData.district,
+            zipcode: formData.zipCode,
+            city: formData.city,
+            state: formData.uf,
+            acceptComunication: formData.checkboxes.acceptComunication,
+            isTermsUser: formData.checkboxes.isTermsUser,
+            isRealInformation: formData.checkboxes.isRealInformation,
+            isRegularized: formData.checkboxes.isRegularized,
+            driverLicense: formData.number_driver_license,
+          };
+  
+          try {
+            const response = await api.post("/userInfo", 
+              bodyData, 
+              {
+                headers: {
+                  "Authorization": `Bearer ${bearer}`,
+                  "Content-Type": "application/json",
+                }
+              }
+            );
+  
+            console.log("Resposta da requisição:", response.data);
+  
+          } catch (error) {
+            console.error("Erro ao chamar o POST de userInfo:", error.response || error);
+          }
+        }
+  
+        if (bearer !== null && formData.image !== null) {
+          const formDataImage = new FormData();
+          formDataImage.append('file', formData.image);
+          
+          try {
+            const uploadResponse = await api.post("/users/upload", 
+              formDataImage, 
+              {
+                headers: {
+                  'Authorization': `Bearer ${bearer}`,
+                }
+              }
+            );
+  
+            console.log(uploadResponse.data);
+  
+          } catch (error) {
+            console.error("Erro ao enviar a imagem:", error.response || error);
+          }
+        }
+  
+      } else {
+        console.error("Erro na criação do usuário");
       }
-    
-      // Enviando outros dados (endereço, CPF, e checkboxes)
-      const otherDataResponse = await api.post("/userInfo", {
-        cpf: formData.cpf,
-        streetAddress: formData.street_name,
-        streetName: formData.street_name,  // Dependendo do seu backend, isso pode ser igual
-        streetNumber: formData.number,
-        district: formData.district,
-        zipcode: formData.zipCode,
-        city: formData.city,
-        state: formData.state, // Supondo que seja fixo ou vem de outro campo
-        acceptComunication: formData.checkboxes.acceptComunication,
-        isTermsUser: formData.checkboxes.isTermsUser,
-        isRealInformation: formData.checkboxes.isRealInformation,
-        isRegularized: formData.checkboxes.isRegularized,
-        driverLicense: formData.number_driver_license,
-      });
-      console.log('Other info response:', otherDataResponse.data);
-    
+  
     } catch (error) {
-      console.error("Erro ao enviar formulário:", error);
-    }
-    
-
-    onClose();
-  };
-
-  const handleImageClick = () => {
-    document.getElementById("fileInput").click();
-  };
-
-  const handleOutsideClick = (e) => {
-    if (e.target.className === "popup-create-account") {
-      onClose();
+      console.error("Erro durante a requisição:", error.response || error);
     }
   };
+
 
   return (
     <Modal isOpen={isModalOpen} onClose={onClose}>
@@ -206,19 +228,31 @@ const CreateAccount = ({ onClose }) => {
             name="image"
             accept="image/*"
             style={{ display: "none" }}
-            onChange={handleChange}
+            onChange={handleImageChange}
           />
         </div>
 
-        <div className="form-group full-width">
-          <label>Nome Completo</label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-          />
+        <div className="two-column-form">
+          <div className="form-group">
+            <label>Nome Completo</label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label>CPF</label>
+            <input
+              type="text"
+              name="cpf"
+              value={formData.cpf}
+              onChange={handleChange}
+              required
+            />
+          </div>
         </div>
 
         <div className="two-column-form">
@@ -428,7 +462,7 @@ const CreateAccount = ({ onClose }) => {
 
         {error && <div className="error-message">{error}</div>}
 
-        <button type="submit">Criar Conta</button>
+        <button className="create-btn" type="submit">Criar Conta</button>
       </form>
     </Modal>
   );
