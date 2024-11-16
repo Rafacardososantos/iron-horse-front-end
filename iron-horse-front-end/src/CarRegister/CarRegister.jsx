@@ -15,30 +15,24 @@ const CarRegister = ({ onClose }) => {
   const [isOtherBrand, setIsOtherBrand] = useState(false);
   const [isInsuranceActive, setInsuranceActive] = useState(false);
 
-  //GAMBIARRA MALIGNA
+  const { auth, setFormSubmitted } = useAuth(); 
   const [isFirstModalOpen, setFirstModalOpen] = useState(true);
-  
-  // Estado para controlar o segundo modal (dentro do primeiro)
   const [isSecondModalOpen, setSecondModalOpen] = useState(false);
 
-  // Função para abrir o primeiro modal
   const openFirstModal = () => {
     setFirstModalOpen(true);
   };
 
-  // Função para fechar o primeiro modal e abrir o segundo modal
   const openSecondModal = () => {
-    setFirstModalOpen(false); // Fecha o primeiro modal
-    setSecondModalOpen(true); // Abre o segundo modal
+    if (setFormSubmitted) {
+      setFirstModalOpen(false); 
+      setSecondModalOpen(true); 
+    } else {
+      onClose(null);
+      setFirstModalOpen(false);
+    }
   };
-
-  // Função para fechar o segundo modal
-  const closeSecondModal = () => {
-    setSecondModalOpen(false); // Fecha o segundo modal
-  };
-
-  //CONTEXT
-  const { setFormSubmitted } = useAuth();
+  
   const { carData, setCarData } = useCarContext();
 
   const [formData, setFormData] = useState({
@@ -84,12 +78,11 @@ const CarRegister = ({ onClose }) => {
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
-    // Lógica de validação
     const validationRules = {
-      chassi: /^[A-Z0-9]{17}$/,  // Validação mais rígida de chassi
-      engineNumber: /^[A-Z0-9]{1,10}$/,  // Até 10 caracteres
-      cylinderDisplacement: /^\d{1,3}(\.\d{1,2})?$/,  // Exemplo de validação de cilindrada
-      mileage: /^[0-9]{1,7}$/,  // Quilometragem pode ter até 7 dígitos
+      chassi: /^[A-Z0-9]{17}$/, 
+      engineNumber: /^[A-Z0-9]{1,10}$/,  
+      cylinderDisplacement: /^\d{1,3}(\.\d{1,2})?$/,  
+      mileage: /^[0-9]{1,7}$/, 
     };
 
     if (validationRules[name] && !validationRules[name].test(value)) return;
@@ -120,7 +113,6 @@ const CarRegister = ({ onClose }) => {
       }));
     }
 
-
   };
   const handleToggle = () => {
     setFormData((prevData) => ({
@@ -129,12 +121,10 @@ const CarRegister = ({ onClose }) => {
     }));
     setInsuranceActive((prev) => !prev);
   };
-  //SE FOR DAR CONTROL V DA ATÉ AQUI MANOLO
 
   const handleSubmit = async (e) => {
-    e.preventDefault();  // Previne o comportamento padrão de envio de formulário
+    e.preventDefault();  
 
-    // Verificação do token de autenticação
     const bearerToken = localStorage.getItem("accessToken");
     if (!bearerToken) {
       console.error("Token de autenticação não encontrado.");
@@ -142,8 +132,6 @@ const CarRegister = ({ onClose }) => {
       return;
     }
 
-
-    // Montando os dados que serão enviados na requisição
     const requestData = {
       brand: formData.brand,
       model: formData.model,
@@ -186,29 +174,6 @@ const CarRegister = ({ onClose }) => {
     setFormSubmitted(true);
     openSecondModal(true);
 
-    // try {
-    //   const response = await fetch("http://localhost:8080/v1/cars", {
-    //     method: "POST",
-    //     headers: {
-    //       'Authorization': `Bearer ${bearerToken}`,
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(requestData)
-    //   });
-
-    //   if (response.ok) {
-    //     const data = await response.json();
-    //     console.log("Carro cadastrado com sucesso:", data);
-    //     alert("Carro cadastrado com sucesso!");
-    //     setFormData({});
-    //   } else {
-    //     console.error("Erro ao cadastrar o carro:", response.status, response.statusText);
-    //     alert("Erro ao cadastrar o carro. Tente novamente.");
-    //   }
-    // } catch (error) {
-    //   console.error("Erro inesperado:", error);
-    //   alert("Erro inesperado. Tente novamente.");
-    // }
   };
 
   return (
@@ -539,9 +504,9 @@ const CarRegister = ({ onClose }) => {
         </form>
       </Modal>)}
       {isSecondModalOpen  && (
-              <Modal isOpen={isSecondModalOpen} onClose={closeSecondModal}>
+              <Modal isOpen={isSecondModalOpen} onClose={onClose}>
                 <ProtectedRoute>
-                  <ImageRegister />  {/* Página protegida dentro do modal */}
+                  <ImageRegister />  {}
                 </ProtectedRoute>
               </Modal>
             )}
