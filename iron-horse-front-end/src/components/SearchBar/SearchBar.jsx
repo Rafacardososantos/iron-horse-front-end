@@ -1,27 +1,32 @@
-import React, { useState } from "react";
-import axios from "axios";
+import { useState } from "react";
 import { Row, Col } from 'react-bootstrap';
 import "./SearchBar.css";
+import { useNavigate } from "react-router-dom";
+import api from "../../utils/api";
 
 const SearchBar = () => {
-  const [location, setLocation] = useState("");
+  const [city, setCity] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
 
+  const navigate = useNavigate();
+
+
   const handleSearch = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/search", {
+      const response = await api.get('/cars/search', {
         params: {
-          location,
+          city,
           startDate,
-          startTime,
           endDate,
-          endTime,
+          startTime,
+          endTime
         },
       });
-      console.log(response.data);
+
+      navigate('/vehicle-listing', { state: { results: response, city } });
     } catch (error) {
       console.error("Erro ao realizar a busca:", error);
     }
@@ -37,8 +42,8 @@ const SearchBar = () => {
               className="local-input"
               type="text"
               placeholder="Localização"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
             />
           </div>
         </Col>
