@@ -186,3 +186,20 @@
     background-color: #9b4aef;
   }
   
+.results::-webkit-scrollbar {
+    width: 10px;
+}
+
+.results::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.results::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
+}
+
+.results::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
