@@ -367,14 +367,6 @@ label, span {
     margin-bottom: 10px;
   }
 
-  .car-checkbox-grid input {
-    flex: 1 1 100%;
-    margin-bottom: 10px;
-   
-  }
-
- 
-
   .car-button-container {
     flex-direction: column;
     align-items: center;

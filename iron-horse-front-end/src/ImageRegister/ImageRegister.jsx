@@ -4,7 +4,7 @@ import api from '../utils/api';
 import { useCarContext } from '../context/CarContext';
 import './ImageRegister.css';
 
-const ImageRegister = ({ onClose }) => {
+const ImageRegister = ({ onClose, isOpen }) => {
   const [isModalOpen, setModalOpen] = useState(true);
   const { carData, setCarData } = useCarContext();
   const [isCarDataSubmitted, setCarDataSubmitted] = useState(false);
@@ -49,8 +49,12 @@ const ImageRegister = ({ onClose }) => {
       finesBelongToTheOffender: checkboxes.checkbox4,
       veicleModified: checkboxes.checkbox5,
       trueInformation: checkboxes.checkbox6,
-      docsUptoDate: checkboxes.checkbox1,//6
+      docsUptoDate: checkboxes.checkbox1,
     };
+  };
+
+  const closeModal = () => {
+    window.location.reload();
   };
 
 
@@ -95,23 +99,29 @@ const ImageRegister = ({ onClose }) => {
     });
   };
 
+  function printFormData(formData) {
+    for (let [key, value] of formData.entries()) {
+      if (value instanceof File) {
+        console.log(`${key}: [File] ${value.name} (${value.size} bytes)`);
+      } else {
+        console.log(`${key}: ${value}`);
+      }
+    }
+  }
+
   const handleSubmit = async (e) => {
-
-
-
-
     e.preventDefault();
     const formData = new FormData();
+  
+  uploadedImages.forEach((image, index) => {
+    if (image) {
+      formData.append('files', image); 
+    }
+  });
     
-    uploadedImages.forEach((image, index) => {
-      if (image) {
-        formData.append('files', image); 
-      }
-    });
-    
-    const mappedConsentData = mapCheckboxes(vehicleData.consentCheckboxes);
+  const mappedConsentData = mapCheckboxes(vehicleData.consentCheckboxes);
+  formData.append('carInfoConsentsDto', new Blob([JSON.stringify(mappedConsentData)], { type: 'application/json' }));
 
-    formData.append('carInfoConsentsDto', JSON.stringify(mappedConsentData));
 
     const bearerToken = localStorage.getItem('accessToken');
 
@@ -127,17 +137,24 @@ const ImageRegister = ({ onClose }) => {
 
 
       if (response.ok) {
-
         const data = await response.json();
-        const carId = data.id;
+      const carId = data.id;
+        printFormData(formData);
 
-        console.log([...formData]);
-        const imageResponse = await api.post(`/car_info/image/${carId}`, formData, {
-        });
+        const resp = await fetch(`http://localhost:8080/v1/car_info/image/${carId}`, {
+          method: 'POST',
+          headers: {
+              'Authorization': `Bearer ${bearerToken}`
+          },
+          body: formData,
+      });
 
-        if (imageResponse.ok) {
-          const data = await imageResponse.json();
+        if (response.ok) {
+          alert('Imagens enviadas com sucesso');
+        } else {
+          alert('Erro ao enviar as imagens');
         }
+
       } else {
         console.error('Erro ao criar o carro:', response.status, response.statusText);
         alert('Erro ao criar o carro. Tente novamente.');
@@ -165,6 +182,7 @@ const ImageRegister = ({ onClose }) => {
             </div>
             <input
               type="file"
+              accept=".JPEG,.PNG"
               ref={fileInputRefs.current[index]}
               style={{ display: 'none' }}
               onChange={(e) => handleFileChange(e, index)}
@@ -188,7 +206,7 @@ const ImageRegister = ({ onClose }) => {
         </div>
 
         <div className="button-container">
-          <button id="cancel-button" type="button" onClick={onClose}>
+          <button id="cancel-button" type="button" onClick={closeModal} >
             Cancelar
           </button>
           <button id="register-button" type="submit" onClick={handleSubmit}>
