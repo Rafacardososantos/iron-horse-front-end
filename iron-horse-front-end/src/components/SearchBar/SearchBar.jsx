@@ -5,14 +5,16 @@ import { useNavigate } from "react-router-dom";
 import api from "../../utils/api";
 
 const SearchBar = () => {
-  const [city, setCity] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
+  const [city, setCity] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
 
   const navigate = useNavigate();
 
+  const [page, setPage] = useState(0);
+  const [size, setSize] = useState(10);
 
   const handleSearch = async () => {
     try {
@@ -22,11 +24,20 @@ const SearchBar = () => {
           startDate,
           endDate,
           startTime,
-          endTime
+          endTime,
+          page,
+          size,
         },
       });
 
-      navigate('/vehicle-listing', { state: { results: response, city } });
+      navigate('/vehicle-listing', { 
+        state: {
+          results: response.content,
+          totalPages: response.totalPages,
+          currentPage: response.number,
+          city
+        }
+      });
     } catch (error) {
       console.error("Erro ao realizar a busca:", error);
     }
