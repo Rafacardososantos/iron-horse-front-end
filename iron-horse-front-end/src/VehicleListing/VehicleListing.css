@@ -170,6 +170,11 @@
       height: 50vh;
     }
   }
+
+  .filters {
+    display: flex;
+    flex-direction: row;
+  }
   
   .filters button {
     background-color: #7e3bb1;

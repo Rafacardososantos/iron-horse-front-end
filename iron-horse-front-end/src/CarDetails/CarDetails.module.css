@@ -1,0 +1,379 @@
+.car-details {
+  display: flex;
+  flex-direction: column;
+  font-family: 'Inter', sans-serif;
+  color: #969696;
+  background-color: #2e2e2e;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 0 auto;
+}
+
+/*ME CHI AQUI*/
+
+.car-header,
+.car-rent {
+  width: 48%;
+  /* Ambos os blocos ocupam 48% da largura do contêiner */
+}
+
+.car-header h2 {
+  font-size: 2em;
+  margin-bottom: 20vh;
+  color: #ffffff;
+}
+
+
+.datetime-input:focus {
+  border-color: #800080;
+  /* Cor roxa para foco */
+  outline: none;
+}
+
+.estrela-roxa {
+  color: #800080;
+  /* roxo */
+  font-size: 1.2em;
+  /* tamanho da estrela */
+  margin: 0 5px;
+  /* espaçamento */
+}
+
+.car-info, .car-description {
+  margin-bottom: 20px;
+}
+
+.car-info p {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.car-image {
+  display: flex;
+  justify-content: center; /* Alinha a imagem horizontalmente */
+}
+
+.car-image img {
+  width: 80vh;
+  height: 50vh;
+  border-radius: 8px;
+}
+
+.car-details-text {
+  margin-bottom: 20px;
+}
+.car-details-text p {
+  margin: 10px 0;
+}
+
+.car-description h3 {
+  margin-left: -2vh;
+}
+
+.car-description p {
+  margin-left: -4vh;
+}
+
+.car-description,
+.car-specs {
+  margin-top: 20px;
+}
+
+.car-specs ul,
+ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.car-specs ul li ul li {
+  margin: 5px 0;
+}
+
+.car-description h3,
+.car-specs h3 {
+  font-size: 1.5em;
+  color: #a65dff;
+}
+
+.car-rent {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin: 10px 3vh 0;
+}
+
+
+.form-field {
+  margin-bottom: 15px;
+}
+
+.car-two-columns {
+  display: flex;
+  justify-content: center; /* Alinha os itens no centro horizontalmente */
+  gap: 20px; /* Espaço entre os dois blocos */
+  width: 100%; /* Garante que o contêiner ocupe toda a largura disponível */
+  max-width: 1200px; /* Define um limite máximo de largura, se necessário */
+  margin: 0 auto; /* Garante que o contêiner esteja centralizado */
+}
+
+
+label {
+  font-size: 14px;
+  color: #333;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.datetime-container {
+  display: flex;
+  gap: 10px;
+}
+.datetime-input {
+  width: 48%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.datetime-input:focus {
+  border-color: #800080;
+  outline: none;
+}
+
+select,
+input[type="date"],
+input[type="time"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+select:focus,
+input[type="date"]:focus,
+input[type="time"]:focus {
+  border-color: #800080;
+  outline: none;
+}
+
+.btn-continue {
+  background-color: #800080;
+  color: #fff;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.btn-continue:hover {
+  background-color: #620057;
+}
+
+
+@media (max-width: 768px) {
+  .car-info {
+    padding: 15px;
+  }
+
+  .datetime-container {
+    flex-direction: column;
+  }
+
+  .datetime-input {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
+
+.car-specs {
+  display: flex;
+  justify-content: center; /* Alinha os itens no centro horizontalmente */
+  gap: 20px; /* Espaço entre os dois blocos */
+  width: 100%; /* Garante que o contêiner ocupe toda a largura disponível */
+  margin: 0 4vh auto;
+}
+
+.car-specs-title {
+  text-align: center;
+  margin-right: 15vh;
+}
+
+
+.specs-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 0;
+  list-style-type: none;
+}
+
+.specs-list li {
+  flex: 0 0 30%;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+}
+
+
+.feature-item {
+  display: flex;
+  align-items: center;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  background-color: #800080;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+
+@media (max-width: 768px) {
+  .specs-list li {
+    flex: 0 0 48%;
+  }
+}
+
+@media (max-width: 480px) {
+  .specs-list li {
+    flex: 0 0 100%;
+  }
+}
+
+.car-reviews {
+  display: flex;
+  flex-direction: column; /* Organiza os itens em uma coluna */
+  align-items: center; /* Centraliza os itens horizontalmente */
+  justify-content: center; /* Centraliza os itens verticalmente (se houver altura definida) */
+  text-align: center; /* Centraliza o texto dentro de cada item */
+  width: 100%; /* Garante que a div ocupe toda a largura disponível */
+  max-width: 900px; /* Limita a largura máxima para que o conteúdo não fique muito largo */
+  margin: 0 6vh auto; /* Centraliza a div horizontalmente */
+}
+
+.review-item {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.review-header {
+  display: flex;
+  align-items: flex-start;
+  /* Alinha a imagem à esquerda e os textos à direita */
+}
+
+.review-avatar {
+  width: 12vh;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.review-content {
+  display: flex;
+  flex-direction: column;
+  /* Coloca os itens em coluna */
+  margin-left: 10px;
+}
+
+.review-rating {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.star {
+  font-size: 18px;
+  color: #ffd700;
+  /* Cor das estrelas */
+}
+
+.star.empty {
+  color: #ccc;
+  /* Cor das estrelas vazias */
+}
+
+.review-content p {
+  margin: 5px 0;
+}
+
+.review-content strong {
+  font-weight: bold;
+}
+
+.car-rating {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.car-info {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.car-info-item {
+  flex: 1; /* Faz os itens de combustível e portas dividirem igualmente o espaço */
+}
+
+.fuel-info, .door-info, .seat-info {
+  margin-bottom: 10px;
+}
+
+.seat-info {
+  margin-top: 20px; /* Coloca os assentos abaixo de combustível e portas */
+}
+
+.imagem-tanque, .imagem-porta, .imagem-assento {
+  width: 8vh; /* Ajuste o tamanho das imagens conforme necessário */
+  margin-right: 10px;
+}
+
+.imagem-assento {
+  margin-left: -2vh;
+}
+
+.imagem-porta {
+  margin-left: -4vh;
+}
+
+.car-description {
+  margin-top: 20px;
+}
+
+.car-description h3 {
+  margin-bottom: 10px;
+}
+
+.car-rating {
+  display: flex;
+  flex-direction: row;
+}
+
+.car-header, .car-rent {
+  display: block; /* Garante que os elementos dentro de cada bloco sejam empilhados verticalmente */
+  text-align: left; /* Alinha o texto à esquerda */
+  margin-bottom: 10vh;
+}
+
+.car-header {
+  flex: 1; /* Faz a .car-header ocupar o máximo de espaço possível */
+}
+
+.car-rent {
+  flex: 1; /* Faz a .car-rent ocupar o máximo de espaço possível */
+  /* Se você quiser garantir que a .car-rent tenha o mesmo tamanho da .car-header, pode adicionar width: 50% */
+}
