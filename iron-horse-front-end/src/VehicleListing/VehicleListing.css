@@ -208,3 +208,17 @@
 .results::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
+
+.car-rate {
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.star {
+  color: #AA14F0;
+  margin-left: 5px;
+  font-size: 1.2rem;
+}
+
+/*somente ate aqui*/
+

@@ -88,15 +88,18 @@ const VehicleListing = () => {
     }
   }, [state?.results, state?.city, state?.startDate, state?.endDate]);
 
-  const handleScroll = useCallback((event) => {
-    const scrollContainer = event.target;
-    const bottom =
-      scrollContainer.scrollHeight === scrollContainer.scrollTop + scrollContainer.clientHeight;
+  const handleScroll = useCallback(
+    (event) => {
+      const scrollContainer = event.target;
+      const bottom =
+        scrollContainer.scrollHeight === scrollContainer.scrollTop + scrollContainer.clientHeight;
 
-    if (bottom && !loading && hasMore) {
-      fetchNextPage();
-    }
-  }, [loading, hasMore, fetchNextPage]);
+      if (bottom && !loading && hasMore) {
+        fetchNextPage();
+      }
+    },
+    [loading, hasMore, fetchNextPage]
+  );
 
   useEffect(() => {
     const scrollContainer = document.getElementById('results-container');
@@ -109,7 +112,43 @@ const VehicleListing = () => {
         scrollContainer.removeEventListener('scroll', handleScroll);
       }
     };
-  }, [handleScroll]); // O efeito é recriado apenas se 'handleScroll' mudar
+  }, [handleScroll]);
+
+  // Lógica para o mapa
+  useEffect(() => {
+    const initMap = () => {
+      const defaultLocation = { lat: -30.0277, lng: -51.2287 };
+      const mapCenter =
+        results.length > 0
+          ? { lat: results[0].latitude, lng: results[0].longitude }
+          : defaultLocation;
+
+      const map = new window.google.maps.Map(document.getElementById('map'), {
+        zoom: 13,
+        center: mapCenter,
+      });
+
+      results.forEach((car) => {
+        new window.google.maps.Marker({
+          position: { lat: car.latitude, lng: car.longitude },
+          map: map,
+          label: car.brand + ' ' + car.model + ' ' + car.manufactureYear,
+        });
+      });
+    };
+
+    if (!window.google) {
+      const script = document.createElement('script');
+      script.src = `https://maps.googleapis.com/maps/api/js?key=APIKEY&callback=initMap`;
+      script.async = true;
+      script.defer = true;
+      document.body.appendChild(script);
+
+      window.initMap = initMap;
+    } else {
+      initMap();
+    }
+  }, [results]);
 
   return (
     <div>
@@ -136,9 +175,22 @@ const VehicleListing = () => {
                   <img src={car.path || carImage1} alt={car.name || 'Carro'} />
                 </div>
                 <div className="car-details">
-                  <h3>{car.brand + ' ' + car.model + ' ' + car.manufactureYear || 'Nome do Carro'}</h3>
-                  <p className="car-price">Valor da diária R$ {car.price.toFixed(2) || 'Preço'}</p>
+                  <h3>
+                    {car.brand + ' ' + car.model + ' ' + car.manufactureYear || 'Nome do Carro'}
+                  </h3>
+                  <p className="car-price">
+                    Valor da diária R$ {car.price.toFixed(2) || 'Preço'}
+                  </p>
                   <p className="car-location">{car.city || 'Localização'}</p>
+                  <p className="car-rate">
+                    Avaliações: {car.rate ? (
+                      <>
+                        {car.rate} <span className="star">&#9733;</span>
+                      </>
+                    ) : (
+                      'Sem avaliação'
+                    )}
+                  </p>
                 </div>
               </div>
             ))
