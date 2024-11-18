@@ -191,14 +191,14 @@ const CarDetails = ({ carId }) => {
                         <div className={styles['form-field']}>
                             <label htmlFor="pickup-date">Retirada:</label>
                             <h3>Retirada: </h3>
-                            <div className={styles['datetime-container']}>
+                            <div className={styles['car-datetime-container']}>
                                 <input
                                     type="date"
                                     id="pickup-date"
                                     name="pickup-date"
                                     value={pickupDate}
                                     onChange={handlePickupDateChange}
-                                    className={styles['datetime-input']}
+                                    className={styles['car-datetime-input']}
                                 />
                                 <input
                                     type="time"
@@ -206,7 +206,7 @@ const CarDetails = ({ carId }) => {
                                     name="pickup-time"
                                     value={pickupTime}
                                     onChange={handlePickupTimeChange}
-                                    className={styles['datetime-input']}
+                                    className={styles['car-datetime-input']}
                                 />
                             </div>
                         </div>
@@ -214,14 +214,14 @@ const CarDetails = ({ carId }) => {
                         <div className={styles['form-field']}>
                             <label htmlFor="return-date">Devolução:</label>
                             <h3>Devolução: </h3>
-                            <div className={styles['datetime-container']}>
+                            <div className={styles['car-datetime-container']}>
                                 <input
                                     type="date"
                                     id="return-date"
                                     name="return-date"
                                     value={returnDate}
                                     onChange={handleReturnDateChange}
-                                    className={styles['datetime-input']}
+                                    className={styles['car-datetime-input']}
                                 />
                                 <input
                                     type="time"
@@ -229,7 +229,7 @@ const CarDetails = ({ carId }) => {
                                     name="return-time"
                                     value={returnTime}
                                     onChange={handleReturnTimeChange}
-                                    className={styles['datetime-input']}
+                                    className={styles['car-datetime-input']}
                                 />
                             </div>
                         </div>

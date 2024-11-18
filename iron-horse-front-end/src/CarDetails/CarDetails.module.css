@@ -146,9 +146,9 @@ label {
   outline: none;
 }
 
-select,
-input[type="date"],
-input[type="time"] {
+
+.car-datetime-input[type="date"],
+.car-datetime-input[type="time"]{
   width: 100%;
   padding: 10px;
   font-size: 16px;
@@ -157,6 +157,7 @@ input[type="time"] {
   background-color: #fff;
   box-sizing: border-box;
   transition: all 0.3s ease;
+  margin-bottom: 1vh;
 }
 
 select:focus,

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { Row, Col } from 'react-bootstrap';
-import "./SearchBar.css";
 import { useNavigate } from "react-router-dom";
 import api from "../../utils/api";
+import styles from "../SearchBar/searchBar.module.css"
 
 const SearchBar = () => {
   const [city, setCity] = useState('');
@@ -65,76 +65,77 @@ const SearchBar = () => {
   }, []);
 
   return (
-    <div className="main-search-container">
-      <Row className="gy-3 justify-content-center align-items-center">
+<div className={styles.mainSearchContainerSearch}>
+    <Row className="gy-4 justify-content-center align-items-center">
         <Col xs={12} md={4} lg={4}>
-          <div className="input-wrapper">
-            <label>Local</label>
-            <input
-              className="local-input"
-              type="text"
-              placeholder="Localização"
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-            />
-          </div>
+            <div className={styles.inputWrapperSearch}>
+                <label>Local</label>
+                <input
+                    className={styles.localInputSearch}
+                    type="text"
+                    placeholder="Localização"
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                />
+            </div>
         </Col>
 
         <Col xs={12} md={4} lg={3}>
-          <div className="input-wrapper">
-            <label>Retirada</label>
-            <div className="date-time-wrapper">
-              <input
-                id="start-date"
-                className="date-input"
-                type="date"
-                placeholder="Data"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-              />
-              <input
-                id="start-time"
-                className="time-input"
-                type="time"
-                placeholder="Hora"
-                value={startTime}
-                onChange={(e) => setStartTime(e.target.value)}
-              />
+            <div className={styles.inputWrapperSearch}>
+                <label>Retirada</label>
+                <div className={styles.dateTimeWrapperSearch}>
+                    <input
+                        id="start-date"
+                        className={styles.dateInputSearch}
+                        type="date"
+                        placeholder="Data"
+                        value={startDate}
+                        onChange={(e) => setStartDate(e.target.value)}
+                    />
+                    <input
+                        id="start-time"
+                        className={styles.timeInputSearch}
+                        type="time"
+                        placeholder="Hora"
+                        value={startTime}
+                        onChange={(e) => setStartTime(e.target.value)}
+                    />
+                </div>
             </div>
-          </div>
         </Col>
 
         <Col xs={12} md={4} lg={3}>
-          <div className="input-wrapper">
-            <label>Devolução</label>
-            <div className="date-time-wrapper">
-              <input
-                id="end-date"
-                className="date-input"
-                type="date"
-                placeholder="Data"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-              />
-              <input
-                id="end-time"
-                className="time-input"
-                type="time"
-                placeholder="Hora"
-                value={endTime}
-                onChange={(e) => setEndTime(e.target.value)}
-              />
+            <div className={styles.inputWrapperSearch}>
+                <label>Devolução</label>
+                <div className={styles.dateTimeWrapperSearch}>
+                    <input
+                        id="end-date"
+                        className={styles.dateInputSearch}
+                        type="date"
+                        placeholder="Data"
+                        value={endDate}
+                        onChange={(e) => setEndDate(e.target.value)}
+                    />
+                    <input
+                        id="end-time"
+                        className={styles.timeInputSearch}
+                        type="time"
+                        placeholder="Hora"
+                        value={endTime}
+                        onChange={(e) => setEndTime(e.target.value)}
+                    />
+                </div>
             </div>
-          </div>
         </Col>
 
         <Col xs={12} md={4} lg={2}>
-          <button className="search-button" onClick={handleSearch}>
-            Pesquisar
-          </button>
+            <button className={styles.searchButton} onClick={handleSearch}>
+                Pesquisar
+            </button>
         </Col>
-      </Row>
-    </div>
+    </Row>
+</div>
+
   );
 };
 
