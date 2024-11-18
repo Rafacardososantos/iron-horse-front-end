@@ -20,6 +20,12 @@ const VehicleListing = () => {
   const [page, setPage] = useState(currentPage);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(currentPage < totalPages - 1);
+  const [priceFilter, setPriceFilter] = useState(0);
+  const [showFilters, setShowFilters] = useState(false);
+
+  const toggleFilters = () => {
+    setShowFilters(!showFilters);
+  };
 
   const reloadSearch = async () => {
     setPage(0);
@@ -35,6 +41,7 @@ const VehicleListing = () => {
           endDate,
           page: 0,
           size: 10,
+          maxPrice: priceFilter,
         },
       });
 
@@ -61,6 +68,7 @@ const VehicleListing = () => {
           endDate,
           page: page + 1,
           size: 10,
+          maxPrice: priceFilter,
         },
       });
 
@@ -76,7 +84,7 @@ const VehicleListing = () => {
     } finally {
       setLoading(false);
     }
-  }, [loading, hasMore, city, startDate, endDate, page]);
+  }, [loading, hasMore, city, startDate, endDate, page, priceFilter]);
 
   useEffect(() => {
     if (state?.results && state?.results.length > 0) {
@@ -86,7 +94,7 @@ const VehicleListing = () => {
     } else {
       reloadSearch();
     }
-  }, [state?.results, state?.city, state?.startDate, state?.endDate]);
+  }, [state?.results, state?.city, state?.startDate, state?.endDate, priceFilter]);
 
   const handleScroll = useCallback(
     (event) => {
@@ -139,7 +147,7 @@ const VehicleListing = () => {
 
     if (!window.google) {
       const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=APIKEY&callback=initMap`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyAVcHJGvY29a-9Mr6bfO4B6JTxGwxGUdmU&callback=initMap`;
       script.async = true;
       script.defer = true;
       document.body.appendChild(script);
@@ -150,23 +158,37 @@ const VehicleListing = () => {
     }
   }, [results]);
 
+  const handleApplyFilters = () => {
+    reloadSearch();
+  };
+
   return (
     <div>
       <NavigationBar />
       <SearchBar />
 
-      <section className="filters">
-        <button>Preço diário</button>
-        <button>Tipo de veículo</button>
-        <button>Ano de Fabricação</button>
-        <button>Ano do Modelo</button>
-        <button>Assentos</button>
-        <button>Combustível</button>
-        <button>Dirija até meu encontro</button>
-        <button>Filtros</button>
-      </section>
+        <button onClick={toggleFilters} className="button-filter-vehicle">Filtros</button>
+        {showFilters && (
+          <div className="filters-container">
+            <h3>Filtros</h3>
+            <label>Preço diário:</label>
+            <input
+              type="range"
+              min="0"
+              max="500"
+              step="10"
+              value={priceFilter}
+              onChange={(e) => setPriceFilter(Number(e.target.value))}
+            />
+            <span>Até R$ {priceFilter.toFixed(2)}</span>
+            <button onClick={handleApplyFilters} className="button-filter-vehicle">Aplicar Filtros</button>
+          </div>
+        )}
 
       <div className="main-container">
+
+      
+
         <section id="results-container" className="results">
           {results.length > 0 ? (
             results.map((car, index) => (
