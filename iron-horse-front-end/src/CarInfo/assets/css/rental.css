@@ -1,0 +1,201 @@
+
+.car-rental {
+    background: #333;
+    display: flex;
+    justify-content: space-evenly;
+    font-family: "Inter", serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+}
+
+.vehicle-info {
+    background: #333;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 25px;
+    gap: 20px;
+    /* Espaço entre os itens */
+    margin-left: 11.5%;
+    max-width: 550px;
+    max-height: 600px;
+}
+
+.vehicle-info  {
+    justify-content: space-between;
+}
+
+.rating{
+    display: flex;
+    flex-direction: row;
+}
+
+.vehicle-info .rating #rate {
+    font-weight: 575;
+}
+
+#star {
+    padding-left: 2.5%;
+    padding-right: 2.5%;
+    text-shadow:
+        1px 1px 0 #fff,
+        -1px 1px 0 #fff,
+        1px -1px 0 #fff,
+        -1px -1px 0 #fff,
+        0 1px 0 #fff,
+        0 -1px 0 #fff,
+        1px 0 0 #fff,
+        -1px 0 0 #fff;
+    /* Cria o efeito de borda */
+    font-size: 1.07em;
+    /* Tamanho do ícone, ajustável conforme necessário */
+}
+
+.vehicle-specs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-right: 10.5%;
+}
+
+.vehicle-specs p {
+    padding: 1.5%;
+    font-size: 2ch;
+}
+
+.vehicle-specs p img {
+    height: 4.5rem;
+    text-align: center;
+    margin-bottom: -17%;
+    text-align: right;
+    padding-right: 40px;
+}
+
+.owner-info {
+    margin-top: 7.5%;
+}
+
+.owner-info .position {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 7%;
+}
+
+.owner-info .position p#name {
+    margin-left: 5%;
+    margin-top: 8.95%;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.owner-info .owner-photo {
+    border-radius: 50%;
+    width: 7rem;
+    height: 7rem;
+}
+
+.description#justify-first-line {
+    text-align: justify;
+    /* Justifica o texto para todas as linhas */
+    text-indent: 25px;
+    /* Indenta negativamente a primeira linha */
+    padding-left: 5.5px;
+    /* Compensa a indentação para manter a primeira linha alinhada à esquerda */
+}
+
+.gas-pump {
+    padding-right: 5px;
+}
+
+.users-seat img {
+    margin-top: 15%;
+}
+
+.booking-info {
+    background-color: #333;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px;
+    /* Espaço entre os itens */
+    font-family: "Inter", serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+    margin-right: 11.5%;
+}
+
+.base-viagem {
+    width: 375px;
+    height: 62px;
+    border: 20px solid;
+    /* As 4 bordas sólidas com 25px de espessura */
+    border-color: #fff;
+    /* cores: topo, direita, inferior, esquerda */
+    border-radius: 15px;
+    margin-top: 20px;
+    font-family: "Inter", serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+    margin-right: 7%;
+    box-shadow: 0 0 0 0;
+    outline: 0
+}
+
+.money {
+    margin-bottom: 5.5%;
+}
+
+.trip-timing {
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+}
+
+.cancel {
+    margin-top: 20px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding-left: 9.5px;
+    padding-right: 9.5px;
+}
+
+.pickup-location#location-select {
+    height: 105px;
+}
+
+.trip-duration {
+    width: 375px;
+    height: 62px;
+    border: 20px solid;
+    /* As 4 bordas sólidas com 25px de espessura */
+    border-color: #393939;
+    /* cores: topo, direita, inferior, esquerda */
+    border-radius: 15px;
+    background-color: #393939;
+    margin-top: 20px;
+    font-family: "Inter", serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+    margin-right: 7%;
+    box-shadow: 0 0 0 0;
+    outline: 0;
+}
+
+.booking-info button {
+    background-color: #AA14F0;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    width: 375px;
+    height: 62px;
+    font-weight: bold;
+    font-size: 20px;
+}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, navigate } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import LoginPopup from "../LoginPopup/LoginPopup";
 import CreateAccount from "../Create-Account/CreateAccount";
@@ -19,6 +19,10 @@ export default () => {
     setIsMenuOpen(false);
   };
 
+  const home = () => {
+    navigate("/");
+  };
+
   const closePopup = () => {
     setActivePopup(null);
   };
@@ -31,6 +35,7 @@ export default () => {
             className="user-profile-img"
             src="/img/Logo_UVIO_contrario.png"
             alt="Logo UVIO"
+            onClick={home}
           />
         </div>
 
