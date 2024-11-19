@@ -6,15 +6,13 @@ import "./assets/css/carousel.css";
 import "./assets/css/rental.css";
 import "./assets/css/specs_reviews.css";
 import VehiclePage from "./components/VehiclePage";
-import Header from "./components/Header";
-import SearchSection from "./assets/script/search";
 import Carousel from "./assets/script/carousel";
 import Rental from "./assets/script/rental";
 import VehicleSpecifications from "./assets/script/specs_reviews"
 import React, { useEffect, useState } from 'react';
-import api from '../utils/api';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SearchBar from "../components/SearchBar/SearchBar";
+import NavigationBar from "../components/NavigationBar";
 
 const CarInfo = () => {
 
@@ -155,7 +153,7 @@ const CarInfo = () => {
     return (
         <div className="CarInfo">
             <VehiclePage />
-            <Header />
+            <NavigationBar />
             <body>
                 <SearchBar/>
                 <Carousel images={car.car.images} />
