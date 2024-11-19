@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 import "bootstrap/dist/css/bootstrap.min.css";
 import LoginPopup from "../LoginPopup/LoginPopup";
 import CreateAccount from "../Create-Account/CreateAccount";
@@ -10,10 +10,7 @@ import CarRegister from "../CarRegister/CarRegister"
 function NavigationBar () {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activePopup, setActivePopup] = useState(null);
-  const navigate = useNavigate();
-
-  const isLoggedIn = !!localStorage.getItem("authToken")
-
+ 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -27,12 +24,6 @@ function NavigationBar () {
     setActivePopup(null);
   };
 
-  const handleNavigate = () => {
-    if(isLoggedIn){
-      navigate("/rentals");
-    }
-    
-  }
   return (
     <>
       <header>
@@ -80,12 +71,8 @@ function NavigationBar () {
                 </a>
               </li>
               <li>
-                <a href="#"
-                onClick={(e) =>{
-                  e.preventDefault();
-                  handleNavigate();
-                }}>
-                  Aluguéis</a></li>
+                <Link to={"/rentals"}>
+                  Aluguéis</Link></li>
             </ul>
           </div>
         )}
