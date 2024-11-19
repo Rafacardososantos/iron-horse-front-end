@@ -1,11 +1,8 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { useCarContext } from "../context/CarContext";
-import { useAuth } from "../context/AuthContext";
-import ProtectedRoute from "../components/ProtectedRoute";
 import ImageRegister from "../ImageRegister/ImageRegister"
 import "./CarRegister.css";
 import Modal from "../components/Modal/Modal"
-import api from "../utils/api";
 
 const CarContext = createContext();
 
@@ -14,31 +11,34 @@ const CarRegister = ({ onClose }) => {
   const [otherBrand, setOtherBrand] = useState("");
   const [isOtherBrand, setIsOtherBrand] = useState(false);
   const [isInsuranceActive, setInsuranceActive] = useState(false);
-
-  const { auth, setFormSubmitted } = useAuth(); 
+  const { carData, setCarData } = useCarContext();
   const [isFirstModalOpen, setFirstModalOpen] = useState(true);
   const [isSecondModalOpen, setSecondModalOpen] = useState(false);
+  const [carDataExist, setCarDataExist] = useState();
 
   const openFirstModal = () => {
     setFirstModalOpen(true);
   };
 
+
   const openSecondModal = () => {
-    if (setFormSubmitted) {
-      setFirstModalOpen(false); 
-      setSecondModalOpen(true); 
-    } else {
+    setFirstModalOpen(false);
+    setSecondModalOpen(true);
+    if (!carDataExist) {
       onClose(null);
-      setFirstModalOpen(false);
     }
   };
-  
-  const { carData, setCarData } = useCarContext();
+
+  useEffect(() => {
+    if (carDataExist) {
+      openSecondModal();
+    }
+  }, [carDataExist]); 
 
   const [formData, setFormData] = useState({
     brand: '',
     model: '',
-    manufactureYear: 2020,
+    manufactureYear: 2010,
     carInfoDto: {
       insurance: true,
       insuranceName: 'Não possui',
@@ -46,29 +46,29 @@ const CarRegister = ({ onClose }) => {
       licensePlate: '',
       transmission: '',
       directionType: '',
-      chassi: '',
+      chassi: 'xyzadqae',
       engineNumber: '',
       cylinderDisplacement: '',
       mileage: '',
       fuelType: '',
-      color: "Azul",
+      color: "",
       numDoors: 4,
-      numSeats: 5,
-      headlightBulb: "LED",
-      trunkCapacity: 500,
+      numSeats: 4,
+      headlightBulb: "",
+      trunkCapacity: '',
       carFeaturesDto: {
-        insulfilm: true,
+        insulfilm: false,
         tagPike: false,
-        antiTheftSecret: true,
+        antiTheftSecret: false,
         multimedia: false,
-        airConditioner: true,
-        electricWindowsAndLocks: true,
-        triangle: true,
+        airConditioner: false,
+        electricWindowsAndLocks: false,
+        triangle: false,
         jack: false,
-        wheelWrench: true,
-        spareTire: true,
+        wheelWrench: false,
+        spareTire: false,
         fireExtinguisher: false,
-        alarm: true,
+        alarm: false,
       },
     },
   });
@@ -79,10 +79,9 @@ const CarRegister = ({ onClose }) => {
     const { name, value, type, checked } = e.target;
 
     const validationRules = {
-      chassi: /^[A-Z0-9]{17}$/, 
-      engineNumber: /^[A-Z0-9]{1,10}$/,  
-      cylinderDisplacement: /^\d{1,3}(\.\d{1,2})?$/,  
-      mileage: /^[0-9]{1,7}$/, 
+      engineNumber: /^[A-Z0-9]{1,10}$/,
+      cylinderDisplacement: /^\d{1,3}(\.\d{1,2})?$/,
+      mileage: /^[0-9]{1,7}$/,
     };
 
     if (validationRules[name] && !validationRules[name].test(value)) return;
@@ -123,7 +122,7 @@ const CarRegister = ({ onClose }) => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();  
+    e.preventDefault();
 
     const bearerToken = localStorage.getItem("accessToken");
     if (!bearerToken) {
@@ -137,22 +136,22 @@ const CarRegister = ({ onClose }) => {
       model: formData.model,
       manufactureYear: formData.manufactureYear,
       carInfoDto: {
-        insurance: formData.carInfoDto.insurance,
-        insuranceName: formData.carInfoDto.insuranceName,
-        renavam: formData.carInfoDto.renavam,
-        licensePlate: formData.carInfoDto.licensePlate,
-        transmission: formData.carInfoDto.transmission,
-        directionType: formData.carInfoDto.directionType,
-        chassi: formData.carInfoDto.chassi,
-        engineNumber: formData.carInfoDto.engineNumber,
-        cylinderDisplacement: formData.carInfoDto.cylinderDisplacement,
-        mileage: formData.carInfoDto.mileage,
-        fuelType: formData.carInfoDto.fuelType,
-        color: formData.carInfoDto.color,
-        numDoors: formData.carInfoDto.numDoors,
-        numSeats: formData.carInfoDto.numSeats,
-        headlightBulb: formData.carInfoDto.headlightBulb,
-        trunkCapacity: formData.carInfoDto.trunkCapacity,
+        insurance: formData.insurance,
+        insuranceName: formData.insuranceName,
+        renavam: formData.renavam,
+        licensePlate: formData.licensePlate,
+        transmission: formData.transmission,
+        directionType: formData.directionType,
+        chassi: formData.chassi,
+        engineNumber: formData.engineNumber,
+        cylinderDisplacement: formData.cylinderDisplacement,
+        mileage: formData.mileage,
+        fuelType: formData.fuelType,
+        color: formData.color,
+        numDoors: formData.numDoors,
+        numSeats: formData.numSeats,
+        headlightBulb: formData.headlightBulb,
+        trunkCapacity: formData.trunkCapacity,
         carFeaturesDto: {
           insulfilm: formData.carInfoDto.carFeaturesDto.insulfilm,
           tagPike: formData.carInfoDto.carFeaturesDto.tagPike,
@@ -170,15 +169,12 @@ const CarRegister = ({ onClose }) => {
       }
     };
     setCarData(requestData);
-    console.log("Formulário enviado!");
-    setFormSubmitted(true);
-    openSecondModal(true);
-
+    setCarDataExist(true);
   };
 
   return (
     <div>
-      {isFirstModalOpen && ( <Modal isOpen={isFirstModalOpen} onClose={openSecondModal}>
+      {isFirstModalOpen && (<Modal isOpen={isFirstModalOpen} onClose={openSecondModal}>
         <h2>Cadastre seu Veículo</h2>
         <img src="../img/carro-ilustracao-de-transporte.png" alt="Logo" className="modal-image" />
         <form onSubmit={handleSubmit} className="two-column-form">
@@ -465,7 +461,7 @@ const CarRegister = ({ onClose }) => {
               Ar condicionado
             </label>
             <label>
-              <input type="checkbox" name="electricWindowsAndLocks:" checked={formData.carInfoDto.carFeaturesDto.electricWindowsAndLocks} onChange={handleChange} />
+              <input type="checkbox" name="electricWindowsAndLocks" checked={formData.carInfoDto.carFeaturesDto.electricWindowsAndLocks} onChange={handleChange} />
               Vidros e Travas Elétricas
             </label>
           </div>
@@ -481,7 +477,7 @@ const CarRegister = ({ onClose }) => {
               Macaco
             </label>
             <label>
-              <input type="checkbox" name="wheelWrench:" checked={formData.carInfoDto.carFeaturesDto.wheelWrench} onChange={handleChange} />
+              <input type="checkbox" name="wheelWrench" checked={formData.carInfoDto.carFeaturesDto.wheelWrench} onChange={handleChange} />
               Chave de Roda
             </label>
             <label>
@@ -503,13 +499,11 @@ const CarRegister = ({ onClose }) => {
           </div>
         </form>
       </Modal>)}
-      {isSecondModalOpen  && (
-              <Modal isOpen={isSecondModalOpen} onClose={onClose}>
-                <ProtectedRoute>
-                  <ImageRegister />  {}
-                </ProtectedRoute>
-              </Modal>
-            )}
+      {isSecondModalOpen && (
+        <Modal isOpen={isSecondModalOpen} onClose={onClose}>
+          <ImageRegister />
+        </Modal>
+      )}
     </div>
   );
 };
