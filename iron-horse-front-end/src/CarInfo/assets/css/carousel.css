@@ -27,6 +27,7 @@
 
 .vehicle-photos {
     background: #333;
+    overflow-x: hidden;
 }
 
 .swiper-container {
