@@ -1,7 +1,12 @@
 .footer-container {
-  background-color: #4B0082; /* Roxo escuro estilo cyberpunk */
+  background-color: #4B0082;
   padding: 20px 0;
   text-align: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 51;
 }
 
 .footer-items {
