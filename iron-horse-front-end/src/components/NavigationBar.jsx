@@ -4,11 +4,13 @@ import LoginPopup from "../LoginPopup/LoginPopup";
 import CreateAccount from "../Create-Account/CreateAccount";
 import ForgotPassword from "../ForgotPassword/ForgotPassword";
 import "./NavigationBar.css";
+import { useNavigate } from 'react-router-dom';
 import CarRegister from "../CarRegister/CarRegister"
 
 export default () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activePopup, setActivePopup] = useState(null);
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
