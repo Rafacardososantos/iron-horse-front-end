@@ -4,6 +4,8 @@ import showPasswordIcon from "../img/Visualização_Permitida.png";
 import hidePasswordIcon from "/img/Visualizar.png";
 import Modal from '../components/Modal/Modal';
 import api from "../utils/api";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CreateUser = ({ onClose }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -76,7 +78,6 @@ const CreateUser = ({ onClose }) => {
 
     setError(null);
 
-    //QUE LINDO TRY DENTRO DE OUTRO TRY MAS É O QUE TEM PRA HOJE DOGUIRRAN
     const personalInfoResponse = await api.post("/users", {
       name: formData.name,
       email: formData.email,
@@ -84,17 +85,16 @@ const CreateUser = ({ onClose }) => {
       phone: formData.phone,
     });
     
-    if (personalInfoResponse !== null) { // Verifique se a criação do usuário foi bem-sucedida
-      // Realizar login apenas depois da criação do usuário
+    if (personalInfoResponse !== null) { 
       const loginResponse = await api.post("/auth/login", {
         email: formData.email,
         password: formData.password,
       }, {
         headers: {
-          'Authorization': '', // Limpa qualquer header de autorização
+          'Authorization': '',
         }
       });
-    //testando 123
+
       const accessToken = loginResponse?.accessToken;
       if (accessToken) {
         localStorage.setItem("accessToken", accessToken);
@@ -108,7 +108,9 @@ const CreateUser = ({ onClose }) => {
   };
 
   return (
+    <>
     <Modal isOpen={isModalOpen} onClose={onClose}>
+      <ToastContainer />
       <h2>Crie a sua Conta</h2>
 
       <form onSubmit={handleSubmit} className="registration-form">
@@ -190,6 +192,7 @@ const CreateUser = ({ onClose }) => {
         <button type="submit">Criar Conta</button>
       </form>
     </Modal>
+    </>
   );
 };
 
