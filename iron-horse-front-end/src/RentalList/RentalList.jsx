@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import api from "../utils/api";
 import NavigationBar from "../components/NavigationBar";
 import '../components/Home/Home.css';
+import styles from './RentalList.module.css'
 
 
 function translateStatus(status) {
@@ -26,12 +27,12 @@ function RentaList () {
     }
 
     useEffect(  () => {
+        console.log("componente renderizado!!");
         const fetchRentals = async () => {           
             try {
               const response = await api.get("/rentals", {
                     headers: {
                         "Authorization": `Bearer ${token}`,
-                        "Content-Type": "application/json",
                     }
                 });
                 console.log("Dados retornados:", response.data);
@@ -57,19 +58,19 @@ function RentaList () {
                     </tr>
                 </thead>
                 <tbody>
-    {data.map((rental) => {
-        console.log("Rental data:", rental); // Adicionando o log aqui
-        return (
-            <tr key={rental.id}>
-                <td>{rental.id}</td>
-                <td>{rental.status}</td>
-                <td>{new Date(rental.startDate).toLocaleDateString()}</td>
-                <td>{new Date(rental.expectedEndDate).toLocaleDateString()}</td>
-                <td>{rental.realEndDate ? new Date(rental.realEndDate).toLocaleDateString() : 'N/A'}</td>
-            </tr>
-        );
-    })}
-</tbody>
+                    {data.map((rental) => (
+                         <tr key={rental.id}>
+                         <td>{rental.id}</td>
+                         <td>{translateStatus(rental.status)}</td>
+                         <td>{new Date(rental.startDate).toLocaleDateString()}</td>
+                         <td>{new Date(rental.expectedEndDate).toLocaleDateString()}</td>
+                         <td>
+                         {console.log(rental.realEndDate)}
+                            {rental.realEndDate ? new Date(rental.realEndDate).toLocaleDateString() : 'N/A'}
+                         </td>
+                     </tr>
+                    ))}
+                </tbody>
             </table>
         </div>
         </>
