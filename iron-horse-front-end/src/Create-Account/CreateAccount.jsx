@@ -4,6 +4,8 @@ import showPasswordIcon from "../img/Visualização_Permitida.png";
 import hidePasswordIcon from "/img/Visualizar.png";
 import Modal from '../components/Modal/Modal';
 import api from "../utils/api";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CreateAccount = ({ onClose }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -48,6 +50,17 @@ const CreateAccount = ({ onClose }) => {
     if (file) {
       setFormData({ ...formData, image: file });
     }
+  };
+
+  const showToast = () => {
+    toast.success('Imagens enviadas com sucesso', {
+      position: toast.POSITION.TOP_RIGHT, 
+      autoClose: 2000, 
+      hideProgressBar: false,
+      closeOnClick: true, 
+      pauseOnHover: true, 
+      draggable: true, 
+    });
   };
 
 
@@ -136,6 +149,11 @@ const CreateAccount = ({ onClose }) => {
         const accessToken = loginResponse.accessToken;
         if (accessToken) {
           localStorage.setItem("accessToken", accessToken);
+          localStorage.setItem("refreshToken", loginResponse.refreshToken);
+            toast.success('USUARIO LOGADO COM SUCESSO!');
+              setTimeout(() => {
+                window.location.reload(); 
+              }, 2000);
         } else {
           console.error("Erro ao fazer login");
         }
@@ -210,6 +228,7 @@ const CreateAccount = ({ onClose }) => {
 
   return (
     <Modal isOpen={isModalOpen} onClose={onClose}>
+       <ToastContainer />
       <h2>Crie a sua Conta</h2>
 
       <form onSubmit={handleSubmit} className="registration-form">
