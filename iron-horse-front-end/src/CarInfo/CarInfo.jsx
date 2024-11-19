@@ -46,8 +46,8 @@ const CarInfo = () => {
                     method: 'POST',
                     headers: headers,
                     body: JSON.stringify({
-                        expectedEndDate: formattedReturnDate,
-                        startDate: formattedPickupDate
+                        startDate: formattedPickupDate,
+                        expectedEndDate: formattedReturnDate
                     }),
                 });
 
