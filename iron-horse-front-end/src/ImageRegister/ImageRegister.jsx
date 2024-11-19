@@ -1,12 +1,35 @@
-import { useState, useRef } from "react";
-import Modal from "../components/Modal/Modal";
-import { useCarContext } from "../context/CarContext";
-import "./ImageRegister.css";
+import React, { useState, useRef } from 'react';
+import Modal from '../components/Modal/Modal';
+import api from '../utils/api';
+import { useCarContext } from '../context/CarContext';
+import './ImageRegister.css';
 
-const VehicleRegistrationModal = ({onClose}) => {
+const ImageRegister = ({ onClose, isOpen }) => {
   const [isModalOpen, setModalOpen] = useState(true);
-  const fileInputRef = useRef(null);
   const { carData, setCarData } = useCarContext();
+  const [isCarDataSubmitted, setCarDataSubmitted] = useState(false);
+
+  const imageData = [
+    { label: "Imagem de Capa ou Destaque do Anúncio", placeholder: "../img/carro-ilustracao-de-transporte.png" },
+    { label: "Imagem Frontal", placeholder: "../img/vista frontal.png" },
+    { label: "Imagem Traseira", placeholder: "../img/vista traseira.png" },
+    { label: "Imagem Lateral Direita", placeholder: "../img/vista lateral direita.png" },
+    { label: "Imagem Lateral Esquerda", placeholder: "../img/vista lateral esquerda.png" },
+    { label: "Número do Chassi", placeholder: "../img/Chassi.png" },
+    { label: "Número do Motor", placeholder: "../img/Numero_Motor.png" },
+  ];
+
+  const getConsentText = (key) => {
+    const consentTexts = {
+      checkbox1: 'A documentação do carro está em dia, entendo por como documentos o Licenciamento do Veículo que inclui o  IPVA, o DPVAT e a GRT. ',
+      checkbox2: 'Os condutores NÃO podem ser fumantes e/ou NÃO devem fumar dentro de seu veículo.',
+      checkbox3: 'Os valores de pedágio caso seu veículo possua Tag DEVEM ser repassados ao condutor. Se não sinalizada está opção, está de acordo com a DESATIVAÇÃO de sua Tag ao disponibilizar seu veículo durante o período de locação!',
+      checkbox4: 'As multas contraídas pelos condutores de seu veículo durante a utilização ou vigência do serviço serão transferidas ao infrator respectivo. Processo que é comumente conhecido como transferência de pontuação.  ',
+      checkbox5: 'O veículo caso possua modificações, as mesmas se encontram dentro das especificadas pelo fabricante. Não cabendo exceções, voltadas às modificações oriundas de customizações que estrapolam estes limites!   ',
+      checkbox6: 'Atesto para os devidos fins legais que todas às informações e/ou conteúdo de imagem fornecidas são verdadeiras, se valendo e fazendo cumprir as normativas da Lei Geral de Proteção de Dados (LGPD - Lei nº 13.709/2018), o Código Civil Brasileiro (Lei nº 10.406/2002) e o previsto pelo Artigo 299 do Código Penal Brasileiro, que tipifica como crime a falsidade ideológica.',
+    };
+    return consentTexts[key] || '';
+  };
 
   const [vehicleData, setVehicleData] = useState({
     consentCheckboxes: {
@@ -19,10 +42,29 @@ const VehicleRegistrationModal = ({onClose}) => {
     },
   });
 
-  const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
+  const mapCheckboxes = (checkboxes) => {
+    return {
+      smokersAccepted: checkboxes.checkbox2,
+      tagActivated: checkboxes.checkbox3,
+      finesBelongToTheOffender: checkboxes.checkbox4,
+      veicleModified: checkboxes.checkbox5,
+      trueInformation: checkboxes.checkbox6,
+      docsUptoDate: checkboxes.checkbox1,
+    };
+  };
 
-    if (type === "checkbox") {
+  const closeModal = () => {
+    window.location.reload();
+  };
+
+
+  const [uploadedImages, setUploadedImages] = useState(Array(imageData.length).fill(null));
+  const [imageIcons, setImageIcons] = useState(Array(imageData.length).fill(null));
+  const fileInputRefs = useRef(imageData.map(() => React.createRef()));
+
+  const handleInputChange = (e) => {
+    const { name, type, checked } = e.target;
+    if (type === 'checkbox') {
       setVehicleData((prevData) => ({
         ...prevData,
         consentCheckboxes: {
@@ -30,30 +72,97 @@ const VehicleRegistrationModal = ({onClose}) => {
           [name]: checked,
         },
       }));
-    } else {
-      setVehicleData({
-        ...vehicleData,
-        [name]: value,
-      });
     }
   };
 
-  const handleImageClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
+  const handleImageClick = (index) => {
+    if (fileInputRefs.current[index].current) {
+      fileInputRefs.current[index].current.click();
     }
   };
 
-  const handleFileChange = (e) => {
-    const files = e.target.files;
-    console.log(files);
+  const handleFileChange = (e, index) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const newImageUrl = URL.createObjectURL(file);
+    setUploadedImages((prevImages) => {
+      const newImages = [...prevImages];
+      newImages[index] = file;
+      return newImages;
+    });
+
+    setImageIcons((prevIcons) => {
+      const newIcons = [...prevIcons];
+      newIcons[index] = '../img/OK.png';
+      return newIcons;
+    });
   };
 
+  function printFormData(formData) {
+    for (let [key, value] of formData.entries()) {
+      if (value instanceof File) {
+        console.log(`${key}: [File] ${value.name} (${value.size} bytes)`);
+      } else {
+        console.log(`${key}: ${value}`);
+      }
+    }
+  }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(vehicleData);
-    closeModal();
+    const formData = new FormData();
+  
+  uploadedImages.forEach((image, index) => {
+    if (image) {
+      formData.append('files', image); 
+    }
+  });
+    
+  const mappedConsentData = mapCheckboxes(vehicleData.consentCheckboxes);
+  formData.append('carInfoConsentsDto', new Blob([JSON.stringify(mappedConsentData)], { type: 'application/json' }));
+
+
+    const bearerToken = localStorage.getItem('accessToken');
+
+    try {
+      const response = await fetch("http://localhost:8080/v1/cars", {
+        method: "POST",
+        headers: {
+          'Authorization': `Bearer ${bearerToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(carData)
+      });
+
+
+      if (response.ok) {
+        const data = await response.json();
+      const carId = data.id;
+        printFormData(formData);
+
+        const resp = await fetch(`http://localhost:8080/v1/car_info/image/${carId}`, {
+          method: 'POST',
+          headers: {
+              'Authorization': `Bearer ${bearerToken}`
+          },
+          body: formData,
+      });
+
+        if (response.ok) {
+          alert('Imagens enviadas com sucesso');
+        } else {
+          alert('Erro ao enviar as imagens');
+        }
+
+      } else {
+        console.error('Erro ao criar o carro:', response.status, response.statusText);
+        alert('Erro ao criar o carro. Tente novamente.');
+      }
+    } catch (error) {
+      console.error('Erro inesperado:', error);
+    }
+
   };
 
   return (
@@ -61,83 +170,52 @@ const VehicleRegistrationModal = ({onClose}) => {
       <Modal isOpen={isModalOpen} onClose={onClose}>
         <h2>Cadastre seu Veículo</h2>
 
-        <input
-          type="file"
-          ref={fileInputRef}
-          onChange={handleFileChange}
-          style={{ display: 'none' }}
-        />
+        {imageData.map((data, index) => (
+          <div key={index}>
+            <label>{data.label}</label>
+            <div className="image-container" onClick={() => handleImageClick(index)}>
+              <img
+                src={imageIcons[index] || data.placeholder}
+                alt={data.label}
+                className="upload-icon"
+              />
+            </div>
+            <input
+              type="file"
+              accept=".JPEG,.PNG"
+              ref={fileInputRefs.current[index]}
+              style={{ display: 'none' }}
+              onChange={(e) => handleFileChange(e, index)}
+            />
+          </div>
+        ))}
 
-        <img src="../img/carro-ilustracao-de-transporte.png" alt="Logo" className="modal-image" />
-      
-        <label>Imagens do Veículo</label>
-        <span>Imagem de Capa ou Destaque do Anúncio</span>
-        <div className="image-container" onClick={handleImageClick}>
-          <img src="../img/Nuvem_Upload_Transparente_Seta.png" alt="Upload" className="upload-icon" />
-        </div>
-
-        <span>Imagens que compõem o Anúncio e Protocolares para o Seguro:</span>
-        <span>Imagem Frontal</span>
-          <img src="../img/vista frontal.png" alt="Vista Frontal" className="car-image" />
-          <div className="image-container" onClick={handleImageClick}>
-          <img src="../img/Nuvem_Upload_Transparente_Seta.png" alt="Upload" className="upload-icon" />
-        </div>
-
-        <span>Imagem Traseira</span>
-          <img src="../img/vista traseira.png" alt="Vista Traseira" className="car-image" />
-          <div className="image-container" onClick={handleImageClick}>
-          <img src="../img/Nuvem_Upload_Transparente_Seta.png" alt="Upload" className="upload-icon" />
-        </div>
-
-        <span>Imagem Lateral Direita</span>
-          <img src="../img/vista lateral direita.png" alt="Lateral Direita" className="lateral-car-image" />
-          <div className="image-container" onClick={handleImageClick}>
-          <img src="../img/Nuvem_Upload_Transparente_Seta.png" alt="Upload" className="upload-icon" />
-        </div>
-
-        <span>Imagem Lateral Esquerda</span>
-          <img src="../img/vista lateral esquerda.png" alt="Lateral Esquerda" className="lateral-car-image" />
-          <div className="image-container" onClick={handleImageClick}>
-          <img src="../img/Nuvem_Upload_Transparente_Seta.png" alt="Upload" className="upload-icon" />
-        </div>
-        
         <label>Consentimento</label>
         <div className="checkbox-group">
-          <label>
-            <input type="checkbox" name="checkbox1" checked={vehicleData.consentCheckboxes.checkbox1} onChange={handleInputChange} />
-            <p className="checkbox-text">A documentação do carro está em dia, entendo por como documentos o Licenciamento do Veículo que inclui o IPVA, o DPVAT e a GRT.</p>
-          </label>
-          <label>
-            <input type="checkbox" name="checkbox2" checked={vehicleData.consentCheckboxes.checkbox2} onChange={handleInputChange} />
-            <p className="checkbox-text">Os condutores NÃO podem ser fumantes e/ou NÃO devem fumar dentro de seu veículo.</p>
-          </label>
-          <label>
-            <input type="checkbox" name="checkbox3" checked={vehicleData.consentCheckboxes.checkbox3} onChange={handleInputChange} />
-            <p className="checkbox-text">Os valores de pedágio caso seu veículo possua Tag DEVEM ser repassados ao condutor. Se não sinalizada esta opção, está de acordo com a DESATIVAÇÃO de sua Tag ao disponibilizar seu veículo durante o período de locação!</p>
-          </label>
-          <label>
-            <input type="checkbox" name="checkbox4" checked={vehicleData.consentCheckboxes.checkbox4} onChange={handleInputChange} />
-            <p className="checkbox-text">As multas contraídas pelos condutores de seu veículo durante a utilização ou vigência do serviço serão transferidas ao infrator respectivo. Processo que é comumente conhecido como <u>transferência de pontuação</u>.</p>
-          </label>
-          <label>
-            <input type="checkbox" name="checkbox5" checked={vehicleData.consentCheckboxes.checkbox5} onChange={handleInputChange} />
-            <p className="checkbox-text">O veículo caso possua <u>modificações</u>, as mesmas se encontram dentro das especificadas pelo fabricante. Não cabendo exceções, voltadas às modificações oriundas de customizações que extrapolam estes limites!</p>
-          </label>
-          <label>
-            <input type="checkbox" name="checkbox6" checked={vehicleData.consentCheckboxes.checkbox6} onChange={handleInputChange} />
-            <p className="checkbox-text">Atesto para os devidos fins legais que todas às informações e/ou conteúdo de imagem fornecidas são verdadeiras, se valendo e fazendo cumprir as normativas da <strong>Lei Geral de Proteção de Dados (LGPD - Lei nº 13.709/2018)</strong>, o <strong>Código Civil Brasileiro (Lei nº 10.406/2002)</strong> e o previsto pelo <strong>Artigo 299 do Código Penal Brasileiro</strong>, que tipifica como crime a falsidade ideológica.</p>
-          </label>
+          {Object.keys(vehicleData.consentCheckboxes).map((key, index) => (
+            <label key={index}>
+              <input
+                type="checkbox"
+                name={key}
+                checked={vehicleData.consentCheckboxes[key]}
+                onChange={handleInputChange}
+              />
+              <p className="checkbox-text">{getConsentText(key)}</p>
+            </label>
+          ))}
         </div>
-
 
         <div className="button-container">
-          <button id="cancel-button" type="submit">Cancelar</button>
-          <button id="register-button" type="submit">Prosseguir</button>
+          <button id="cancel-button" type="button" onClick={closeModal} >
+            Cancelar
+          </button>
+          <button id="register-button" type="submit" onClick={handleSubmit}>
+            Prosseguir
+          </button>
         </div>
-
       </Modal>
     </div>
   );
 };
 
-export default VehicleRegistrationModal;
+export default ImageRegister;

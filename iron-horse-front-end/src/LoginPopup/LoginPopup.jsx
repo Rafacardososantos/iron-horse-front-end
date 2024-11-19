@@ -13,9 +13,6 @@ const LoginPopup = ({ onClose, openForgotPassword, openSignUp }) => {
   const [error, setError] = useState('');
   const [isModalOpen, setModalOpen] = useState(true);
 
-  const openModal = () => setModalOpen(true);
-  const closeModal = () => setModalOpen(false);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -24,6 +21,7 @@ const LoginPopup = ({ onClose, openForgotPassword, openSignUp }) => {
       if (response.accessToken) {
         localStorage.setItem("accessToken", response.accessToken);
         localStorage.setItem("refreshToken", response.refreshToken);
+        alert("Usuario logado com sucesso");
         onClose(); 
         window.location.reload();
       } else {

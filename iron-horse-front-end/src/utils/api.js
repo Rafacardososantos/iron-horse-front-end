@@ -20,7 +20,7 @@ api.interceptors.request.use(
       // Remove o 'Content-Type' fixo para permitir que o FormData defina o tipo correto
       delete config.headers['Content-Type']; 
     }
-
+   
     return config;
   },
   (error) => {
@@ -28,9 +28,9 @@ api.interceptors.request.use(
   }
 );
 
-export const get = async(url) => {
+export const get = async(url, data) => {
     try{
-        const response = await api.get(url);
+        const response = await api.get(url, data);
         return response.data;
     }catch(error){
         console.error('Erro ao chamar o GET: ', error);

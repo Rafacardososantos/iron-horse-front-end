@@ -1,111 +1,141 @@
-import React, { useState } from "react";
-import axios from "axios";
+import { useEffect, useState } from "react";
 import { Row, Col } from 'react-bootstrap';
-import "./SearchBar.css";
+import { useNavigate } from "react-router-dom";
+import api from "../../utils/api";
+import styles from "../SearchBar/searchBar.module.css"
 
 const SearchBar = () => {
-  const [location, setLocation] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
+  const [city, setCity] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
+
+  const navigate = useNavigate();
+
+  const [page, setPage] = useState(0);
+  const [size, setSize] = useState(10);
+
+  const formatDateTime = (date, time) => {
+    if (!date) return null;
+    const formattedTime = time || (date === startDate ? '00:00' : '23:59');
+    return `${date}T${formattedTime}:00`;
+  };
 
   const handleSearch = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/search", {
+      const formattedStartDateTime = formatDateTime(startDate, startTime);
+      const formattedEndDateTime = formatDateTime(endDate, endTime);
+
+      const response = await api.get('/cars/search', {
         params: {
-          location,
-          startDate,
+          city,
+          startDate: formattedStartDateTime,
+          endDate: formattedEndDateTime,
           startTime,
-          endDate,
           endTime,
+          page,
+          size,
         },
       });
-      console.log(response.data);
+
+      navigate('/vehicle-listing', { 
+        state: {
+          results: response.content,
+          totalPages: response.totalPages,
+          currentPage: response.number,
+          city
+        }
+      });
     } catch (error) {
       console.error("Erro ao realizar a busca:", error);
     }
   };
 
+  useEffect(() => {
+    const today = new Date();
+    const threeDaysLater = new Date();
+    threeDaysLater.setDate(today.getDate() + 3);
+
+    setStartDate(today.toISOString().split('T')[0]);
+    setStartTime('00:00'); // Hora inicial
+
+    setEndDate(threeDaysLater.toISOString().split('T')[0]);
+    setEndTime('23:59'); // Hora final
+  }, []);
+
   return (
-    <div className="main-search-container">
-      <Row className="gy-3 justify-content-center align-items-center">
+<div className={styles.mainSearchContainerSearch}>
+    <Row className="gy-4 justify-content-center align-items-center">
         <Col xs={12} md={4} lg={4}>
-          <div className="input-wrapper">
-            <label>Local</label>
-            <input
-              className="local-input"
-              type="text"
-              placeholder="Localização"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
-            />
-          </div>
+            <div className={styles.inputWrapperSearch}>
+                <label>Local</label>
+                <input
+                    className={styles.localInputSearch}
+                    type="text"
+                    placeholder="Localização"
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                />
+            </div>
         </Col>
 
         <Col xs={12} md={4} lg={3}>
-          <div className="input-wrapper">
-            <label>Retirada</label>
-            <div className="date-time-wrapper">
-              <input
-                id="start-date"
-                className="date-input"
-                type={startDate === "" ? "text" : "date"}
-                placeholder="Data"
-                value={startDate}
-                onFocus={(e) => (e.target.type = "date")}
-                onBlur={(e) => (e.target.type = startDate ? "date" : "text")}
-                onChange={(e) => setStartDate(e.target.value)}
-              />
-              <input
-                id="start-time"
-                className="time-input"
-                type={startTime === "" ? "text" : "time"}
-                placeholder="Hora"
-                value={startTime}
-                onFocus={(e) => (e.target.type = "time")}
-                onBlur={(e) => (e.target.type = startTime ? "time" : "text")}
-                onChange={(e) => setStartTime(e.target.value)}
-              />
+            <div className={styles.inputWrapperSearch}>
+                <label>Retirada</label>
+                <div className={styles.dateTimeWrapperSearch}>
+                    <input
+                        id="start-date"
+                        className={styles.dateInputSearch}
+                        type="date"
+                        placeholder="Data"
+                        value={startDate}
+                        onChange={(e) => setStartDate(e.target.value)}
+                    />
+                    <input
+                        id="start-time"
+                        className={styles.timeInputSearch}
+                        type="time"
+                        placeholder="Hora"
+                        value={startTime}
+                        onChange={(e) => setStartTime(e.target.value)}
+                    />
+                </div>
             </div>
-          </div>
         </Col>
 
         <Col xs={12} md={4} lg={3}>
-          <div className="input-wrapper">
-            <label>Devolução</label>
-            <div className="date-time-wrapper">
-              <input
-                id="end-date"
-                className="date-input"
-                type={endDate === "" ? "text" : "date"}
-                placeholder="Data"
-                value={endDate}
-                onFocus={(e) => (e.target.type = "date")}
-                onBlur={(e) => (e.target.type = endDate ? "date" : "text")}
-                onChange={(e) => setEndDate(e.target.value)}
-              />
-              <input
-                id="end-time"
-                className="time-input"
-                type={endTime === "" ? "text" : "time"}
-                placeholder="Hora"
-                value={endTime}
-                onFocus={(e) => (e.target.type = "time")}
-                onBlur={(e) => (e.target.type = endTime ? "time" : "text")}
-                onChange={(e) => setEndTime(e.target.value)}
-              />
+            <div className={styles.inputWrapperSearch}>
+                <label>Devolução</label>
+                <div className={styles.dateTimeWrapperSearch}>
+                    <input
+                        id="end-date"
+                        className={styles.dateInputSearch}
+                        type="date"
+                        placeholder="Data"
+                        value={endDate}
+                        onChange={(e) => setEndDate(e.target.value)}
+                    />
+                    <input
+                        id="end-time"
+                        className={styles.timeInputSearch}
+                        type="time"
+                        placeholder="Hora"
+                        value={endTime}
+                        onChange={(e) => setEndTime(e.target.value)}
+                    />
+                </div>
             </div>
-          </div>
         </Col>
 
         <Col xs={12} md={4} lg={2}>
-          <button className="search-button" onClick={handleSearch}>
-            Pesquisar
-          </button>
+            <button className={styles.searchButton} onClick={handleSearch}>
+                Pesquisar
+            </button>
         </Col>
-      </Row>
-    </div>
+    </Row>
+</div>
+
   );
 };
 

@@ -1,16 +1,16 @@
-.main-search-container {
+.mainSearchContainerSearch {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
 }
 
-.input-wrapper {
+.inputWrapperSearch {
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
 
-label {
+.mainSearchContainerSearch label {
     color: #e7e7e7;
     font-weight: 900;
     font-size: 16px;
@@ -18,7 +18,7 @@ label {
     margin-bottom: 6px;
 }
 
-input {
+.dateTimeWrapperSearch > input {
     padding: 10px;
     border-radius: 25px;
     border: 1px solid #AA14F0;
@@ -26,18 +26,37 @@ input {
     width: 100%;
 }
 
-.date-time-wrapper {
+.dateTimeWrapperSearch {
     display: flex;
-    gap: 0.5rem;
 }
 
-.date-input,
-.time-input,
-.local-input {
+.timeInputSearch[type="time"] {
+    appearance: none;
+    border: 1px solid #AA14F0;
+    border-radius: 25px;
+    padding: 10px;
+    width: 13.7vh;
+    gap: 1px;
+    background-color: transparent;
+    color: #f8f8f8;
+    font-size: 16px;
+  }
+
+  .dateInputSearch[type="date"] {
+    appearance: none;
+    border-radius: 25px;
+    padding: 10px;
+    width: 13.7vh;
+    font-size: 16px;
+  }
+
+.dateInputSearch,
+.timeInputSearch,
+.localInputSearch {
     width: 100%;
 }
 
-.search-button {
+.searchButton {
     background: #AA14F0;
     color: white;
     padding: 10px 20px;
@@ -56,24 +75,33 @@ input {
     font-weight: 900;
 }
 
-
-.search-button:hover {
+.searchButton:hover {
     background: linear-gradient(90deg, rgba(140, 0, 255, 1) 0%, rgba(255, 0, 244, 1) 100%);
 }
 
 @media screen and (max-width: 992px) {
-    .search-button {
+    .searchButton {
         margin-top: 0;
         align-items: center;
     }
 }
 
 @media screen and (max-width: 768px) {
-    .time-input {
+    .timeInputSearch {
         margin-left: 0;
     }
-    .search-button {
+    .searchButton {
         margin-left: 2px;
     }
-    
+
+    .mainSearchContainerSearch{
+        display: flex;
+        justify-content: center;  /* Centraliza horizontalmente */ 
+    }
+    .timeInputSearch[type="time"] {
+      width: 50%;
+      }
+      .dateInputSearch[type="date"] {
+      width: 50%;
+      }
 }
