@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Modal from "react-modal";
-import "./CreateAccount.css";
+import styles from "./CreateAccount.module.css";
 
 Modal.setAppElement("#root");
 
@@ -102,20 +102,16 @@ const CreateAccount = () => {
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        className="react-modal-content"
-        overlayClassName="react-modal-overlay"
+        className={styles.reactModalContent}
+        overlayClassName={styles.reactModalOverlay}
       >
         <h2>Crie a sua Conta</h2>
-        <div className="postImage">
+        <div className={styles.postImage}>
           <div onClick={handleImageClick} style={{ cursor: "pointer" }}>
             <img
-              src={
-                formData.image
-                  ? URL.createObjectURL(formData.image)
-                  : "/src/img/Perfil-Usuario.png"
-              }
+              src={formData.image ? URL.createObjectURL(formData.image) : "../img/Perfil-Usuario.png"}
               alt="Logo"
-              className="modal-image"
+              className={styles.modalImage}
             />
             <span>Anexar Imagem</span>
           </div>
@@ -129,7 +125,7 @@ const CreateAccount = () => {
           />
         </div>
 
-        <div className="form-group full-width">
+        <div className={`${styles.formGroup} ${styles.fullWidth}`}>
           <label>Nome Completo</label>
           <input
             type="text"
@@ -139,8 +135,8 @@ const CreateAccount = () => {
             required
           />
         </div>
-        <form onSubmit={handleSubmit} className="two-column-form">
-          <div className="form-group">
+        <form onSubmit={handleSubmit} className={styles.twoColumnForm}>
+          <div className={styles.formGroup}>
             <label>Data de Nascimento</label>
             <input
               type="date"
@@ -150,7 +146,7 @@ const CreateAccount = () => {
               required
             />
           </div>
-          <div className="form-group">
+          <div className={styles.formGroup}>
             <label>CNH</label>
             <input
               type="text"

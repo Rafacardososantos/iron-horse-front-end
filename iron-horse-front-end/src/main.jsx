@@ -1,10 +1,10 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import RentPopup from './rentPopup/rentPopup';
+import CreateAccount from './CreateAccount/CreateAccount'
 
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RentPopup/>
+    <CreateAccount/>
   </StrictMode>,
 )

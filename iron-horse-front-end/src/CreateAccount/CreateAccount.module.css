@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Urbanist:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 /* Estilos do Modal */
-.react-modal-overlay {
+.reactModalOverlay {
   background-color: rgba(0, 0, 0, 0.822);
   position: fixed;
   top: 0;
@@ -15,14 +15,14 @@
   overflow-y: auto;
 }
 
-.modal-image {
+.modalImage {
   display: block;
   margin: 10px auto;
   max-width: 80px;
   height: auto;
 }
 
-.react-modal-content {
+.reactModalContent {
   background-color: #1e1e1ed1;
   padding: 20px;
   border-radius: 10px;
@@ -40,7 +40,8 @@ h2 {
   font-family: "Urbanist", sans-serif;
   font-weight: 400;
 }
-.postImage span{
+
+.postImage span {
   text-align: center;
 }
 
@@ -62,7 +63,7 @@ form div {
   margin-bottom: 15px;
 }
 
-.form-group-center {
+.formGroupCenter {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -71,11 +72,11 @@ form div {
 }
 
 /* Estilos para o contêiner de largura total */
-.full-width {
+.fullWidth {
   width: 100%;
 }
 
-.full-width input {
+.fullWidth input {
   width: 100%;
 }
 
@@ -104,13 +105,13 @@ input:disabled {
 }
 
 /* Estilos Toggle Button */
-.toggle-button {
+.toggleButton {
   display: flex;
   align-items: center;
   cursor: pointer;
 }
 
-.toggle-button input {
+.toggleButton input {
   display: none;
 }
 
@@ -135,11 +136,11 @@ input:disabled {
   transition: transform 0.3s, background-color 0.3s;
 }
 
-.toggle-button input:checked + .slider {
+.toggleButton input:checked + .slider {
   background-color: #b350f1; 
 }
 
-.toggle-button input:checked + .slider:before {
+.toggleButton input:checked + .slider:before {
   transform: translateX(46px);
   background-color: #4e007e;
 }
@@ -154,14 +155,14 @@ label, span {
 }
 
 /* Estilos para as Checkboxes */
-.checkbox-group {
+.checkboxGroup {
   display: flex;
   flex-direction: column;
   margin-top: 10px;
   text-align: left;
 }
 
-.checkbox-group label {
+.checkboxGroup label {
   display: flex;
   align-items: center;
   margin-bottom: 5px;
@@ -169,19 +170,19 @@ label, span {
   font-family: "Inter", sans-serif;
 }
 
-.checkbox-group input[type="checkbox"] {
+.checkboxGroup input[type="checkbox"] {
   margin-right: 10px;
   width: 20px;
   height: 20px;
   accent-color: #b350f1;
 }
 
-.checkbox-group input[type="checkbox"]:hover {
+.checkboxGroup input[type="checkbox"]:hover {
   cursor: pointer;
 }
 
 /* Estilo do Botão de Prosseguir */
-#register-button {
+#registerButton {
   display: flex;
   width: 40%;
   height: 40px;
@@ -197,28 +198,28 @@ label, span {
   border: none;
 }
 
-#register-button:hover {
+#registerButton:hover {
   background: #4e007e;
 }
 
 /* Estilo Colunas */
-.two-column-form {
+.twoColumnForm {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
 }
 
-.form-group {
+.formGroup {
   width: 48%;
   margin-bottom: 15px;
 }
 
 @media (max-width: 600px) {
-  .react-modal-content {
+  .reactModalContent {
     width: 95%;
   }
 
-  .modal-image {
+  .modalImage {
     max-width: 120px;
   }
 
@@ -226,7 +227,7 @@ label, span {
     width: 100%;
   }
 
-  #register-button {
+  #registerButton {
     height: 50px;
   }
 
@@ -234,7 +235,7 @@ label, span {
     font-size: 14px;
   }
 
-  .form-group {
+  .formGroup {
     width: 100%;
   }
 }
