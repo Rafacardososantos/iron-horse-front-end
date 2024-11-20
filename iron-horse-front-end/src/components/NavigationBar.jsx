@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import LoginPopup from "../LoginPopup/LoginPopup";
 import CreateAccount from "../Create-Account/CreateAccount";
-import ForgotPassword from "../ForgotPassword/ForgotPassword";
 import "./NavigationBar.css";
 import { useNavigate } from 'react-router-dom';
 import CarRegister from "../CarRegister/CarRegister"
+import ResetPassword from "../ResetPassword/resetPassword";
 
 export default () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -131,9 +131,9 @@ export default () => {
       />
     )}
 
-    {activePopup === "signUp" && <CreateAccount onClose={closePopup} />}
+    {activePopup === "signUp" && < CreateAccount onClose={closePopup} />}
 
-    {activePopup === "forgotPassword" && <ForgotPassword onClose={closePopup} />}
+    {activePopup === "forgotPassword" && <ResetPassword onClose={closePopup} />}
 
     {activePopup === "CarRegister" && <CarRegister onClose={closePopup} />}
   </>
