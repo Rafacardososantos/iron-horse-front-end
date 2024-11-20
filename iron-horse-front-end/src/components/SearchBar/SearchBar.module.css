@@ -16,6 +16,7 @@
     font-size: 16px;
     font-family: 'Inter', sans-serif;
     margin-bottom: 6px;
+    margin-left: 10px;
 }
 
 .dateTimeWrapperSearch > input {
