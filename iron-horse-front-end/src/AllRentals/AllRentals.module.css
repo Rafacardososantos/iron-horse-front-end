@@ -1,0 +1,91 @@
+@font-face {
+  font-family: Inter;
+  src: url("./Fonts/Inter-VariableFont_opsz,wght.ttf");
+}
+
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #000;
+  min-height: 100vh;
+  color: white;
+}
+
+.cardsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 20px;
+}
+
+.carCard {
+  display: flex;
+  flex-direction: column;
+  background: #3b3b3b;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out;
+}
+
+.carCard:hover {
+  transform: scale(1.05);
+}
+
+.carImage {
+  width: 100%;
+  height: auto;
+  max-height: 219px;
+  object-fit: cover;
+}
+
+.carInfo {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.carInfo h3 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.carInfo p {
+  margin: 4px 0;
+  color: #e0e0e0;
+}
+
+.carInfo p:last-child {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+.iconContainer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 10px;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.disabledIcon {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.icon:hover {
+  transform: scale(1.1);
+  opacity: 0.8;
+}
