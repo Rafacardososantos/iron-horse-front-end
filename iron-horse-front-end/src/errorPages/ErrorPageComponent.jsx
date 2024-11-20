@@ -1,12 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './ErrorPage.css';
+import styles from './ErrorPage.module.css';
 
 const ErrorPage = ({ statusCode, title, description }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="error-page">
+    <div className={styles.errorPage}>
       <h1>{statusCode}</h1>
       <h2>{title}</h2>
       <p>{description}</p>
