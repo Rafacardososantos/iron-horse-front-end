@@ -1,0 +1,48 @@
+.CarOverview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.CarOverview h2 {
+  margin-bottom: 20px;
+  font-family: "Inter", sans-serif;
+}
+
+.errorMessage {
+  color: red;
+  margin-bottom: 10px;
+  font-family: "Inter", sans-serif;
+}
+
+.carInput,
+.descriptionInput {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  box-sizing: border-box;
+}
+
+.saveBtn {
+  padding: 10px;
+  background: #aa14f0;
+  color: white;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-family: "Inter", sans-serif;
+  width: 100%;
+  max-width: 100%;
+  transition: all ease 0.3s;
+  margin-top: 10px;
+}
+
+.saveBtn:hover {
+  background: linear-gradient(
+    90deg,
+    rgba(140, 0, 255, 1) 0%,
+    rgba(255, 0, 244, 1) 100%
+  );
+}
