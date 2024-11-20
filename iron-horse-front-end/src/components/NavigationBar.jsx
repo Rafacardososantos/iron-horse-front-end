@@ -4,7 +4,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import LoginPopup from "../LoginPopup/LoginPopup";
 import CreateAccount from "../Create-Account/CreateAccount";
 import "./NavigationBar.css";
-import { useNavigate } from 'react-router-dom';
 import CarRegister from "../CarRegister/CarRegister"
 import ForgotPassword from "../ForgotPassword/ForgotPassword";
 
