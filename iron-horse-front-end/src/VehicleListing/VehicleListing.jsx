@@ -1,7 +1,7 @@
 import './VehicleListing.css';
 import carImage1 from '../../public/img/Hatch background1.jpg';
 import SearchBar from '../components/SearchBar/SearchBar';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useCallback, useEffect, useState } from 'react';
 import NavigationBar from '../components/NavigationBar';
 import api from '../utils/api';
@@ -20,6 +20,7 @@ const VehicleListing = () => {
   const [page, setPage] = useState(currentPage);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(currentPage < totalPages - 1);
+  const navigate = useNavigate();
 
   const reloadSearch = async () => {
     setPage(0);
@@ -109,8 +110,12 @@ const VehicleListing = () => {
         scrollContainer.removeEventListener('scroll', handleScroll);
       }
     };
-  }, [handleScroll]); // O efeito é recriado apenas se 'handleScroll' mudar
+  }, [handleScroll]);
 
+  const handleCarClick = (carId) => {
+    navigate('/car-details', { state: { carId } });
+  };
+ 
   return (
     <div>
       <NavigationBar />
@@ -131,23 +136,22 @@ const VehicleListing = () => {
         <section id="results-container" className="results">
           {results.length > 0 ? (
             results.map((car, index) => (
-              <div key={index} className="car">
+              <div key={index} className="car"  onClick={() => handleCarClick(car.id)}>
                 <div className="car-image-card">
                   <img src={car.path || carImage1} alt={car.name || 'Carro'} />
                 </div>
-                <div className="car-details">
-                  <h3>{car.brand + ' ' + car.model + ' ' + car.manufactureYear || 'Nome do Carro'}</h3>
+                <div className="car-details">   
+                <h3>{car.brand + ' ' + car.model + ' ' + car.manufactureYear || 'Nome do Carro'}</h3>              
                   <p className="car-price">Valor da diária R$ {car.price.toFixed(2) || 'Preço'}</p>
                   <p className="car-location">{car.city || 'Localização'}</p>
-                </div>
-              </div>
+                </div>               
+              </div>            
             ))
           ) : (
             <p>Nenhum carro encontrado para esta pesquisa.</p>
           )}
           {loading && <p>Carregando mais...</p>}
         </section>
-
         <div id="map"></div>
       </div>
     </div>

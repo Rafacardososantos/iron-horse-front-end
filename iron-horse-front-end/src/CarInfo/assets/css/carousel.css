@@ -1,0 +1,81 @@
+
+.vehicle-image {
+    display: flex;
+    padding: 20px;
+    background: #333;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    max-width: 1050px;
+    margin: auto;
+}
+
+.vehicle-image .car-image-imaginha {
+    border-radius: 17px;
+    width: 1011px;
+    height: 675px;
+}
+
+.like-icon,
+.carousel-controls {
+    position: absolute;
+    top: 10px;
+    cursor: pointer;
+    color: #AA14F0;
+}
+
+.vehicle-photos {
+    background: #333;
+    overflow-x: hidden;
+}
+
+.swiper-container {
+    width: 100%;
+    height: auto;
+}
+
+.swiper-slide {
+    display: flex;
+    justify-content: center;
+}
+
+.swiper-slide img {
+    width: 100%;
+    height: auto; /*pode estourar*/
+    max-height: 70vh;
+    object-fit: cover;
+    border-radius: 17px;
+}
+
+.swiper-button-prev {
+    color: #ffffff;
+    margin-left: 2.75%;
+    background-color: rgba(255, 255, 255, 0.5);
+    /* Fundo para destacar */
+    border-radius: 50%;
+    /* Forma circular */
+    padding: 22px;
+    --swiper-navigation-size: 30px;
+    --swiper-navigation-top-offset: 50%;
+    --swiper-navigation-sides-offset: 10px;
+    --swiper-navigation-color: rgb(1, 1, 1, 0.75);
+    ;
+    font-weight: 900;
+}
+
+.swiper-button-next {
+    color: #ffffff;
+    margin-right: 2.75%;
+    background-color: rgba(255, 255, 255, 0.5);
+    /* Fundo para destacar */
+    border-radius: 50%;
+    /* Forma circular */
+    padding: 22px;
+    --swiper-navigation-size: 30px;
+    --swiper-navigation-top-offset: 50%;
+    --swiper-navigation-sides-offset: 10px;
+    --swiper-navigation-color: rgb(1, 1, 1, 0.75);
+    font-weight: 900;
+}
+

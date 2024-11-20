@@ -64,6 +64,12 @@ const SearchBar = () => {
     setEndTime('23:59'); // Hora final
   }, []);
 
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   return (
 <div className={styles.mainSearchContainerSearch}>
     <Row className="gy-4 justify-content-center align-items-center">
@@ -76,6 +82,7 @@ const SearchBar = () => {
                     placeholder="Localização"
                     value={city}
                     onChange={(e) => setCity(e.target.value)}
+                    onKeyDown={handleKeyPress}
                 />
             </div>
         </Col>

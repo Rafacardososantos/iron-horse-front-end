@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, navigate } from "react";
 import { Link } from "react-router-dom"
 import "bootstrap/dist/css/bootstrap.min.css";
 import LoginPopup from "../LoginPopup/LoginPopup";
 import CreateAccount from "../Create-Account/CreateAccount";
 import ForgotPassword from "../ForgotPassword/ForgotPassword";
 import "./NavigationBar.css";
+import { useNavigate } from 'react-router-dom';
 import CarRegister from "../CarRegister/CarRegister"
 
 function NavigationBar () {
@@ -20,6 +21,10 @@ function NavigationBar () {
     setIsMenuOpen(false);
   };
 
+  const home = () => {
+    navigate("/");
+  };
+
   const closePopup = () => {
     setActivePopup(null);
   };
@@ -32,6 +37,7 @@ function NavigationBar () {
             className="user-profile-img"
             src="/img/Logo_UVIO_contrario.png"
             alt="Logo UVIO"
+            onClick={home}
           />
         </div>
 
