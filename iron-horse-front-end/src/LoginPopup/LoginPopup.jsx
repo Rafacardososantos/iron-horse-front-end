@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './LoginPopup.css';
+import styles from './LoginPopup.module.css';
 import showPasswordIcon from '../img/Visualização_Permitida.png';
 import hidePasswordIcon from '../img/Visualizar.png';
 import googleLogo from '../img/Logotipo_Google.png';
@@ -18,14 +18,14 @@ const LoginPopup = ({ onClose, openForgotPassword, openSignUp }) => {
   };
 
   const handleOutsideClick = (e) => {
-    if (e.target.className === 'popup') {
+    if (e.target.className === styles.popup) {
       onClose();
     }
   };
 
   return (
-    <div className="popup" onClick={handleOutsideClick}>
-      <div className="popup-content">
+    <div className={styles.popup} onClick={handleOutsideClick}>
+      <div className={styles.popupContent}>
         <h2>Login</h2>
         <form onSubmit={handleSubmit}>
           <input
@@ -34,29 +34,29 @@ const LoginPopup = ({ onClose, openForgotPassword, openSignUp }) => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <div className="input-container">
+          <div className={styles.inputContainer}>
             <input
               type={showPassword ? 'text' : 'password'}
               placeholder="Senha"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="password-input"
+              className={styles.passwordInput}
             />
             <img
               src={showPassword ? hidePasswordIcon : showPasswordIcon}
               alt="Ícone de visualização"
-              className="password-icon"
+              className={styles.passwordIcon}
               onClick={togglePasswordVisibility}
             />
           </div>
-          <button type="submit" className="login-btn">Entrar</button>
+          <button type="submit" className={styles.loginBtn}>Entrar</button>
         </form>
         <p>
           <a href="#" onClick={openForgotPassword}>Esqueceu a senha?</a>
         </p>
-        <button className="google-login">
-          <div className="google-logo-container">
-            <img src={googleLogo} alt="Google logo" className="google-icon" />
+        <button className={styles.googleLogin}>
+          <div className={styles.googleLogoContainer}>
+            <img src={googleLogo} alt="Google logo" className={styles.googleIcon} />
           </div>
           Login com o Google
         </button>
