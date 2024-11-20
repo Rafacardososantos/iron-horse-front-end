@@ -6,11 +6,13 @@
 
 .inputWrapperSearch {
     display: flex;
+
     flex-direction: column;
     gap: 5px;
 }
 
 .mainSearchContainerSearch label {
+    text-align: center;
     color: #e7e7e7;
     font-weight: 900;
     font-size: 16px;
@@ -19,17 +21,29 @@
     margin-left: 10px;
 }
 
-.dateTimeWrapperSearch > input {
+.dateTimeWrapperSearch {
+    display: flex;
+    justify-content: space-between; 
+    gap: 2px; 
+    margin-right: 2rem;
+  }
+  
+  .dateTimeWrapperSearchLeft, .dateTimeWrapperSearchRight {
+    display: flex;
+    gap: 2px; 
+    
+  }
+  
+  .dateTimeWrapperSearchLeft input,
+  .dateTimeWrapperSearchRight input {
     padding: 10px;
     border-radius: 25px;
     border: 1px solid #AA14F0;
     box-sizing: border-box;
-    width: 100%;
-}
+    font-size: 16px;
+  }
 
-.dateTimeWrapperSearch {
-    display: flex;
-}
+
 
 .timeInputSearch[type="time"] {
     appearance: none;
@@ -47,7 +61,7 @@
     appearance: none;
     border-radius: 25px;
     padding: 10px;
-    width: 13.7vh;
+    width: 10.7vh;
     font-size: 16px;
   }
 
@@ -58,6 +72,7 @@
 }
 
 .searchButton {
+    margin-left: 2rem;
     background: #AA14F0;
     color: white;
     padding: 10px 20px;

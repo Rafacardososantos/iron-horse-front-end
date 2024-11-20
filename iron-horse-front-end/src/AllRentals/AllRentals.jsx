@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import NavigationBar from '../components/NavigationBar';
 import CarOverview from "../CarOverview/CarOverview";
 import styles from './AllRentals.module.css';
+import api from "../utils/api";
 
 function AllRentals() {
   const [selectedCarId, setSelectedCarId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedCarName, setSelectedCarName] = useState("");
+  // const [carData, setCarData] = useState([]);
+  const [error, setError] = useState("");
+
 
   const carData = [
     {
@@ -71,61 +74,83 @@ function AllRentals() {
     },
   ];
 
-  const handleOpenModal = (carId, carName) => {
+    // Função para buscar carros da API
+    useEffect(() => {
+      const fetchCars = async () => {
+        try {
+          const response = await api.get("/car/list"); // Substitua pelo endpoint correto
+          if (response.data && response.data.length > 0) {
+            setCarData(response.data);
+          } else {
+            setCarData([]); // Se não houver carros, mantém a lista vazia
+          }
+        } catch (error) {
+          console.error("Erro ao buscar carros", error);
+          setError("Houve um erro ao carregar os carros.");
+        }
+      };
+      fetchCars();
+    }, []);
+
+  const handleOpenModal = (carId) => {
     setSelectedCarId(carId);
-    setSelectedCarName(carName);
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setSelectedCarId(null);
-    setSelectedCarName("");
   }
 
   return (
     <>
-    <NavigationBar/>
+      <NavigationBar />
       <div className={styles.mainContainer}>
         <h2>Meus carros anunciados</h2>
-        <div className={styles.cardsContainer}>
-          {carData.map((car) => (
-            <div key={car.id} className={styles.carCard}>
-              <img src={car.image} alt={car.name} className={styles.carImage} />
-              <div className={styles.carInfo}>
-                <h3>{car.name}</h3>
-                <p>
-                  {car.rating} ★ ({car.trips} viagens)
-                </p>
-                <p>{car.location}</p>
-                <p>R$ {car.price.toFixed(2)}</p>
-              </div>
+        
+        {carData.length === 0 ? (
+          <p className={styles.noCarsMessage}>Você não possui carros registrados.</p>
+        ) : (
+          <div className={styles.cardsContainer}>
+            {carData.map((car) => (
+              <div key={car.id} className={styles.carCard}>
+                <img src={car.image} alt={car.name} className={styles.carImage} />
+                <div className={styles.carInfo}>
+                  <h3>{car.name}</h3>
+                  <p>
+                    {car.rating} ★ ({car.trips} viagens)
+                  </p>
+                  <p>{car.location}</p>
+                  <p>R$ {car.price.toFixed(2)}</p>
+                </div>
 
-              <div className={styles.iconContainer}>
-                <img
-                  src="/img/Car-devolution.png"
-                  alt="Editar"
-                  className={`${styles.icon} ${car.status !== "ativo" ? styles.disabledIcon : ""} `}
-                  style={{ cursor: car.status === "ativo" ? "pointer" : "not-allowed", opacity: car.status !== "ativo" ? 0.5 : 1 }}
-                  title="Editar"
-                />
-                <img
-                  src="/img/icon.png"
-                  alt="Excluir"
-                  className={styles.icon}
-                  title="Excluir"
-                  onClick={() => handleOpenModal(car.id, car.name)}
-                />
+                <div className={styles.iconContainer}>
+                  <img
+                    src="/img/Car-devolution.png"
+                    alt="Devolver"
+                    className={`${styles.icon} ${car.status !== "ativo" ? styles.disabledIcon : ""} `}
+                    style={{ cursor: car.status === "ativo" ? "pointer" : "not-allowed", opacity: car.status !== "ativo" ? 0.5 : 1 }}
+                    title="Devolver"
+                    onClick={() => handleOpenModal(car.id)}
+                  />
+                  <img
+                    src="/img/icon.png"
+                    alt="Editar"
+                    className={styles.icon}
+                    title="Editar"
+                    onClick={() => handleOpenModal(car.id)} 
+                  />
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
+      
       {isModalOpen && (
-        <CarOverview onClose={handleCloseModal} 
-        carId={selectedCarId} 
-        carName={selectedCarName} />
+        <CarOverview onClose={handleCloseModal} carId={selectedCarId} />
       )}
+      {error && <p className={styles.errorMessage}>{error}</p>}
     </>
   );
 }

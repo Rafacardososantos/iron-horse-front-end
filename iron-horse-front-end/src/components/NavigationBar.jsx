@@ -4,8 +4,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import LoginPopup from "../LoginPopup/LoginPopup";
 import CreateAccount from "../Create-Account/CreateAccount";
 import "./NavigationBar.css";
-import CarRegister from "../CarRegister/CarRegister";
-import ResetPassword from "../ResetPassword/resetPassword";
+import { useNavigate } from 'react-router-dom';
+import CarRegister from "../CarRegister/CarRegister"
+import ForgotPassword from "../ForgotPassword/ForgotPassword";
 
 function NavigationBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -23,6 +24,10 @@ function NavigationBar() {
     localStorage.removeItem("refreshToken");
     window.location.href = "/";
   }
+
+  const goToMyCars = () => {
+    navigate("/my-cars");
+  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -43,15 +48,15 @@ function NavigationBar() {
 
   return (
     <>
-      <header>
-        <div className="logo-img">
-          <img
-            className="user-profile-img"
-            src="/img/Logo_UVIO_contrario.png"
-            alt="Logo UVIO"
-            onClick={home}
-          />
-        </div>
+       <header>
+      <div className="logo-img">
+        <img
+          className="user-profile-img"
+          src="/img/Logo_UVIO_contrario.png"
+          alt="Logo UVIO"
+          onClick={home}
+        />
+      </div>
 
         <div className="user-img" onClick={toggleMenu}>
           <img
@@ -136,7 +141,7 @@ function NavigationBar() {
 
       {activePopup === "signUp" && <CreateAccount onClose={closePopup} />}
 
-      {activePopup === "forgotPassword" && <ResetPassword onClose={closePopup} />}
+    {activePopup === "forgotPassword" && <ForgotPassword onClose={closePopup} />}
 
       {activePopup === "CarRegister" && <CarRegister onClose={closePopup} />}
     </>

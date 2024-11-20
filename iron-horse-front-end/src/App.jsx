@@ -5,6 +5,8 @@ import VehicleListing from './VehicleListing/VehicleListing';
 import CarInfo from './CarInfo/CarInfo'
 import ProtectedRoute from './components/ProtectedRoute';
 import ResetPassword from './ResetPassword/resetPassword';
+import AllRentals from './AllRentals/AllRentals';
+import QrCodePage from './Confirmation/QrCodePage';
 
 function App() {
   return (
@@ -16,10 +18,9 @@ function App() {
           }/>
           <Route path="/vehicle-listing" element={<VehicleListing />} />
           <Route path="/car-details" element={<ProtectedRoute><CarInfo /></ProtectedRoute>} />
-          <Route
-          path="/recovery/reset"
-          element={<ResetPassword />}
-        />
+          <Route path="/recovery/reset" element={<ResetPassword />}/>
+        <Route path="/my-cars" element={<ProtectedRoute><AllRentals /></ProtectedRoute>} />
+        <Route path="test" element={<QrCodePage/>} />
         </Routes>
     </Router>
   );
