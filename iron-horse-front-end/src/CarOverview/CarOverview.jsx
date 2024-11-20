@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import "./CarOverview.module.css";
+import styles from "./CarOverview.module.css";
 import Modal from "../components/Modal/Modal";
 import api from "../utils/api";
 
