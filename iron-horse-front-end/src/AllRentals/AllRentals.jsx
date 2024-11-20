@@ -6,7 +6,7 @@ import styles from './AllRentals.module.css';
 function AllRentals() {
   const [selectedCarId, setSelectedCarId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [selectedCarName, setSelectedCarName] = useState("");
 
   const carData = [
     {
@@ -71,14 +71,16 @@ function AllRentals() {
     },
   ];
 
-  const handleOpenModal = (carId) => {
-    setSelectedCarId(carId); // Define o ID do carro selecionado
-    setIsModalOpen(true); // Abre a modal
+  const handleOpenModal = (carId, carName) => {
+    setSelectedCarId(carId);
+    setSelectedCarName(carName);
+    setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
-    setIsModalOpen(false); // Fecha a modal
-    setSelectedCarId(null); // Reseta o ID do carro selecionado
+    setIsModalOpen(false);
+    setSelectedCarId(null);
+    setSelectedCarName("");
   }
 
   return (
@@ -112,7 +114,7 @@ function AllRentals() {
                   alt="Excluir"
                   className={styles.icon}
                   title="Excluir"
-                  onClick={() => handleOpenModal(car.id)}
+                  onClick={() => handleOpenModal(car.id, car.name)}
                 />
               </div>
             </div>
@@ -120,7 +122,9 @@ function AllRentals() {
         </div>
       </div>
       {isModalOpen && (
-        <CarOverview onClose={handleCloseModal} carId={selectedCarId} />
+        <CarOverview onClose={handleCloseModal} 
+        carId={selectedCarId} 
+        carName={selectedCarName} />
       )}
     </>
   );

@@ -4,7 +4,7 @@ import styles from "./CarOverview.module.css";
 import Modal from "../components/Modal/Modal";
 import api from "../utils/api";
 
-const CarOverview = ({ onClose }) => {
+const CarOverview = ({ onClose, carId, carName }) => {
   const [error, setError] = useState("");
   const [isModalOpen, setModalOpen] = useState(true);
   const [carValue, setCarValue] = useState("");
@@ -19,10 +19,10 @@ const CarOverview = ({ onClose }) => {
         alert("Informações do carro salvas com sucesso");
         onClose();
       } else {
-        console.error("Erro ao salvar informações do carro");
+        console.error("Erro ao salvar informações do carro", carName);
       }
     } catch (error) {
-      console.error("Erro ao enviar dados do carro", error);
+      console.error("Erro ao enviar dados do carro", carName);
       setError(
         "Erro ao salvar informações do carro: " + error.response?.data?.title
       );
@@ -37,6 +37,7 @@ const CarOverview = ({ onClose }) => {
         <form onSubmit={handleSubmit}>
           <input
             type="number"
+            min={0}
             placeholder="Valor da diária do carro"
             value={carValue}
             onChange={(e) => setCarValue(e.target.value)}
