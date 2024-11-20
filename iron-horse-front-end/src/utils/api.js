@@ -28,6 +28,34 @@ api.interceptors.request.use(
   }
 );
 
+// Interceptor para lidar com erros de expiração do token
+api.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+      if (error.response.status === 401 && error.response.data.message === 'Token expired') {
+        try {
+          // Faz a chamada para refresh token
+          const refreshToken = localStorage.getItem('refreshToken');
+          const response = await axios.post(`${baseURL}auth/refresh`, { refreshToken });
+  
+          // Atualiza os tokens no localStorage
+          localStorage.setItem('accessToken', response.data.accessToken);
+          localStorage.setItem('refreshToken', response.data.refreshToken);
+  
+          // Refaz a requisição original com o novo token
+          error.config.headers.Authorization = `Bearer ${response.data.accessToken}`;
+          return api.request(error.config);
+        } catch (refreshError) {
+          console.error('Erro ao atualizar o token:', refreshError);
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('refreshToken');
+          window.location.href = '/login'; // Redireciona para o login
+        }
+      }
+      return Promise.reject(error);
+    }
+  );
+
 export const get = async(url, data) => {
     try{
         const response = await api.get(url, data);

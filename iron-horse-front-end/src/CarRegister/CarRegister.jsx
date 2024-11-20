@@ -1,11 +1,8 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { useCarContext } from "../context/CarContext";
-import { useAuth } from "../context/AuthContext";
-import ProtectedRoute from "../components/ProtectedRoute";
-import ImageRegister from "../ImageRegister/ImageRegister";
+import ImageRegister from "../ImageRegister/ImageRegister"
 import "./CarRegister.css";
-import Modal from "../components/Modal/Modal";
-import api from "../utils/api";
+import Modal from "../components/Modal/Modal"
 
 const CarContext = createContext();
 
@@ -13,48 +10,51 @@ const CarRegister = ({ onClose }) => {
   const [otherBrand, setOtherBrand] = useState("");
   const [isOtherBrand, setIsOtherBrand] = useState(false);
   const [isInsuranceActive, setInsuranceActive] = useState(false);
-
-  const { auth, setFormSubmitted } = useAuth();
+  const { carData, setCarData } = useCarContext();
   const [isFirstModalOpen, setFirstModalOpen] = useState(true);
   const [isSecondModalOpen, setSecondModalOpen] = useState(false);
+  const [carDataExist, setCarDataExist] = useState();
 
   const openFirstModal = () => {
     setFirstModalOpen(true);
   };
 
+
   const openSecondModal = () => {
-    if (setFormSubmitted) {
-      setFirstModalOpen(false);
-      setSecondModalOpen(true);
-    } else {
+    setFirstModalOpen(false);
+    setSecondModalOpen(true);
+    if (!carDataExist) {
       onClose(null);
-      setFirstModalOpen(false);
     }
   };
 
-  const { carData, setCarData } = useCarContext();
+  useEffect(() => {
+    if (carDataExist) {
+      openSecondModal();
+    }
+  }, [carDataExist]); 
 
   const [formData, setFormData] = useState({
-    brand: "",
-    model: "",
-    manufactureYear: 2020,
+    brand: '',
+    model: '',
+    manufactureYear: 2010,
     carInfoDto: {
       insurance: true,
-      insuranceName: "Não possui",
-      renavam: "",
-      licensePlate: "",
-      transmission: "",
-      directionType: "",
-      chassi: "",
-      engineNumber: "",
-      cylinderDisplacement: "",
-      mileage: "",
-      fuelType: "",
-      color: "Azul",
+      insuranceName: 'Não possui',
+      renavam: '',
+      licensePlate: '',
+      transmission: '',
+      directionType: '',
+      chassi: 'xyzadqae',
+      engineNumber: '',
+      cylinderDisplacement: '',
+      mileage: '',
+      fuelType: '',
+      color: "",
       numDoors: 4,
-      numSeats: 5,
-      headlightBulb: "LED",
-      trunkCapacity: 500,
+      numSeats: 4,
+      headlightBulb: "",
+      trunkCapacity: '',
       carFeaturesDto: {
         insulfilm: false,
         tagPike: false,
@@ -76,7 +76,6 @@ const CarRegister = ({ onClose }) => {
     const { name, value, type, checked } = e.target;
 
     const validationRules = {
-      chassi: /^[A-Z0-9]{17}$/,
       engineNumber: /^[A-Z0-9]{1,10}$/,
       cylinderDisplacement: /^\d{1,3}(\.\d{1,2})?$/,
       mileage: /^[0-9]{1,7}$/,
@@ -133,22 +132,22 @@ const CarRegister = ({ onClose }) => {
       model: formData.model,
       manufactureYear: formData.manufactureYear,
       carInfoDto: {
-        insurance: formData.carInfoDto.insurance,
-        insuranceName: formData.carInfoDto.insuranceName,
-        renavam: formData.carInfoDto.renavam,
-        licensePlate: formData.carInfoDto.licensePlate,
-        transmission: formData.carInfoDto.transmission,
-        directionType: formData.carInfoDto.directionType,
-        chassi: formData.carInfoDto.chassi,
-        engineNumber: formData.carInfoDto.engineNumber,
-        cylinderDisplacement: formData.carInfoDto.cylinderDisplacement,
-        mileage: formData.carInfoDto.mileage,
-        fuelType: formData.carInfoDto.fuelType,
-        color: formData.carInfoDto.color,
-        numDoors: formData.carInfoDto.numDoors,
-        numSeats: formData.carInfoDto.numSeats,
-        headlightBulb: formData.carInfoDto.headlightBulb,
-        trunkCapacity: formData.carInfoDto.trunkCapacity,
+        insurance: formData.insurance,
+        insuranceName: formData.insuranceName,
+        renavam: formData.renavam,
+        licensePlate: formData.licensePlate,
+        transmission: formData.transmission,
+        directionType: formData.directionType,
+        chassi: formData.chassi,
+        engineNumber: formData.engineNumber,
+        cylinderDisplacement: formData.cylinderDisplacement,
+        mileage: formData.mileage,
+        fuelType: formData.fuelType,
+        color: formData.color,
+        numDoors: formData.numDoors,
+        numSeats: formData.numSeats,
+        headlightBulb: formData.headlightBulb,
+        trunkCapacity: formData.trunkCapacity,
         carFeaturesDto: {
           insulfilm: formData.carInfoDto.carFeaturesDto.insulfilm,
           tagPike: formData.carInfoDto.carFeaturesDto.tagPike,
@@ -167,32 +166,26 @@ const CarRegister = ({ onClose }) => {
       },
     };
     setCarData(requestData);
-    console.log("Formulário enviado!");
-    setFormSubmitted(true);
-    openSecondModal(true);
+    setCarDataExist(true);
   };
 
   return (
     <div>
-      {isFirstModalOpen && (
-        <Modal isOpen={isFirstModalOpen} onClose={openSecondModal}>
-          <h2>Cadastre seu Veículo</h2>
-          <img
-            src="../img/carro-ilustracao-de-transporte.png"
-            alt="Logo"
-            className="modal-image"
-          />
-          <form onSubmit={handleSubmit} className="two-column-form">
-            <div className="form-group">
-              <label>Placa</label>
-              <input
-                type="text"
-                name="licensePlate"
-                value={formData.licensePlate}
-                onChange={handleChange}
-                required
-              />
-            </div>
+      {isFirstModalOpen && (<Modal isOpen={isFirstModalOpen} onClose={openSecondModal}>
+        <h2>Cadastre seu Veículo</h2>
+        <img src="../img/carro-ilustracao-de-transporte.png" alt="Logo" className="modal-image" />
+        <form onSubmit={handleSubmit} className="two-column-form">
+
+          <div className="form-group">
+            <label>Placa</label>
+            <input
+              type="text"
+              name="licensePlate"
+              value={formData.licensePlate}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
             <div className="form-group">
               <label>Marca</label>
@@ -473,139 +466,70 @@ const CarRegister = ({ onClose }) => {
               </div>
             </div>
 
-            <label>Itens de Conforto e Adicionais</label>
-            <div className="car-checkbox-grid">
-              <label>
-                <input
-                  type="checkbox"
-                  name="insulfilm"
-                  checked={formData.carInfoDto.carFeaturesDto.insulfilm}
-                  onChange={handleChange}
-                />
-                Isulfim
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  name="tagPike"
-                  checked={formData.carInfoDto.carFeaturesDto.tagPike}
-                  onChange={handleChange}
-                />
-                Tag - Pedágio
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  name="antiTheftSecret"
-                  checked={formData.carInfoDto.carFeaturesDto.antiTheftSecret}
-                  onChange={handleChange}
-                />
-                Segredo Anti Furto
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  name="multimedia"
-                  checked={formData.carInfoDto.carFeaturesDto.multimedia}
-                  onChange={handleChange}
-                />
-                Multimídia
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  name="airConditioner"
-                  checked={formData.carInfoDto.carFeaturesDto.airConditioner}
-                  onChange={handleChange}
-                />
-                Ar condicionado
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  name="electricWindowsAndLocks"
-                  checked={
-                    formData.carInfoDto.carFeaturesDto.electricWindowsAndLocks
-                  }
-                  onChange={handleChange}
-                />
-                Vidros e Travas Elétricas
-              </label>
-            </div>
+          <label>Itens de Conforto e Adicionais</label>
+          <div className="car-checkbox-grid">
+            <label>
+              <input type="checkbox" name="insulfilm" checked={formData.carInfoDto.carFeaturesDto.insulfilm} onChange={handleChange} />
+              Isulfim
+            </label>
+            <label>
+              <input type="checkbox" name="tagPike" checked={formData.carInfoDto.carFeaturesDto.tagPike} onChange={handleChange} />
+              Tag - Pedágio
+            </label>
+            <label>
+              <input type="checkbox" name="antiTheftSecret" checked={formData.carInfoDto.carFeaturesDto.antiTheftSecret} onChange={handleChange} />
+              Segredo Anti Furto
+            </label>
+            <label>
+              <input type="checkbox" name="multimedia" checked={formData.carInfoDto.carFeaturesDto.multimedia} onChange={handleChange} />
+              Multimídia
+            </label>
+            <label>
+              <input type="checkbox" name="airConditioner" checked={formData.carInfoDto.carFeaturesDto.airConditioner} onChange={handleChange} />
+              Ar condicionado
+            </label>
+            <label>
+              <input type="checkbox" name="electricWindowsAndLocks" checked={formData.carInfoDto.carFeaturesDto.electricWindowsAndLocks} onChange={handleChange} />
+              Vidros e Travas Elétricas
+            </label>
+          </div>
 
-            <label>Itens de Segurança</label>
-            <div className="car-checkbox-grid">
-              <label>
-                <input
-                  type="checkbox"
-                  name="triangle"
-                  checked={formData.carInfoDto.carFeaturesDto.triangle}
-                  onChange={handleChange}
-                />
-                Triângulo
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  name="jack"
-                  checked={formData.carInfoDto.carFeaturesDto.jack}
-                  onChange={handleChange}
-                />
-                Macaco
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  name="wheelWrench"
-                  checked={formData.carInfoDto.carFeaturesDto.wheelWrench}
-                  onChange={handleChange}
-                />
-                Chave de Roda
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  name="spareTire"
-                  checked={formData.carInfoDto.carFeaturesDto.spareTire}
-                  onChange={handleChange}
-                />
-                Estepe
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  name="fireExtinguisher"
-                  checked={formData.carInfoDto.carFeaturesDto.fireExtinguisher}
-                  onChange={handleChange}
-                />
-                Extintor Incêndio
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  name="alarm"
-                  checked={formData.carInfoDto.carFeaturesDto.alarm}
-                  onChange={handleChange}
-                />
-                Alarme
-              </label>
-            </div>
-            <div className="car-button-container">
-              <button id="car-cancel-button" type="submit">
-                Cancelar
-              </button>
-              <button id="car-register-button" type="submit">
-                Prosseguir
-              </button>
-            </div>
-          </form>
-        </Modal>
-      )}
+          <label>Itens de Segurança</label>
+          <div className="car-checkbox-grid">
+            <label>
+              <input type="checkbox" name="triangle" checked={formData.carInfoDto.carFeaturesDto.triangle} onChange={handleChange} />
+              Triângulo
+            </label>
+            <label>
+              <input type="checkbox" name="jack" checked={formData.carInfoDto.carFeaturesDto.jack} onChange={handleChange} />
+              Macaco
+            </label>
+            <label>
+              <input type="checkbox" name="wheelWrench" checked={formData.carInfoDto.carFeaturesDto.wheelWrench} onChange={handleChange} />
+              Chave de Roda
+            </label>
+            <label>
+              <input type="checkbox" name="spareTire" checked={formData.carInfoDto.carFeaturesDto.spareTire} onChange={handleChange} />
+              Estepe
+            </label>
+            <label>
+              <input type="checkbox" name="fireExtinguisher" checked={formData.carInfoDto.carFeaturesDto.fireExtinguisher} onChange={handleChange} />
+              Extintor Incêndio
+            </label>
+            <label>
+              <input type="checkbox" name="alarm" checked={formData.carInfoDto.carFeaturesDto.alarm} onChange={handleChange} />
+              Alarme
+            </label>
+          </div>
+          <div className="car-button-container">
+            <button id="car-cancel-button" type="submit">Cancelar</button>
+            <button id="car-register-button" type="submit">Prosseguir</button>
+          </div>
+        </form>
+      </Modal>)}
       {isSecondModalOpen && (
         <Modal isOpen={isSecondModalOpen} onClose={onClose}>
-          <ProtectedRoute>
-            <ImageRegister /> {}
-          </ProtectedRoute>
+          <ImageRegister />
         </Modal>
       )}
     </div>

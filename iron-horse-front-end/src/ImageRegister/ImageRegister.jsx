@@ -1,14 +1,15 @@
 import React, { useState, useRef } from 'react';
 import Modal from '../components/Modal/Modal';
 import api from '../utils/api';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useCarContext } from '../context/CarContext';
 import './ImageRegister.css';
 
 const ImageRegister = ({ onClose, isOpen }) => {
   const [isModalOpen, setModalOpen] = useState(true);
   const { carData, setCarData } = useCarContext();
-  const [isCarDataSubmitted, setCarDataSubmitted] = useState(false);
-
+  const [refresh, setRefresh] = React.useState(false);
   const imageData = [
     { label: "Imagem de Capa ou Destaque do Anúncio", placeholder: "../img/carro-ilustracao-de-transporte.png" },
     { label: "Imagem Frontal", placeholder: "../img/vista frontal.png" },
@@ -149,11 +150,15 @@ const ImageRegister = ({ onClose, isOpen }) => {
           body: formData,
       });
 
-        if (response.ok) {
-          alert('Imagens enviadas com sucesso');
-        } else {
-          alert('Erro ao enviar as imagens');
-        }
+      if (resp.ok) {
+        toast.success('VEICULO CADASTRADO COM SUCESSO!');
+        setTimeout(() => {
+          window.location.reload(); 
+        }, 2000);
+      
+      } else {
+        toast.error('ERRO AO CADASTRAR VEICULO!');
+      }
 
       } else {
         console.error('Erro ao criar o carro:', response.status, response.statusText);
@@ -169,7 +174,7 @@ const ImageRegister = ({ onClose, isOpen }) => {
     <div>
       <Modal isOpen={isModalOpen} onClose={onClose}>
         <h2>Cadastre seu Veículo</h2>
-
+        <ToastContainer />
         {imageData.map((data, index) => (
           <div key={index}>
             <label>{data.label}</label>
@@ -182,7 +187,7 @@ const ImageRegister = ({ onClose, isOpen }) => {
             </div>
             <input
               type="file"
-              accept=".JPEG,.PNG"
+              accept=".JPG,.PNG"
               ref={fileInputRefs.current[index]}
               style={{ display: 'none' }}
               onChange={(e) => handleFileChange(e, index)}

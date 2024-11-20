@@ -1,16 +1,28 @@
-import { useState, navigate } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom"
 import "bootstrap/dist/css/bootstrap.min.css";
 import LoginPopup from "../LoginPopup/LoginPopup";
 import CreateAccount from "../Create-Account/CreateAccount";
-import ForgotPassword from "../ForgotPassword/ForgotPassword";
 import "./NavigationBar.css";
 import { useNavigate } from 'react-router-dom';
 import CarRegister from "../CarRegister/CarRegister"
+import ResetPassword from "../ResetPassword/resetPassword";
 
 function NavigationBar () {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activePopup, setActivePopup] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("accessToken");
+    setIsLoggedIn(!!accessToken);
+  }, []);
+
+  function logout() {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    window.location.href = '/'; 
+  }
  
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -31,26 +43,56 @@ function NavigationBar () {
 
   return (
     <>
-      <header>
-        <div className="logo-img">
-          <img
-            className="user-profile-img"
-            src="/img/Logo_UVIO_contrario.png"
-            alt="Logo UVIO"
-            onClick={home}
-          />
-        </div>
+    <header>
+      <div className="logo-img">
+        <img
+          className="user-profile-img"
+          src="/img/Logo_UVIO_contrario.png"
+          alt="Logo UVIO"
+          onClick={home}
+        />
+      </div>
 
-        <div className="user-img" onClick={toggleMenu}>
-          <img
-            className="user-profile-img"
-            src="/img/Perfil-Usuario.png"
-            alt="Image do usuário"
-          />
-        </div>
-        {isMenuOpen && (
-          <div className="dropdown-menu">
-            <ul>
+      <div className="user-img" onClick={toggleMenu}>
+        <img
+          className="user-profile-img"
+          src="/img/Perfil-Usuario.png"
+          alt="Imagem do usuário"
+        />
+      </div>
+      {isMenuOpen && (
+        <div className="dropdown-menu">
+          {isLoggedIn ? (
+            // Exibe "Anunciar" e "Logout" somente se o usuário estiver logado
+            <>
+              <li>
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    openPopup("CarRegister");
+                    toggleMenu();
+                  }}
+                >
+                  Anunciar
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    logout();
+                    toggleMenu();
+                  }}
+                >
+                  Logout
+                </a>
+              </li>
+            </>
+          ) : (
+            // Exibe "Sign In" e "Sign Up" somente se o usuário não estiver logado
+            <>
               <li>
                 <a
                   href="#"
@@ -60,20 +102,19 @@ function NavigationBar () {
                     toggleMenu();
                   }}
                 >
-                  Conta
+                  Sign In
                 </a>
               </li>
-              <li>Alugar</li>
               <li>
                 <a
                   href="#"
                   onClick={(e) => {
                     e.preventDefault();
-                    openPopup("MoreInformation");
+                    openPopup("signUp");
                     toggleMenu();
                   }}
                 >
-                  Anunciar
+                  Sign Up
                 </a>
               </li>
               <li>
@@ -84,20 +125,20 @@ function NavigationBar () {
         )}
       </header>
 
-      {activePopup === "login" && (
-        <LoginPopup
-          onClose={closePopup}
-          openSignUp={() => openPopup("signUp")}
-          openForgotPassword={() => openPopup("forgotPassword")}
-        />
-      )}
+    {activePopup === "login" && (
+      <LoginPopup
+        onClose={closePopup}
+        openSignUp={() => openPopup("signUp")}
+        openForgotPassword={() => openPopup("forgotPassword")}
+      />
+    )}
 
-      {activePopup === "signUp" && <CreateAccount onClose={closePopup} />}
+    {activePopup === "signUp" && < CreateAccount onClose={closePopup} />}
 
-      {activePopup === "forgotPassword" && <ForgotPassword onClose={closePopup} />}
+    {activePopup === "forgotPassword" && <ResetPassword onClose={closePopup} />}
 
-      {activePopup === "MoreInformation" && <CarRegister onClose={closePopup} />}
-    </>
+    {activePopup === "CarRegister" && <CarRegister onClose={closePopup} />}
+  </>
   );
 };
 

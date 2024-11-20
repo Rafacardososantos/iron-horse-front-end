@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import axios from 'axios';
+import api from '../utils/api';
 import './ForgotPassword.css';
 import Modal from '../components/Modal/Modal';
 
@@ -9,6 +9,7 @@ const ForgotPassword = ({ onClose }) => {
   const [isModalOpen, setModalOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
+  
 
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
@@ -28,7 +29,7 @@ const ForgotPassword = ({ onClose }) => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post('/api/reset-password', { email });
+      const response = await api.post('/recovery/', { email });
       setSuccessMessage('Se o e-mail estiver registrado, você receberá um link para redefinir a senha.');
     } catch (error) {
       setError('Ocorreu um erro ao tentar enviar a solicitação. Tente novamente.');
