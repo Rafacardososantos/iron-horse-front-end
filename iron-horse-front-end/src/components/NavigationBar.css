@@ -23,7 +23,8 @@ header {
 }
 
 .logo-img {
-    margin: 0.5% 0% 0.5% 2%;   
+    margin: 0.5% 0% 0.5% 2%;
+    cursor: pointer;
 }
 
 .dropdown-menu {

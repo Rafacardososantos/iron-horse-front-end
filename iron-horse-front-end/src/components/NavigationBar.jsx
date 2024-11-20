@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import LoginPopup from "../LoginPopup/LoginPopup";
 import CreateAccount from "../Create-Account/CreateAccount";
 import "./NavigationBar.css";
-import CarRegister from "../CarRegister/CarRegister"
+import CarRegister from "../CarRegister/CarRegister";
 import ForgotPassword from "../ForgotPassword/ForgotPassword";
 
 function NavigationBar() {
@@ -47,15 +47,15 @@ function NavigationBar() {
 
   return (
     <>
-       <header>
-      <div className="logo-img">
-        <img
-          className="user-profile-img"
-          src="/img/Logo_UVIO_contrario.png"
-          alt="Logo UVIO"
-          onClick={home}
-        />
-      </div>
+      <header>
+        <div className="logo-img">
+          <img
+            className="user-profile-img"
+            src="/img/Logo_UVIO_contrario.png"
+            alt="Logo UVIO"
+            onClick={home}
+          />
+        </div>
 
         <div className="user-img" onClick={toggleMenu}>
           <img
@@ -69,6 +69,18 @@ function NavigationBar() {
             <ul>
               {isLoggedIn ? (
                 <>
+                  <li>
+                    <a
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        goToMyCars();
+                        toggleMenu();
+                      }}
+                    >
+                      Meus Carros
+                    </a>
+                  </li>
                   <li>
                     <a
                       href="#"
@@ -120,9 +132,9 @@ function NavigationBar() {
                       Sign Up
                     </a>
                   </li>
-                  <li>
+                  {/* <li>
                     <Link to={"/rentals"}>Aluguéis</Link>
-                  </li>
+                  </li> */}
                 </>
               )}
             </ul>
@@ -140,7 +152,9 @@ function NavigationBar() {
 
       {activePopup === "signUp" && <CreateAccount onClose={closePopup} />}
 
-    {activePopup === "forgotPassword" && <ForgotPassword onClose={closePopup} />}
+      {activePopup === "forgotPassword" && (
+        <ForgotPassword onClose={closePopup} />
+      )}
 
       {activePopup === "CarRegister" && <CarRegister onClose={closePopup} />}
     </>
