@@ -90,7 +90,7 @@ const SearchBar = () => {
         <Col xs={12} md={4} lg={3}>
             <div className={styles.inputWrapperSearch}>
                 <label>Retirada</label>
-                <div className={styles.dateTimeWrapperSearch}>
+                <div className={styles.dateTimeWrapperSearchLeft}>
                     <input
                         id="start-date"
                         className={styles.dateInputSearch}
@@ -114,7 +114,7 @@ const SearchBar = () => {
         <Col xs={12} md={4} lg={3}>
             <div className={styles.inputWrapperSearch}>
                 <label>Devolução</label>
-                <div className={styles.dateTimeWrapperSearch}>
+                <div className={styles.dateTimeWrapperSearchRight}>
                     <input
                         id="end-date"
                         className={styles.dateInputSearch}
