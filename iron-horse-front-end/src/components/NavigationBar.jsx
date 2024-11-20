@@ -5,7 +5,7 @@ import CreateAccount from "../Create-Account/CreateAccount";
 import "./NavigationBar.css";
 import { useNavigate } from 'react-router-dom';
 import CarRegister from "../CarRegister/CarRegister"
-import ResetPassword from "../ResetPassword/resetPassword";
+import ForgotPassword from "../ForgotPassword/ForgotPassword";
 
 export default () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -23,6 +23,10 @@ export default () => {
     localStorage.removeItem('refreshToken');
     window.location.href = '/'; 
   }
+
+  const goToMyCars = () => {
+    navigate("/my-cars");
+  };
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -43,7 +47,7 @@ export default () => {
 
   return (
     <>
-    <header>
+       <header>
       <div className="logo-img">
         <img
           className="user-profile-img"
@@ -63,8 +67,20 @@ export default () => {
       {isMenuOpen && (
         <div className="dropdown-menu">
           {isLoggedIn ? (
-            // Exibe "Anunciar" e "Logout" somente se o usuário estiver logado
+            // Exibe "Meus Carros", "Anunciar", e "Logout" somente se o usuário estiver logado
             <>
+              <li>
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    goToMyCars(); // Chama a página "Meus Carros"
+                    toggleMenu();
+                  }}
+                >
+                  Meus Carros
+                </a>
+              </li>
               <li>
                 <a
                   href="#"
@@ -133,7 +149,7 @@ export default () => {
 
     {activePopup === "signUp" && < CreateAccount onClose={closePopup} />}
 
-    {activePopup === "forgotPassword" && <ResetPassword onClose={closePopup} />}
+    {activePopup === "forgotPassword" && <ForgotPassword onClose={closePopup} />}
 
     {activePopup === "CarRegister" && <CarRegister onClose={closePopup} />}
   </>
