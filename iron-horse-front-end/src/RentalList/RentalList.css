@@ -1,0 +1,125 @@
+
+body {
+    font-family: "Inter", serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-size: clamp(0.80rem, 2.5vw, 1.1rem); /* Tamanho mínimo de 1rem, máximo de 1.5rem */
+    font-style: normal;
+    background-color: #000;
+    color: #fff;
+    margin: 0;
+    padding: 0;
+}
+
+.minhas-viagens {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.car-list {
+    background-color: #333;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    padding-bottom: calc(5em + 5%); /* Espaçamento dinâmico baseado no tamanho da fonte e na largura */
+    overflow: hidden;
+}
+
+.car-card {
+    display: flex; /* Cria layout flexível */
+    background-color: #636363;
+    border-radius: 1.75em;
+    text-align: left; /* Garante alinhamento do texto */
+    position: relative; /* Necessário para posicionamento absoluto em .car-info */
+    overflow: hidden; /* Garante que conteúdo extra seja escondido */
+    box-shadow: 0 0.5vh 2vh rgba(0, 0, 0, 0.5); /* Sombreamento proporcional à altura da tela */
+}
+
+.car-card img {
+    flex-shrink: 0; /* Garante que a imagem não encolha */
+    width: 150px; /* Define largura da imagem */
+    height: 100%; /* Mantém proporção da imagem */
+    object-fit: cover; /* Garante preenchimento proporcional */
+    border-top-left-radius: 35px; /* Border-radius no canto superior esquerdo */
+    border-bottom-left-radius: 35px; /* Border-radius no canto inferior esquerdo */
+    max-width: 100%;
+}
+
+.car-info {
+    background-color: transparent; /* Transparência para destacar texto */
+    color: #fff;
+    padding: 17px;
+    text-align: left; /* Para alinhar o texto */
+    flex: 1; /* Faz o conteúdo ocupar o restante do espaço */
+    max-width: 65%;
+}
+
+.car-info ul {
+    list-style: none; /* Remove bullets */
+    padding: 0;
+    margin: 5px 0;
+}
+
+.car-info ul li {
+    margin: 5px 0; /* Espaçamento entre itens */
+    font-size: 0.9rem;
+}
+
+.car-info ul li strong {
+    font-weight: 600; /* Destaque para os títulos */
+    color: #fff;
+}
+
+.id {
+    color: #831fb1 ;
+    font-weight: 575;
+    font-size: 1.35em;
+    background-color: #fff;
+    border-radius: 0.57em;
+    text-align: center;
+    width: calc(7.75em + 2.5%);
+}
+
+@media (max-width: 768px) {
+    .car-card {
+        flex-direction: column; /* Empilha conteúdo verticalmente */
+        text-align: center; /* Centraliza o texto */
+    }
+
+    .car-card img {
+        width: 100%; /* Imagem ocupa toda a largura */
+        height: auto; /* Ajusta altura automaticamente */
+        border-radius: 15px 15px 0 0; /* Ajusta borda para o topo */
+    }
+
+    .car-info {
+        max-width: 100%; /* Remove limite de largura */
+    }
+}
+
+@media (min-width: 1200px) {
+    .car-list {
+        padding: 50px; /* Mais espaço em telas maiores */
+    }
+
+    .car-card {
+        flex-direction: row; /* Mantém layout horizontal */
+    }
+
+    .car-info {
+        font-size: 1.2rem; /* Aumenta tamanho da fonte */
+    }
+
+    .car-card img {
+        width: 200px; /* Aumenta o tamanho da imagem em telas maiores */
+        height: auto; /* Mantém a proporção da imagem */
+    }
+}
