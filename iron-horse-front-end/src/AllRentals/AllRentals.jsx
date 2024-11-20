@@ -1,7 +1,13 @@
+import { useState } from "react";
 import NavigationBar from '../components/NavigationBar';
+import CarOverview from "../CarOverview/CarOverview";
 import styles from './AllRentals.module.css';
 
 function AllRentals() {
+  const [selectedCarId, setSelectedCarId] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+
   const carData = [
     {
       id: 1,
@@ -65,6 +71,16 @@ function AllRentals() {
     },
   ];
 
+  const handleOpenModal = (carId) => {
+    setSelectedCarId(carId); // Define o ID do carro selecionado
+    setIsModalOpen(true); // Abre a modal
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false); // Fecha a modal
+    setSelectedCarId(null); // Reseta o ID do carro selecionado
+  }
+
   return (
     <>
     <NavigationBar/>
@@ -96,12 +112,16 @@ function AllRentals() {
                   alt="Excluir"
                   className={styles.icon}
                   title="Excluir"
+                  onClick={() => handleOpenModal(car.id)}
                 />
               </div>
             </div>
           ))}
         </div>
       </div>
+      {isModalOpen && (
+        <CarOverview onClose={handleCloseModal} carId={selectedCarId} />
+      )}
     </>
   );
 }
