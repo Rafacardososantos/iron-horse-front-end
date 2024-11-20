@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Modal from "react-modal";
-import "./CarRegister.css";
+import "./CarRegister/css";
 
 Modal.setAppElement("#root");
 

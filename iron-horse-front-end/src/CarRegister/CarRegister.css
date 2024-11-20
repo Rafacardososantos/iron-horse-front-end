@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Urbanist:wght@100;200;300;400;500;600;700;800;900&display=swap');
+/* CarRegister.module.css */
 
-.react-modal-overlay {
+.reactModalOverlay {
   background-color: rgba(0, 0, 0, 0.822);
   position: fixed;
   top: 0;
@@ -13,14 +13,14 @@
   overflow-y: auto;
 }
 
-.modal-image {
+.modalImage {
   display: block;
   margin: 10px auto;
   max-width: 80px;
   height: auto;
 }
 
-.react-modal-content {
+.reactModalContent {
   background-color: #1e1e1ed1;
   padding: 20px;
   border-radius: 10px;
@@ -56,7 +56,7 @@ form div {
   margin-bottom: 15px;
 }
 
-.form-group-center {
+.formGroupCenter {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -83,24 +83,24 @@ input, select {
 
 input:disabled {
   background-color: lightgray;
-  cursor: not-allowed; 
+  cursor: not-allowed;
 }
 
-.toggle-button {
+.toggleButton {
   display: flex;
   align-items: center;
   cursor: pointer;
 }
 
-.toggle-button input {
+.toggleButton input {
   display: none;
 }
 
 .slider {
   width: 80px;
-  height: 34px; 
+  height: 34px;
   background-color: lightgray;
-  border-radius: 24px; 
+  border-radius: 24px;
   position: relative;
   transition: background-color 0.3s;
 }
@@ -109,7 +109,7 @@ input:disabled {
   content: "";
   position: absolute;
   width: 20px;
-  height: 20px; 
+  height: 20px;
   left: 7px;
   bottom: 7px;
   background-color: white;
@@ -117,11 +117,11 @@ input:disabled {
   transition: transform 0.3s, background-color 0.3s;
 }
 
-.toggle-button input:checked + .slider {
-  background-color: #b350f1; 
+.toggleButton input:checked + .slider {
+  background-color: #b350f1;
 }
 
-.toggle-button input:checked + .slider:before {
+.toggleButton input:checked + .slider:before {
   transform: translateX(46px);
   background-color: #4e007e;
 }
@@ -133,7 +133,7 @@ label, span {
   text-align: justify;
 }
 
-.checkbox-grid {
+.checkboxGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
@@ -143,13 +143,13 @@ label, span {
   font-size: 14px;
 }
 
-.checkbox-grid p {
+.checkboxGrid p {
   margin-bottom: 5px;
   color: #fff;
   font-family: "Inter", sans-serif;
 }
 
-.checkbox-grid label {
+.checkboxGrid label {
   display: flex;
   align-items: center;
   margin-bottom: 5px;
@@ -157,7 +157,7 @@ label, span {
   font-family: "Inter", sans-serif;
 }
 
-.checkbox-grid input[type="checkbox"] {
+.checkboxGrid input[type="checkbox"] {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -171,12 +171,12 @@ label, span {
   position: relative;
 }
 
-.checkbox-grid input[type="checkbox"]:checked {
+.checkboxGrid input[type="checkbox"]:checked {
   background-color: #b350f1;
   border: 1.5px solid #fff;
 }
 
-.checkbox-grid input[type="checkbox"]:checked::before {
+.checkboxGrid input[type="checkbox"]:checked::before {
   content: "";
   position: absolute;
   top: 4px;
@@ -185,13 +185,13 @@ label, span {
   height: 10px;
 }
 
-.button-container {
+.buttonContainer {
   display: flex;
   justify-content: center;
   gap: 5px;
 }
 
-#register-button {
+#registerButton {
   display: flex;
   width: 30%;
   height: 35px;
@@ -207,11 +207,11 @@ label, span {
   border: none;
 }
 
-#register-button:hover {
+#registerButton:hover {
   background: #4e007e;
 }
 
-#cancel-button {
+#cancelButton {
   display: flex;
   width: 30%;
   height: 35px;
@@ -227,22 +227,22 @@ label, span {
   border: none;
 }
 
-#cancel-button:hover {
+#cancelButton:hover {
   background: #4e007e;
 }
 
-.two-column-form {
+.twoColumnForm {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
 }
 
-.form-group {
+.formGroup {
   width: 48%;
   margin-bottom: 15px;
 }
 
-.three-column-form {
+.threeColumnForm {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -250,16 +250,16 @@ label, span {
   margin-top: 15px;
 }
 
-.form-group3 {
+.formGroup3 {
   margin-bottom: 15px;
 }
 
 @media (max-width: 600px) {
-  .react-modal-content {
+  .reactModalContent {
     width: 95%;
   }
 
-  .modal-image {
+  .modalImage {
     max-width: 120px;
   }
 
@@ -267,7 +267,7 @@ label, span {
     width: 100%;
   }
 
-  #register-button {
+  #registerButton {
     height: 50px;
   }
 
@@ -275,7 +275,7 @@ label, span {
     font-size: 14px;
   }
 
-  .form-group {
+  .formGroup {
     width: 100%;
   }
 }
