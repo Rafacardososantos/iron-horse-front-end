@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Urbanist:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 /* Estilos do Modal */
-.modal-overlay {
+.modalOverlay {
   background-color: rgba(0, 0, 0, 0.822);
   position: fixed;
   top: 0;
@@ -15,7 +15,7 @@
   overflow-y: auto;
 }
 
-.modal-content {
+.modalContent {
   background-color: #1e1e1ed1;
   padding: 20px;
   border-radius: 10px;
@@ -26,7 +26,7 @@
   overflow-y: auto;
 }
 
-.modal-image {
+.modalImage {
   display: block;
   margin: 10px auto;
   max-width: 80px;
