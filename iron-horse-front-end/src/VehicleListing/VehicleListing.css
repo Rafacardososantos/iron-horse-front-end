@@ -208,3 +208,28 @@
 .results::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
+
+.button-filter-vehicle{
+  background: #AA14F0;
+  color: #fff;
+  border: none;
+}
+
+/* Estilos para o contêiner dos filtros */ 
+.filters-container { 
+  background-color: #1e1e1e; /* Cor de fundo para destaque */ 
+  padding: 10px; border-radius: 
+  5px; margin-top: 10px; 
+} 
+.filters-container h3 { 
+  margin-top: 0; 
+} 
+.filters-container label { 
+  display: block; 
+  margin-top: 10px; 
+} 
+.filters-container span { 
+  display: block; 
+  margin-top: 5px; 
+  font-weight: bold; 
+}
