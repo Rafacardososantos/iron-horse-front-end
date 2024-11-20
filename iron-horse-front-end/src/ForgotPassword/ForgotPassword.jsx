@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './ForgotPassword.css';
+import styles from './ForgotPassword.module.css';
 
 const ForgotPassword = ({ onClose, openForgotPassword, openSignUp }) => {
   const [email, setEmail] = useState('');
@@ -20,14 +20,14 @@ const ForgotPassword = ({ onClose, openForgotPassword, openSignUp }) => {
   };
 
   const handleOutsideClick = (e) => {
-    if (e.target.className === 'popup') {
+    if (e.target.className === styles.popup) {
       onClose();
     }
   };
 
   return (
-    <div className="popup" onClick={handleOutsideClick}>
-      <div className="popup-content">
+    <div className={styles.popup} onClick={handleOutsideClick}>
+      <div className={styles.popupContent}>
         <h2>Esqueceu a senha?</h2>
         <span>Informe o e-mail do qual deseja redefinir sua senha.</span>
         <form onSubmit={handleSubmit}>
@@ -36,9 +36,10 @@ const ForgotPassword = ({ onClose, openForgotPassword, openSignUp }) => {
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            className={styles.input}
           />
-          {error && <p className="error-message">{error}</p>}
-          <button type="submit" className="forgot-btn">Enviar</button>
+          {error && <p className={styles.errorMessage}>{error}</p>}
+          <button type="submit" className={styles.forgotBtn}>Enviar</button>
         </form>
       </div>
     </div>
