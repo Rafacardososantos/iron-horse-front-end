@@ -1,8 +1,6 @@
-/* eslint-disable no-unused-vars */
-// src/RentPopup.jsx
 import React, { useState } from "react";
 import Modal from "react-modal";
-import "../styles/rentPopup.css";
+import styles from "./RentPopup.module.css";
 
 Modal.setAppElement("#root");
 
@@ -85,20 +83,20 @@ const RentPopup = () => {
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        className="react-modal-content"
-        overlayClassName="react-modal-overlay"
+        className={styles.reactModalContent} 
+        overlayClassName={styles.reactModalOverlay} 
       >
         <h2>Crie a Sua Conta</h2>
-        <div className="toggle-buttons">
+        <div className={styles.toggleButtons}>
           <button
             onClick={() => handleToggle(true)}
-            className={isRenting ? "active" : ""}
+            className={isRenting ? styles.active : ""}
           >
             Alugar
           </button>
           <button
             onClick={() => handleToggle(false)}
-            className={!isRenting ? "active" : ""}
+            className={!isRenting ? styles.active : ""}
           >
             Anunciar
           </button>
@@ -187,10 +185,10 @@ const RentPopup = () => {
             />
           </div>
           {isRenting && (
-            <div className="credit-card">
-              <div className="credit-card-number">
+            <div className={styles.creditCard}>
+              <div className={styles.creditCardNumber}>
                 <label>Número do Cartão:</label>
-                <div className="credit-card-input">
+                <div className={styles.creditCardInput}>
                   <input
                     type="text"
                     name="numeroCartao"
@@ -199,13 +197,11 @@ const RentPopup = () => {
                     required
                   />
                   <div
-                    className={`card-flag ${getCardType(
-                      formData.numeroCartao
-                    )}`}
+                    className={`${styles.cardFlag} ${styles[getCardType(formData.numeroCartao)]}`}
                   ></div>
                 </div>
               </div>
-              <div className="credit-card-name">
+              <div className={styles.creditCardName}>
                 <label>Nome no Cartão:</label>
                 <input
                   type="text"
@@ -215,7 +211,7 @@ const RentPopup = () => {
                   required
                 />
               </div>
-              <div className="credit-card-validity">
+              <div className={styles.creditCardValidity}>
                 <label>Validade:</label>
                 <input
                   type="text"
@@ -225,7 +221,7 @@ const RentPopup = () => {
                   required
                 />
               </div>
-              <div className="credit-card-cvv">
+              <div className={styles.creditCardCvv}>
                 <label>CVV:</label>
                 <input
                   type="text"
@@ -237,7 +233,7 @@ const RentPopup = () => {
               </div>
             </div>
           )}
-          <div className="checkbox-group">
+          <div className={styles.checkboxGroup}>
             <label>
               <input
                 type="checkbox"
