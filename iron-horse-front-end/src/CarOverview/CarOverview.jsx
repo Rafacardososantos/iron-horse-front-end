@@ -1,85 +1,159 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./CarOverview.module.css";
 import Modal from "../components/Modal/Modal";
 import api from "../utils/api";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const CarOverview = ({ onClose, carId }) => {
+const CarOverview = ({ onClose, car }) => {
   const [error, setError] = useState("");
   const [isModalOpen, setModalOpen] = useState(true);
   const [carValue, setCarValue] = useState("");
   const [description, setDescription] = useState("");
+  const [isActive, setIsActive] = useState(true);
+  const [isAvailable, setIsAvailable] = useState(true);
 
-  const formatCurrency = (value) => {
-    if (!value) return "";
-    const number = parseFloat(value.replace(/\D/g, "")) / 100; // Remove não-numéricos e ajusta para decimal
-    return number.toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL",
-    });
-  };
-
-  const handleChange = (e) => {
-    const rawValue = e.target.value.replace(/\D/g, ""); // Remove caracteres não numéricos
-    const numberValue = parseFloat(rawValue) / 100;
-
-    if (numberValue < 0) {
-      setError("O valor não pode ser negativo!");
-    } else {
-      setError("");
-      setCarValue(rawValue);
+  useEffect(() => {
+    const fetchCarDetails = async () => {
+      try {
+        const accessToken = localStorage.getItem('accessToken');
+        if (!accessToken) {
+          throw new Error('Token de autenticação não encontrado');
+        }
+  
+        const response = await fetch(`http://localhost:8080/v1/car-overviews/${car.id}`, {
+          method: 'GET', 
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`, 
+          },
+        });
+  
+        if (!response.ok) {
+          throw new Error('Erro ao buscar os detalhes do carro');
+        }
+  
+        const carData = await response.json();
+        console.log(carData);
+        setDescription(carData.description || "sem nada");
+        setCarValue(carData.price || "");
+        setIsActive(carData.isActive);
+        setIsAvailable(true);
+  
+        console.log(carData.description, carData.price, carData.isActive, true);
+      } catch (error) {
+        console.error("Erro ao buscar os detalhes do carro", error);
+        setError("Erro ao carregar os detalhes do carro.");
+      }
+    };
+  
+    if (car.id) {
+      fetchCarDetails();
     }
-  };
+  }, [car]);
+  
+
+  useEffect(() => {
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
     try {
-      const response = await api.post(`/car-overviews/${carId}`, { carValue, description });
-
-      if (response.success) {
-        alert("Informações do carro salvas com sucesso");
-        onClose();
-      } else {
-        console.error("Erro ao salvar informações do carro");
+      const price = carValue ? parseFloat(carValue) : null;
+  
+      const accessToken = localStorage.getItem('accessToken');
+      if (!accessToken) {
+        throw new Error('Token de autenticação não encontrado');
       }
+  
+      const response = await fetch(`http://localhost:8080/v1/car-overviews/${car.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({
+          description,
+          isActive,
+          isAvailable,
+          price,
+        }),
+      });
+
+      if(response.ok){
+        toast.success('Dados modificados com sucesso!');
+        setTimeout(() => {
+          window.location.reload(); 
+        }, 2000);
+      }
+  
+      if (!response.ok) {
+        throw new Error(`Erro HTTP: ${response.status}`);
+      }
+
     } catch (error) {
       console.error("Erro ao enviar dados do carro", error);
-      setError(
-        "Erro ao salvar informações do carro: " + error.response?.data?.title
-      );
+      setError("Erro ao salvar informações do carro: " + error.message);
     }
   };
 
+const formatCurrency = (value) => {
+  if (!value) return "";
+  const number = parseFloat(value) / 100;
+  return number.toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
+};
+
+const handleChange = (e) => {
+  const rawValue = e.target.value.replace(/\D/g, ""); 
+  setCarValue(rawValue); 
+};
+  
   return (
     <Modal isOpen={isModalOpen} onClose={onClose}>
-      <div className={styles.CarOverview}>
-        <h2>Informações do Carro</h2>
-        {error && <p className={styles.errorMessage}>{error}</p>}
-        <form onSubmit={handleSubmit}>
-          {error && <p style={{ color: "red" }}>{error}</p>}
-          <input
-            type="text"
-            placeholder="Valor da diária do carro"
-            value={formatCurrency(carValue)} // Exibe o valor formatado
-            onChange={handleChange} // Manipula a entrada e validação
-            className={styles.carInput}
-          />
+    <ToastContainer />
+    <div className={styles.CarOverview}>
+      <h2>Informações do Carro</h2>
+      {error && <p className={styles.errorMessage}>{error}</p>}
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>
+            Ativo
+            <input
+              type="checkbox"
+              checked={isActive}
+              onChange={(e) => setIsActive(e.target.checked)}
+              className={styles.buttonActive}
+            />
+          </label>
+        </div>
 
-          <textarea
-            placeholder="Descrição"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            maxLength={255}
-            className={styles.descriptionInput}
-          />
+        <input
+          type="number"
+          placeholder="Valor da diária do carro"
+          value={carValue}
+          onChange={handleChange}
+          className={styles.carInput}
+        />
+        <textarea
+          placeholder="Descrição"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          maxLength={255}
+          className={styles.descriptionInput}
+        />
+        <p>{description.length}/255 caracteres</p>
 
-          <p>{description.length}/255 caracteres</p>
-          <button type="submit" className={styles.saveBtn}>
-            Salvar
-          </button>
-        </form>
-      </div>
-    </Modal>
+        <button type="submit" className={styles.saveBtn}>
+          Salvar
+        </button>
+      </form>
+    </div>
+  </Modal>
   );
 };
 
