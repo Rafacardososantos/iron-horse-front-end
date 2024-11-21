@@ -21,7 +21,7 @@
   flex-wrap: wrap; /* Permite que os itens se ajustem se necessário */
   gap: 20px; /* Espaçamento entre os checkboxes */
   margin-top: 10px;
-  text-align: left;
+  text-align: center;
   justify-content: space-between; /* Distribui o espaço igualmente entre os itens */
   width: 100%;
 }
@@ -228,28 +228,6 @@ span {
 /* Estilos para as Checkboxes */
 
 
-.checkbox-group {
-  display: flex;
-  flex-direction: column;
-  margin-top: 10px;
-  text-align: left;
-}
-
-.checkbox-group label {
-  display: flex;
-  align-items: center;
-  margin-bottom: 5px;
-  color: #fff;
-  font-family: "Inter", sans-serif;
-}
-
-.checkbox-group input[type="checkbox"] {
-  margin-right: 10px;
-  width: 20px;
-  height: 20px;
-  accent-color: #b350f1;
-}
-
 .checkbox-group input[type="checkbox"]:hover {
   cursor: pointer;
 }
@@ -345,4 +323,25 @@ span {
   .form-group {
     width: 100%;
   }
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column; /* Itens em coluna */
+  width: 100%; /* Ocupa a largura total */
+  gap: 20px; /* Espaçamento vertical entre os checkboxes */
+}
+
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  width: 100%; /* Garante que o label ocupe a largura total */
+  font-size: 16px;
+  color: #fff; /* Ajuste para o texto se destacar no fundo */
+  cursor: pointer;
+}
+
+.checkbox-group input[type="checkbox"] {
+  margin-right: 10px; /* Espaço entre o checkbox e o texto */
+  accent-color: #6c00ff; /* Cor roxa personalizada para o checkbox */
 }

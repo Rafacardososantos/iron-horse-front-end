@@ -219,7 +219,7 @@ const Rental = ({car}) => {
                     />
                 </div>
 
-                <p className="trip-duration">{tripDuration}</p>
+               
                 <br />
                 <button
                         id="continue-button"

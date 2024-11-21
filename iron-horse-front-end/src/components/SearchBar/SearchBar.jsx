@@ -73,7 +73,7 @@ const SearchBar = () => {
   return (
 <div className={styles.mainSearchContainerSearch}>
     <Row className="gy-4 justify-content-center align-items-center">
-        <Col xs={12} md={4} lg={4}>
+        <Col xs={12} md={4} lg={4} >
             <div className={styles.inputWrapperSearch}>
                 <label>Local</label>
                 <input

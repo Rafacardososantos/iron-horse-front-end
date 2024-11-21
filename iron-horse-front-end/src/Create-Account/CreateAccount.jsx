@@ -27,7 +27,7 @@ const CreateAccount = ({ onClose }) => {
     cpf: "",
     checkboxes: {
       acceptComunication: false,
-      isTermsUser: true,
+      isTermsUser: false,
       isRealInformation: false,
       isRegularized: false,
     },
@@ -54,21 +54,41 @@ const CreateAccount = ({ onClose }) => {
 
   const showToast = () => {
     toast.success('Imagens enviadas com sucesso', {
-      position: toast.POSITION.TOP_RIGHT, 
-      autoClose: 2000, 
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 2000,
       hideProgressBar: false,
-      closeOnClick: true, 
-      pauseOnHover: true, 
-      draggable: true, 
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
     });
   };
+
+  const handleBlur = async (e) => {
+    const { name, value } = e.target;
+
+    if (name === "zipCode") {
+      const formattedValue = formatZipCode(value.replace(/\D/g, ""));
+      setFormData({
+        ...formData,
+        zipCode: formattedValue,
+      });
+
+      // Valida o CEP ao sair do campo
+      if (formattedValue.length === 9) {
+        await fetchAddressByZipCode(formattedValue);
+      } else {
+        toast.error("CEP inválido ou incompleto.");
+      }
+    }
+  };
+
 
 
   const formatZipCode = (value) => {
     return value.replace(/^(\d{5})(\d{1,3})$/, "$1-$2");
   };
 
-  const handleChange = async (e) => {
+  const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
 
     if (name === "zipCode") {
@@ -77,7 +97,6 @@ const CreateAccount = ({ onClose }) => {
         ...formData,
         zipCode: formattedValue,
       });
-      await fetchAddressByZipCode(formattedValue);
       return;
     }
 
@@ -102,12 +121,16 @@ const CreateAccount = ({ onClose }) => {
     }
   };
 
+
   const fetchAddressByZipCode = async (zipCode) => {
     try {
       const response = await fetch(`https://viacep.com.br/ws/${zipCode}/json/`);
       if (!response.ok) throw new Error("CEP inválido");
+
       const data = await response.json();
       if (data.erro) throw new Error("CEP não encontrado");
+
+
 
       setFormData((prevData) => ({
         ...prevData,
@@ -117,21 +140,37 @@ const CreateAccount = ({ onClose }) => {
         uf: data.uf,
       }));
     } catch (error) {
-      console.error("Erro ao buscar o CEP:", error.message);
-      alert("CEP inválido ou não encontrado");
+      toast.error("Erro ao buscar o endereço. Verifique o CEP.");
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    const { isRealInformation ,isRegularized, isTermsUser } = formData.checkboxes;
+
+    if (!isRealInformation) {
+      toast.error("Você precisa confirmar que as informações fornecidas são verdadeiras.");
+      return;
+    }
   
+    if (!isRegularized) {
+      toast.error("Você precisa declarar que está regularizado com as condições legais.");
+      return;
+    }
+  
+    if (!isTermsUser) {
+      toast.error("Você precisa aceitar os Termos de Uso.");
+      return;
+    }
+
     if (formData.password !== formData.confirmPassword) {
       setError("As senhas não coincidem.");
       return;
     }
-  
+
     setError(null);
-  
+
     try {
       const personalInfoResponse = await api.post("/users", {
         name: formData.name,
@@ -139,27 +178,27 @@ const CreateAccount = ({ onClose }) => {
         password: formData.password,
         phone: formData.phone,
       });
-  
+
       if (personalInfoResponse !== null) {
         const loginResponse = await api.post("/auth/login", {
           email: formData.email,
           password: formData.password,
         });
-  
+
         const accessToken = loginResponse.accessToken;
         if (accessToken) {
           localStorage.setItem("accessToken", accessToken);
           localStorage.setItem("refreshToken", loginResponse.refreshToken);
-            toast.success('USUARIO LOGADO COM SUCESSO!');
-              setTimeout(() => {
-                window.location.reload(); 
-              }, 2000);
+          toast.success('USUARIO LOGADO COM SUCESSO!');
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
         } else {
           console.error("Erro ao fazer login");
         }
-  
+
         const bearer = localStorage.getItem('accessToken');
-  
+
         if (bearer !== null) {
           const bodyData = {
             cpf: formData.cpf,
@@ -176,10 +215,10 @@ const CreateAccount = ({ onClose }) => {
             isRegularized: formData.checkboxes.isRegularized,
             driverLicense: formData.number_driver_license,
           };
-  
+
           try {
-            const response = await api.post("/userInfo", 
-              bodyData, 
+            const response = await api.post("/userInfo",
+              bodyData,
               {
                 headers: {
                   "Authorization": `Bearer ${bearer}`,
@@ -187,39 +226,39 @@ const CreateAccount = ({ onClose }) => {
                 }
               }
             );
-  
+
             console.log("Resposta da requisição:", response.data);
-  
+
           } catch (error) {
             console.error("Erro ao chamar o POST de userInfo:", error.response || error);
           }
         }
-  
+
         if (bearer !== null && formData.image !== null) {
           const formDataImage = new FormData();
           formDataImage.append('file', formData.image);
-          
+
           try {
-            const uploadResponse = await api.post("/users/upload", 
-              formDataImage, 
+            const uploadResponse = await api.post("/users/upload",
+              formDataImage,
               {
                 headers: {
                   'Authorization': `Bearer ${bearer}`,
                 }
               }
             );
-  
+
             console.log(uploadResponse.data);
-  
+
           } catch (error) {
             console.error("Erro ao enviar a imagem:", error.response || error);
           }
         }
-  
+
       } else {
         console.error("Erro na criação do usuário");
       }
-  
+
     } catch (error) {
       console.error("Erro durante a requisição:", error.response || error);
     }
@@ -228,7 +267,7 @@ const CreateAccount = ({ onClose }) => {
 
   return (
     <Modal isOpen={isModalOpen} onClose={onClose}>
-       <ToastContainer />
+      <ToastContainer />
       <h2>Crie a sua Conta</h2>
 
       <form onSubmit={handleSubmit} className="registration-form">
@@ -363,8 +402,8 @@ const CreateAccount = ({ onClose }) => {
               name="zipCode"
               value={formData.zipCode}
               onChange={handleChange}
+              onBlur={handleBlur}
               required
-              maxLength="9"
             />
           </div>
         </div>
@@ -430,54 +469,45 @@ const CreateAccount = ({ onClose }) => {
         </div>
 
         <div className="checkbox-group">
-          <div className="form-group">
-            <label>
-              <input
-                type="checkbox"
-                name="acceptComunication"
-                checked={formData.checkboxes.acceptComunication}
-                onChange={handleChange}
-              />
-              Aceito receber comunicações via WhatsApp ou qualquer outro meio existente
-            </label>
-          </div>
+          <label>
+            <input
+              type="checkbox"
+              name="acceptComunication"
+              checked={formData.checkboxes.acceptComunication}
+              onChange={handleChange}
+            />
+            Aceito receber comunicações via WhatsApp ou qualquer outro meio existente
+          </label>
 
-          <div className="form-group">
-            <label>
-              <input
-                type="checkbox"
-                name="isTermsUser"
-                checked={formData.checkboxes.isTermsUser}
-                onChange={handleChange}
-              />
-              Aceito os Termos de Uso
-            </label>
-          </div>
-
-          <div className="form-group">
-            <label>
-              <input
-                type="checkbox"
-                name="isRealInformation"
-                checked={formData.checkboxes.isRealInformation}
-                onChange={handleChange}
-              />
-              Confirmo que as informações fornecidas são verdadeiras
-            </label>
-          </div>
-
-          <div className="form-group">
-            <label>
-              <input
-                type="checkbox"
-                name="isRegularized"
-                checked={formData.checkboxes.isRegularized}
-                onChange={handleChange}
-              />
-              Declaro que estou regularizado com as condições legais
-            </label>
-          </div>
+          <label>
+            <input
+              type="checkbox"
+              name="isRealInformation"
+              checked={formData.checkboxes.isRealInformation}
+              onChange={handleChange}
+            />
+            Confirmo que as informações fornecidas são verdadeiras
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              name="isRegularized"
+              checked={formData.checkboxes.isRegularized}
+              onChange={handleChange}
+            />
+            Declaro que estou regularizado com as condições legais
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              name="isTermsUser"
+              checked={formData.checkboxes.isTermsUser}
+              onChange={handleChange}
+            />
+            Aceito os Termos de Uso
+          </label>
         </div>
+
 
         {error && <div className="error-message">{error}</div>}
 

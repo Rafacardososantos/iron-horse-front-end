@@ -33,19 +33,38 @@ const CreateUser = ({ onClose }) => {
     return value.replace(/^(\d{5})(\d{1,3})$/, "$1-$2");
   };
 
-  const handleChange = async (e) => {
-    const { name, value, type, checked, files } = e.target;
-
+  const handleBlur = async (e) => {
+    const { name, value } = e.target;
+  
     if (name === "zipCode") {
       const formattedValue = formatZipCode(value.replace(/\D/g, ""));
       setFormData({
         ...formData,
         zipCode: formattedValue,
       });
-      await fetchAddressByZipCode(formattedValue);
+  
+      // Valida o CEP ao sair do campo
+      if (formattedValue.length === 9) {
+        await fetchAddressByZipCode(formattedValue);
+      } else {
+        toast.error("CEP inválido ou incompleto.");
+      }
+    }
+  };
+  
+
+  const handleChange = (e) => {
+    const { name, value, type, checked, files } = e.target;
+  
+    if (name === "zipCode") {
+      const formattedValue = formatZipCode(value.replace(/\D/g, ""));
+      setFormData({
+        ...formData,
+        zipCode: formattedValue,
+      });
       return;
     }
-
+  
     if (type === "checkbox") {
       setFormData((prevData) => ({
         ...prevData,
@@ -66,6 +85,7 @@ const CreateUser = ({ onClose }) => {
       });
     }
   };
+  
 
 
   const handleSubmit = async (e) => {
