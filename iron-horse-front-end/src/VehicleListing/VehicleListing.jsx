@@ -46,9 +46,9 @@ const VehicleListing = () => {
         },
       });
 
-      setResults(response.data.content);
+      setResults(response.content);
       setPage(1);
-      setHasMore(response.data.number < response.data.totalPages - 1);
+      setHasMore(response.number < response.totalPages - 1);
     } catch (error) {
       console.error('Erro ao carregar carros:', error);
     } finally {
@@ -73,10 +73,10 @@ const VehicleListing = () => {
         },
       });
 
-      if (response.data.content.length > 0) {
-        setResults((prevResults) => [...prevResults, ...response.data.content]);
+      if (response.content.length > 0) {
+        setResults((prevResults) => [...prevResults, ...response.content]);
         setPage((prevPage) => prevPage + 1);
-        setHasMore(response.data.number < response.data.totalPages - 1);
+        setHasMore(response.number < response.totalPages - 1);
       } else {
         setHasMore(false);
       }
