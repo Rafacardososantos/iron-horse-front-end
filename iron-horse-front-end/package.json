@@ -15,6 +15,7 @@
     "bootstrap": "^5.3.3",
     "iron-horse-front-end": "file:",
     "prop-types": "^15.8.1",
+    "qrcode": "^1.5.4",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.5",
     "react-datepicker": "^7.5.0",

@@ -34,6 +34,10 @@
   outline: none; /* Remove o contorno padrão */
 }
 
+.buttonActive {
+  
+}
+
 .saveBtn {
   display: block; /* Garante que o botão seja um bloco e respeite o alinhamento */
   padding: 10px;
