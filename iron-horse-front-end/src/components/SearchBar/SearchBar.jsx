@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Row, Col } from 'react-bootstrap';
 import { useNavigate } from "react-router-dom";
 import api from "../../utils/api";
-import styles from "../SearchBar/searchBar.module.css"
+import styles from "../SearchBar/SearchBar.module.css"
 
 const SearchBar = () => {
   const [city, setCity] = useState('');
