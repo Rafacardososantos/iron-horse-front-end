@@ -5,6 +5,7 @@ import Modal from "../components/Modal/Modal";
 import api from "../utils/api";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import CurrencyInput from 'react-currency-input-field';
 
 const CarOverview = ({ onClose, car }) => {
   const [error, setError] = useState("");
@@ -131,13 +132,14 @@ const CarOverview = ({ onClose, car }) => {
               />
             </label>
           </div>
-
-          <input
-            type="number"
-            placeholder="Valor da diária do carro"
+          <CurrencyInput
+            id="carValue"
+            name="carValue"
+            placeholder="Valor da diária"
             value={carValue}
-            onChange={handleChange}
-            className={styles.carInput}
+            decimalsLimit={2}
+            onValueChange={(value) => setCarValue(value)}
+            prefix="R$"
           />
           <textarea
             placeholder="Descrição"
