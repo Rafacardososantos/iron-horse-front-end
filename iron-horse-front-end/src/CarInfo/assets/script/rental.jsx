@@ -11,7 +11,7 @@ const Rental = ({car}) => {
     const { state } = useLocation();
     const carId = state?.carId;
     console.log(carId);
-    const [vehiclePrice, setVehiclePrice] = useState(1675.00); // Preço do veículo
+    const [vehiclePrice, setVehiclePrice] = useState(1675.00);
     const [startDatetime, setStartDatetime] = useState('');
     const [loading, setLoading] = useState(true);
     const [endDatetime, setEndDatetime] = useState('');
@@ -19,7 +19,6 @@ const Rental = ({car}) => {
     const [refundInfo, setRefundInfo] = useState('');
     const [location, setLocation] = useState('');
 
-    //SLA
     const [isButtonClicked, setIsButtonClicked] = useState(false);
     const [pickupDate, setPickupDate] = useState('');
     const [returnDate, setReturnDate] = useState('');
@@ -128,7 +127,7 @@ const Rental = ({car}) => {
     const formatDateTime = (dateTime) => {
         const date = new Date(dateTime);
         const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // Mês começa em 0, então soma 1
+        const month = String(date.getMonth() + 1).padStart(2, '0');
         const day = String(date.getDate()).padStart(2, '0');
         const hours = String(date.getHours()).padStart(2, '0');
         const minutes = String(date.getMinutes()).padStart(2, '0');
