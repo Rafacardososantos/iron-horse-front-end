@@ -121,15 +121,16 @@ const CarOverview = ({ onClose, car }) => {
         <h2>Informações do Carro</h2>
         {error && <p className={styles.errorMessage}>{error}</p>}
         <form onSubmit={handleSubmit}>
-          <div className={styles.toggleContainer}>
-            <label className={`${styles.toggleButton} ${isActive ? styles.active : styles.inactive}`}>
-              {isActive ? "Ativo" : "Inativo"}
+          <div className={styles.checkboxInput}>
+            <label className={styles.checkboxLabel}>Ativo</label>
+            <label className={styles.toggleButton}>
               <input
                 type="checkbox"
                 checked={isActive}
                 onChange={(e) => setIsActive(e.target.checked)}
-                className={styles.hiddenCheckbox}
+                className={styles.buttonActive}
               />
+              <span className={styles.slider}></span>
             </label>
           </div>
           <CurrencyInput

@@ -22,6 +22,7 @@
   padding: 10px;
   margin: 10px 0;
   box-sizing: border-box;
+  border-radius: 25px;
 }
 
 .carInput:focus {
@@ -29,33 +30,91 @@
 }
 
 .descriptionInput:focus {
-  height: 200px; 
-  border: 2px solid #aa14f0; 
+  height: 200px;
+  border: 2px solid #aa14f0;
   outline: none; 
 }
-.active {
-  margin: 0 auto;
+
+.checkboxInput {
   display: flex;
-  flex-direction: row; 
-  align-items: center; 
-  gap: 8px; 
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
-.active label {
-  font-size: 16px; /* Ajusta o tamanho da fonte para o texto */
-  font-family: "Inter", sans-serif; 
-  cursor: pointer; /* Torna clicável */
+.checkboxLabel {
+  font-size: 20px;
+  color: #ffffff;
+}
+
+.toggleButton {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
 }
 
 .buttonActive {
-  cursor: pointer; /* Indica que o checkbox é clicável */
-  width: 20px;
-  height: 20px;
+  display: none;
 }
 
+.slider {
+  width: 60px;
+  height: 30px; 
+  background-color: lightgray;
+  border-radius: 50px; 
+  position: relative;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.slider:before {
+  content: "";
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  left: 3px;
+  top: 3px; 
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s ease-in-out;
+}
+
+.buttonActive:checked + .slider {
+  background-color: #b350f1;
+}
+
+.buttonActive:checked + .slider:before {
+  transform: translateX(30px);
+}
+
+.CarOverview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.CarOverview h2 {
+  margin-bottom: 20px;
+  font-family: "Inter", sans-serif;
+}
+
+.errorMessage {
+  color: red;
+  margin-bottom: 10px;
+  font-family: "Inter", sans-serif;
+}
+
+.carInput,
+.descriptionInput {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  box-sizing: border-box;
+}
 
 .saveBtn {
-  display: block; /* Garante que o botão seja um bloco e respeite o alinhamento */
+  display: block;
   padding: 10px;
   background: #aa14f0;
   color: white;
@@ -64,13 +123,11 @@
   cursor: pointer;
   font-size: 16px;
   font-family: "Inter", sans-serif;
-  width: 90%;
+  width: 100%;
+  max-width: 100%;
   transition: all ease 0.3s;
   margin-top: 10px;
-  margin-left: 1.3rem;
-  text-align: center; 
 }
-
 
 .saveBtn:hover {
   background: linear-gradient(
@@ -78,42 +135,4 @@
     rgba(140, 0, 255, 1) 0%,
     rgba(255, 0, 244, 1) 100%
   );
-}
-
-.toggleContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 10px 0;
-}
-
-.hiddenCheckbox {
-  display: none; 
-}
-
-.toggleButton {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100px;
-  height: 40px;
-  border-radius: 20px;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-family: "Inter", sans-serif;
-  user-select: none; 
-}
-
-.toggleButton.active {
-  background-color: #28a745; 
-}
-
-.toggleButton.inactive {
-  background-color: #dc3545; 
-}
-
-.toggleButton:hover {
-  opacity: 0.9; 
 }
