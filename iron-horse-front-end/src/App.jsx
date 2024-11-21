@@ -3,7 +3,7 @@ import Home from './components/Home/Home'
 import VehicleListing from './VehicleListing/VehicleListing';
 import CarInfo from './CarInfo/CarInfo'
 import ProtectedRoute from './components/ProtectedRoute';
-import ResetPassword from './ResetPassword/resetPassword';
+import ResetPassword from './ResetPassword/ResetPassword';
 import AllRentals from './AllRentals/AllRentals';
 
 function App() {
