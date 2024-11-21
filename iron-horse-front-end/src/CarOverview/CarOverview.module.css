@@ -29,14 +29,30 @@
 }
 
 .descriptionInput:focus {
-  height: 200px; /* Aumenta a altura no foco */
-  border: 2px solid #aa14f0; /* Opcional: destaca a borda */
-  outline: none; /* Remove o contorno padrão */
+  height: 200px; 
+  border: 2px solid #aa14f0; 
+  outline: none; 
+}
+.active {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row; 
+  align-items: center; 
+  gap: 8px; 
+}
+
+.active label {
+  font-size: 16px; /* Ajusta o tamanho da fonte para o texto */
+  font-family: "Inter", sans-serif; 
+  cursor: pointer; /* Torna clicável */
 }
 
 .buttonActive {
-  
+  cursor: pointer; /* Indica que o checkbox é clicável */
+  width: 20px;
+  height: 20px;
 }
+
 
 .saveBtn {
   display: block; /* Garante que o botão seja um bloco e respeite o alinhamento */
@@ -48,11 +64,11 @@
   cursor: pointer;
   font-size: 16px;
   font-family: "Inter", sans-serif;
-  width: 90%; /* Preenche a largura do container pai */
+  width: 90%;
   transition: all ease 0.3s;
   margin-top: 10px;
-  margin-left: 1.4rem;
-  text-align: center; /* Centraliza o texto no botão */
+  margin-left: 1.3rem;
+  text-align: center; 
 }
 
 
@@ -62,4 +78,42 @@
     rgba(140, 0, 255, 1) 0%,
     rgba(255, 0, 244, 1) 100%
   );
+}
+
+.toggleContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.hiddenCheckbox {
+  display: none; 
+}
+
+.toggleButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 40px;
+  border-radius: 20px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: "Inter", sans-serif;
+  user-select: none; 
+}
+
+.toggleButton.active {
+  background-color: #28a745; 
+}
+
+.toggleButton.inactive {
+  background-color: #dc3545; 
+}
+
+.toggleButton:hover {
+  opacity: 0.9; 
 }
