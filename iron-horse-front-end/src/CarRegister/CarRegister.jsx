@@ -6,7 +6,6 @@ import Modal from "../components/Modal/Modal"
 
 const CarContext = createContext();
 
-
 const CarRegister = ({ onClose }) => {
   const [otherBrand, setOtherBrand] = useState("");
   const [isOtherBrand, setIsOtherBrand] = useState(false);
@@ -73,8 +72,6 @@ const CarRegister = ({ onClose }) => {
     },
   });
 
-
-
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
@@ -111,7 +108,6 @@ const CarRegister = ({ onClose }) => {
         [name]: value,
       }));
     }
-
   };
   const handleToggle = () => {
     setFormData((prevData) => ({
@@ -158,15 +154,16 @@ const CarRegister = ({ onClose }) => {
           antiTheftSecret: formData.carInfoDto.carFeaturesDto.antiTheftSecret,
           multimedia: formData.carInfoDto.carFeaturesDto.multimedia,
           airConditioner: formData.carInfoDto.carFeaturesDto.airConditioner,
-          electricWindowsAndLocks: formData.carInfoDto.carFeaturesDto.electricWindowsAndLocks,
+          electricWindowsAndLocks:
+            formData.carInfoDto.carFeaturesDto.electricWindowsAndLocks,
           triangle: formData.carInfoDto.carFeaturesDto.triangle,
           jack: formData.carInfoDto.carFeaturesDto.jack,
           wheelWrench: formData.carInfoDto.carFeaturesDto.wheelWrench,
           spareTire: formData.carInfoDto.carFeaturesDto.spareTire,
           fireExtinguisher: formData.carInfoDto.carFeaturesDto.fireExtinguisher,
-          alarm: formData.carInfoDto.carFeaturesDto.alarm
-        }
-      }
+          alarm: formData.carInfoDto.carFeaturesDto.alarm,
+        },
+      },
     };
     setCarData(requestData);
     setCarDataExist(true);
@@ -190,253 +187,284 @@ const CarRegister = ({ onClose }) => {
             />
           </div>
 
-          <div className="form-group">
-            <label>Marca</label>
-            <select
-              name="brand"
-              value={isOtherBrand ? "outra" : formData.brand}
-              onChange={handleChange}
-              required
-            >
-              <option value="" disabled>Selecione uma marca</option>
-              <option value="audi">Audi</option>
-              <option value="bmw">BMW</option>
-              <option value="chevrolet">Chevrolet</option>
-              <option value="chrysler">Chrysler</option>
-              <option value="citroen">Citroën</option>
-              <option value="dodge">Dodge</option>
-              <option value="fiat">Fiat</option>
-              <option value="ford">Ford</option>
-              <option value="honda">Honda</option>
-              <option value="hyundai">Hyundai</option>
-              <option value="jaguar">Jaguar</option>
-              <option value="jeep">Jeep</option>
-              <option value="kia">Kia</option>
-              <option value="lexus">Lexus</option>
-              <option value="mazda">Mazda</option>
-              <option value="mercedes">Mercedes-Benz</option>
-              <option value="nissan">Nissan</option>
-              <option value="peugeot">Peugeot</option>
-              <option value="renault">Renault</option>
-              <option value="subaru">Subaru</option>
-              <option value="toyota">Toyota</option>
-              <option value="volkswagen">Volkswagen</option>
-              <option value="volvo">Volvo</option>
-              <option value="outra">Outra (digite)</option>
-            </select>
-            {isOtherBrand && (
-              <input
-                type="text"
-                name="otherBrand"
-                value={otherBrand}
-                onChange={(e) => setOtherBrand(e.target.value)}
+            <div className="form-group">
+              <label>Marca</label>
+              <select
+                name="brand"
+                value={isOtherBrand ? "outra" : formData.brand}
+                onChange={handleChange}
                 required
-                className="other-brand-input"
-              />
-            )}
-          </div>
+              >
+                <option value="alfa-romeo">Alfa Romeo</option>
+                <option value="aston-martin">Aston Martin</option>
+                <option value="audi">Audi</option>
+                <option value="bentley">Bentley</option>
+                <option value="bmw">BMW</option>
+                <option value="chery">Chery</option>
+                <option value="chevrolet">Chevrolet</option>
+                <option value="chrysler">Chrysler</option>
+                <option value="citroen">Citroën</option>
+                <option value="dodge">Dodge</option>
+                <option value="ferrari">Ferrari</option>
+                <option value="fiat">Fiat</option>
+                <option value="ford">Ford</option>
+                <option value="geely">Geely</option>
+                <option value="honda">Honda</option>
+                <option value="hyundai">Hyundai</option>
+                <option value="jac">JAC</option>
+                <option value="jaguar">Jaguar</option>
+                <option value="jeep">Jeep</option>
+                <option value="kia">Kia</option>
+                <option value="lamborghini">Lamborghini</option>
+                <option value="land-rover">Land Rover</option>
+                <option value="lexus">Lexus</option>
+                <option value="lifan">Lifan</option>
+                <option value="maserati">Maserati</option>
+                <option value="mazda">Mazda</option>
+                <option value="mclaren">McLaren</option>
+                <option value="mercedes">Mercedes-Benz</option>
+                <option value="mini">Mini</option>
+                <option value="mitsubishi">Mitsubishi</option>
+                <option value="nissan">Nissan</option>
+                <option value="peugeot">Peugeot</option>
+                <option value="porsche">Porsche</option>
+                <option value="ram">Ram</option>
+                <option value="renault">Renault</option>
+                <option value="rolls-royce">Rolls-Royce</option>
+                <option value="smart">Smart</option>
+                <option value="subaru">Subaru</option>
+                <option value="suzuki">Suzuki</option>
+                <option value="tesla">Tesla</option>
+                <option value="toyota">Toyota</option>
+                <option value="troller">Troller</option>
+                <option value="volkswagen">Volkswagen</option>
+                <option value="volvo">Volvo</option>
+                <option value="outra">Outra (digite)</option>
+              </select>
+              {isOtherBrand && (
+                <input
+                  type="text"
+                  name="otherBrand"
+                  value={otherBrand}
+                  onChange={(e) => setOtherBrand(e.target.value)}
+                  required
+                  className="other-brand-input"
+                />
+              )}
+            </div>
 
-          <div className="form-group">
-            <label htmlFor="modelo">Modelo</label>
-            <input
-              type="text"
-              name="model"
-              value={formData.model}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Ano Modelo</label>
-            <input
-              type="text"
-              name="manufactureYear"
-              value={formData.manufactureYear}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Cor</label>
-            <input
-              type="text"
-              name="color"
-              value={formData.color}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Transmissão</label>
-            <select
-              name="transmission"
-              value={formData.transmission}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Selecione</option>
-              <option value="manual">Manual</option>
-              <option value="automatico">Automático</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label>Número de Portas</label>
-            <input
-              type="text"
-              name="numDoors"
-              value={formData.numDoors}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>Número de Assentos</label>
-            <input
-              type="text"
-              name="numSeats"
-              value={formData.numSeats}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>Tipo de Direção</label>
-            <select
-              name="directionType"
-              value={formData.directionType}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Selecione</option>
-              <option value="hidraulica">Hidráulica</option>
-              <option value="eletrica">Elétrica</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label>Chassi</label>
-            <input
-              type="text"
-              name="chassi"
-              placeholder="* _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ *"
-              value={formData.chassi}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>Número do Motor</label>
-            <input
-              type="text"
-              name="engineNumber"
-              placeholder="_ _ _ _ _ _ _ _ _ _"
-              value={formData.engineNumber}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>Cilindrada</label>
-            <input
-              type="text"
-              name="cylinderDisplacement"
-              placeholder="_ . _"
-              value={formData.cylinderDisplacement}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>Quilometragem</label>
-            <input
-              type="text"
-              name="mileage"
-              placeholder="Km"
-              value={formData.mileage}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="form-group">
-            <label>Combustível</label>
-            <select
-              name="fuelType"
-              value={formData.fuelType}
-              onChange={handleChange}
-              required
-            >
-              <option value="">Selecione</option>
-              <option value="gasolina">Gasolina</option>
-              <option value="etanol">Etanol</option>
-              <option value="diesel">Diesel</option>
-            </select>
-          </div>
-          <div className="form-group-insurance">
-            <div className="form-group3">
-              <label>RENAVAM</label>
+            <div className="form-group">
+              <label htmlFor="modelo">Modelo</label>
               <input
                 type="text"
-                name="renavam"
-                value={formData.renavam}
+                name="model"
+                value={formData.model}
                 onChange={handleChange}
                 required
               />
             </div>
-            <div className="form-group3-insurance">
-              <label>Seguro</label>
-              <div className="toggle-button" onClick={handleToggle}>
-                <input type="checkbox" checked={formData.insurance} readOnly />
-                <span className={`slider ${formData.insurance ? 'active' : ''}`}></span>
-              </div>
-            </div>
-            <div className="form-group3">
-              <label>Seguradora</label>
+
+            <div className="form-group">
+              <label>Ano Modelo</label>
               <input
                 type="text"
-                name="insuranceName"
-                className="insurance-input"
-                value={formData.insuranceName}
+                name="manufactureYear"
+                value={formData.manufactureYear}
                 onChange={handleChange}
-                required={isInsuranceActive}
-                disabled={!isInsuranceActive}
-              />
-            </div>
-          </div>
-          <span>
-            A exigência de informar seu seguro serve apenas para que não seja
-            necessário efetuar uma vistória física de seu veículo. Deixando
-            claro que seu seguro particular nunca será acionado em hipótese
-            alguma! Todos os veículos são segurados pela nossa seguradora
-            parceira, conforme às disposições legais segundo sua utilização
-            mediante a plataforma e o serviço prestado.
-          </span>
-
-
-          <div className="car-three-column-form">
-            <div className="car-form-group3-o">
-              <label>Porta-malas</label>
-              <input
-                type="text"
-                name="trunkCapacity"
-                value={formData.trunkCapacity}
-                onChange={handleChange}
-                placeholder="capacidade em litros"
                 required
               />
             </div>
-            <div className="car-form-group3">
-              <label>Farol tipo</label>
-              <select name="headlightBulb" className="car-select" value={formData.headlightBulb} required onChange={handleChange}>
-                <option value=""></option>
-                <option value="halogena">Halógena</option>
-                <option value="led">LED</option>
-                <option value="xenon">Xenon</option>
-                <option value="super-branca">Super Branca</option>
+
+            <div className="form-group">
+              <label>Cor</label>
+              <input
+                type="text"
+                name="color"
+                value={formData.color}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Transmissão</label>
+              <select
+                name="transmission"
+                value={formData.transmission}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Selecione</option>
+                <option value="manual">Manual</option>
+                <option value="automatico">Automático</option>
               </select>
             </div>
-          </div>
+            <div className="form-group">
+              <label>Número de Portas</label>
+              <input
+                type="text"
+                name="numDoors"
+                value={formData.numDoors}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Número de Assentos</label>
+              <input
+                type="text"
+                name="numSeats"
+                value={formData.numSeats}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Tipo de Direção</label>
+              <select
+                name="directionType"
+                value={formData.directionType}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Selecione</option>
+                <option value="hidraulica">Hidráulica</option>
+                <option value="eletrica">Elétrica</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label>Chassi</label>
+              <input
+                type="text"
+                name="chassi"
+                placeholder="* _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ *"
+                value={formData.chassi}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Número do Motor</label>
+              <input
+                type="text"
+                name="engineNumber"
+                placeholder="_ _ _ _ _ _ _ _ _ _"
+                value={formData.engineNumber}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Cilindrada</label>
+              <input
+                type="text"
+                name="cylinderDisplacement"
+                placeholder="_ . _"
+                value={formData.cylinderDisplacement}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Quilometragem</label>
+              <input
+                type="text"
+                name="mileage"
+                placeholder="Km"
+                value={formData.mileage}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label>Combustível</label>
+              <select
+                name="fuelType"
+                value={formData.fuelType}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Selecione</option>
+                <option value="gasolina">Gasolina</option>
+                <option value="etanol">Etanol</option>
+                <option value="diesel">Diesel</option>
+              </select>
+            </div>
+            <div className="form-group-insurance">
+              <div className="form-group3">
+                <label>RENAVAM</label>
+                <input
+                  type="text"
+                  name="renavam"
+                  value={formData.renavam}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              <div className="form-group3-insurance">
+                <label>Seguro</label>
+                <div className="toggle-button" onClick={handleToggle}>
+                  <input
+                    type="checkbox"
+                    checked={formData.insurance}
+                    readOnly
+                  />
+                  <span
+                    className={`slider ${formData.insurance ? "active" : ""}`}
+                  ></span>
+                </div>
+              </div>
+              <div className="form-group3">
+                <label>Seguradora</label>
+                <input
+                  type="text"
+                  name="insuranceName"
+                  className="insurance-input"
+                  value={formData.insuranceName}
+                  onChange={handleChange}
+                  required={isInsuranceActive}
+                  disabled={!isInsuranceActive}
+                />
+              </div>
+            </div>
+            <span>
+              A exigência de informar seu seguro serve apenas para que não seja
+              necessário efetuar uma vistória física de seu veículo. Deixando
+              claro que seu seguro particular nunca será acionado em hipótese
+              alguma! Todos os veículos são segurados pela nossa seguradora
+              parceira, conforme às disposições legais segundo sua utilização
+              mediante a plataforma e o serviço prestado.
+            </span>
+
+            <div className="car-three-column-form">
+              <div className="car-form-group3-o">
+                <label>Porta-malas</label>
+                <input
+                  type="text"
+                  name="trunkCapacity"
+                  value={formData.trunkCapacity}
+                  onChange={handleChange}
+                  placeholder="capacidade em litros"
+                  required
+                />
+              </div>
+              <div className="car-form-group3">
+                <label>Farol tipo</label>
+                <select
+                  name="headlightBulb"
+                  className="car-select"
+                  value={formData.headlightBulb}
+                  required
+                  onChange={handleChange}
+                >
+                  <option value=""></option>
+                  <option value="halogena">Halógena</option>
+                  <option value="led">LED</option>
+                  <option value="xenon">Xenon</option>
+                  <option value="super-branca">Super Branca</option>
+                </select>
+              </div>
+            </div>
 
           <label>Itens de Conforto e Adicionais</label>
           <div className="car-checkbox-grid">

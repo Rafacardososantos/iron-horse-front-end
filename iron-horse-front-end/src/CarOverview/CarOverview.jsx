@@ -3,9 +3,8 @@ import { useState, useEffect } from "react";
 import styles from "./CarOverview.module.css";
 import Modal from "../components/Modal/Modal";
 import api from "../utils/api";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import CurrencyInput from 'react-currency-input-field';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CarOverview = ({ onClose, car }) => {
   const [error, setError] = useState("");
@@ -18,25 +17,27 @@ const CarOverview = ({ onClose, car }) => {
   useEffect(() => {
     const fetchCarDetails = async () => {
       try {
-        const accessToken = localStorage.getItem('accessToken');
+        const accessToken = localStorage.getItem("accessToken");
         if (!accessToken) {
-          throw new Error('Token de autenticação não encontrado');
+          throw new Error("Token de autenticação não encontrado");
         }
 
-        const response = await fetch(`http://localhost:8080/v1/car-overviews/${car.id}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${accessToken}`,
-          },
-        });
+        const response = await fetch(
+          `http://localhost:8080/v1/car-overviews/${car.id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
 
         if (!response.ok) {
-          throw new Error('Erro ao buscar os detalhes do carro');
+          throw new Error("Erro ao buscar os detalhes do carro");
         }
 
         const carData = await response.json();
-        console.log(carData);
         setDescription(carData.description || "sem nada");
         setCarValue(carData.price || "");
         setIsActive(carData.isActive);
@@ -54,34 +55,36 @@ const CarOverview = ({ onClose, car }) => {
     }
   }, [car]);
 
-
-  useEffect(() => {
-  }, []);
+  useEffect(() => {}, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
 
     try {
       const price = carValue ? parseFloat(carValue) : null;
 
       const accessToken = localStorage.getItem('accessToken');
       if (!accessToken) {
-        throw new Error('Token de autenticação não encontrado');
+        throw new Error("Token de autenticação não encontrado");
       }
 
-      const response = await fetch(`http://localhost:8080/v1/car-overviews/${car.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({
-          description,
-          isActive,
-          isAvailable,
-          price,
-        }),
-      });
+      const response = await fetch(
+        `http://localhost:8080/v1/car-overviews/${car.id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify({
+            description,
+            isActive,
+            isAvailable,
+            price,
+          }),
+        }
+      );
 
       if (response.ok) {
         toast.success('Dados modificados com sucesso!');
@@ -93,7 +96,6 @@ const CarOverview = ({ onClose, car }) => {
       if (!response.ok) {
         throw new Error(`Erro HTTP: ${response.status}`);
       }
-
     } catch (error) {
       console.error("Erro ao enviar dados do carro", error);
       setError("Erro ao salvar informações do carro: " + error.message);

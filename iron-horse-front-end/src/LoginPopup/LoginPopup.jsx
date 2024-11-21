@@ -21,7 +21,7 @@ const LoginPopup = ({ onClose, openForgotPassword, openSignUp }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await api.post("auth/login", { email, password });
+      const response = await api.post("/auth/login", {email, password});
 
       if (response.accessToken) {
         localStorage.setItem("accessToken", response.accessToken);
