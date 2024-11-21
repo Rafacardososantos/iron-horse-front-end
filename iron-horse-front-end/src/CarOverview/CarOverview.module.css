@@ -22,6 +22,7 @@
   padding: 10px;
   margin: 10px 0;
   box-sizing: border-box;
+  border-radius: 25px;
 }
 
 .carInput:focus {
@@ -29,40 +30,63 @@
 }
 
 .descriptionInput:focus {
-  height: 200px; /* Aumenta a altura no foco */
-  border: 2px solid #aa14f0; /* Opcional: destaca a borda */
-  outline: none; /* Remove o contorno padrão */
+  height: 200px;
+  border: 2px solid #aa14f0;
+  outline: none; 
+}
+
+.checkboxInput {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.checkboxLabel {
+  font-size: 20px;
+  color: #ffffff;
+}
+
+.toggleButton {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
 }
 
 .buttonActive {
-  
+  display: none;
 }
 
-.saveBtn {
-  display: block; /* Garante que o botão seja um bloco e respeite o alinhamento */
-  padding: 10px;
-  background: #aa14f0;
-  color: white;
-  border-radius: 25px;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  font-family: "Inter", sans-serif;
-  width: 90%; /* Preenche a largura do container pai */
-  transition: all ease 0.3s;
-  margin-top: 10px;
-  margin-left: 1.4rem;
-  text-align: center; /* Centraliza o texto no botão */
+.slider {
+  width: 60px;
+  height: 30px; 
+  background-color: lightgray;
+  border-radius: 50px; 
+  position: relative;
+  transition: background-color 0.3s ease-in-out;
 }
 
-
-.saveBtn:hover {
-  background: linear-gradient(
-    90deg,
-    rgba(140, 0, 255, 1) 0%,
-    rgba(255, 0, 244, 1) 100%
-  );
+.slider:before {
+  content: "";
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  left: 3px;
+  top: 3px; 
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s ease-in-out;
 }
+
+.buttonActive:checked + .slider {
+  background-color: #b350f1;
+}
+
+.buttonActive:checked + .slider:before {
+  transform: translateX(30px);
+}
+
 .CarOverview {
   display: flex;
   flex-direction: column;
@@ -90,6 +114,7 @@
 }
 
 .saveBtn {
+  display: block;
   padding: 10px;
   background: #aa14f0;
   color: white;
