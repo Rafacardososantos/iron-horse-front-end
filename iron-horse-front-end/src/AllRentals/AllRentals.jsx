@@ -70,7 +70,7 @@ function AllRentals() {
 
               <div key={car.id} className={styles.carCard}>
                 <img
-                  src={car.image || '/img/2021 dodge-charger-rt.jpg'}
+                  src={car.path || '/img/2021 dodge-charger-rt.jpg'}
                   alt={car.name || 'Carro'}
                   className={styles.carImage}
                 />
